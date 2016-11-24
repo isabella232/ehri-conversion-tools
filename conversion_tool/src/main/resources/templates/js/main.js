@@ -7,7 +7,7 @@ $(document).ready(function(){
 	}
 	function showLoader (){
 		// calculating the height of the main element and setting the loader same size
-		var height = $('#main-inner').innerHeight();
+		var height     = $('#main-inner').innerHeight();
 		var img_margin = (height / 2) - 50;
 		$(".loader").css({
 			'height': height + "px"
@@ -18,7 +18,7 @@ $(document).ready(function(){
 		$(".loader").show();
 	}
 	function checkFiles (){
-		var value_income = $("#incomesource").val();
+		var value_income  = $("#incomesource").val();
 		var value_outcome = $("#outcomesource").val();
 		if(value_income != "" && value_outcome != ""){
 			enableSubmit();

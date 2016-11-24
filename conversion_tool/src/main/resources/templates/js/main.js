@@ -3,12 +3,12 @@ $(document).ready(function(){
 	// if google show inputs for adding link
 	// if local show inputs for loading local file
 	$( "#google" ).click(function() {
-		$('.google, #submit_transform').show();
-		$('.local').hide();
+		$('.google, #submit_transform').slideDown(300);
+		$('.local').slideUp(300);
 	});
 	$( "#local" ).click(function() {
-		$('.google').hide();
-		$('.local, #submit_transform').show();
+		$('.google').slideUp(300);
+		$('.local , #submit_transform').slideDown(300);
 	});
 		// submit function
 	$('#submit_transform').click(function() {
@@ -31,7 +31,7 @@ $(document).ready(function(){
 			// hidding form elements
 			$('.source, .google, .local, #submit_transform').hide();
 			// showing success message
-			$('.success_notes').show();
+			$('.success_notes').slideToggle('fast');
 			// checking if its from google or not
 			// if from google create spreadsheet and load it in iframe
 			if($('#google').is(':checked')) {
@@ -42,9 +42,9 @@ $(document).ready(function(){
                     src: spreadsheet_link
                 }).appendTo('#iframe_holder');
                 // show the iframe
-                $('#google-iframe').show();
+                $('#google-iframe').slideDown(300);
 			}
-		}, 5000);
+		}, 3000);
 	});
 
 	$('#income_location_btn').click(function(){

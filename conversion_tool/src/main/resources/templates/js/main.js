@@ -46,4 +46,21 @@ $(document).ready(function(){
 			}
 		}, 5000);
 	});
+
+	$('#income_location_btn').click(function(){
+    	$("#incomesource").click();
+	});
+	$("#incomesource").change(function() {
+		var value_income = $("#incomesource").val();
+		console.log($("#incomesource").val());
+		document.getElementById("fakeincomesource").value = value_income;
+	});
+	$('#outcome_location_btn').click(function(){
+    	$("#outcomesource").click();
+	});
+	$("#outcomesource").change(function() {
+		var value_income = $("#outcomesource").val();
+		console.log($("#outcomesource").val());
+		document.getElementById("fakeoutcomesource").value = value_income;
+	});
 });

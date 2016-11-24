@@ -306,7 +306,7 @@ table tr:nth-child(odd) td{
 .radio-label {
 	cursor: pointer;
 }
-.local, .google, #google-iframe, .success_notes, #submit_transform {
+.local, .google, #google-iframe, .success_notes, #submit_transform, #incomesource, #outcomesource {
 	display: none;
 }
 iframe {

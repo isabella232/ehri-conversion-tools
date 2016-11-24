@@ -259,6 +259,7 @@ table tr:nth-child(odd) td{
 #main-inner h1 {
 	font-size: 48px
 }
+.btn.active:hover,
 .btn {
 	color: #353536;
 	font-weight: bold;
@@ -266,12 +267,13 @@ table tr:nth-child(odd) td{
     cursor: pointer;
     padding: 4px 28px;
     font-size: 16px;
-
+    background: transparent;
+    text-decoration: underline;
 }
 .inputlabel {
     font-size: 24px;
     line-height: 32px;
-    width: 230px;
+    width: 270px;
     display: inline-block;
 }
 .inputform {
@@ -280,7 +282,7 @@ table tr:nth-child(odd) td{
     color: #6F003B;
     padding-left: 8px;
     border: 1px solid #6F003B;
-    width: 64%;
+    width: 55%;
     display: inline-block;
     vertical-align: middle;
     height: 32px;
@@ -291,9 +293,38 @@ table tr:nth-child(odd) td{
 .input-holder .btn {
 	margin-top: 4px;
 }
+.btn.active,
 .btn:hover {
 	text-decoration: none;
 	font-size: 16px;
 	color: #fff;
 	background: #6F003B;
+}
+.radio-holder {
+	display: inline-block;
+}
+.radio-label {
+	cursor: pointer;
+}
+.local, .google, #google-iframe, .success_notes, #submit_transofrm {
+	display: none;
+}
+iframe {
+	border: 1px solid #909090;
+}
+
+.clearfix {
+	clear: both;
+}
+
+.success_notes p {
+	background-color: #83004c !important;
+	color: #fff;
+	text-align: center;
+	font-size: 24px;
+	padding: 6px 0;
+}
+
+.success_notes .btn.last{
+	margin-right: 10px;
 }

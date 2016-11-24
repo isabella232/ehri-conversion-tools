@@ -78,90 +78,45 @@
    					<span class="font300">EHRI FILE</span> MAPPING
    					<a href="#" class="btn pull-right">documentation</a>
    				</h1>
-	   			<table>
-	   				<thead>
-	   					<tr>
-	   						<th>Data 1</th>
-	   						<th>Data 2</th>
-	   						<th></th>
-	   					</tr>
-	   				</thead>
-	   				<tbody>
-	   					<tr>
-	   						<td>Some data</td>
-	   						<td>Some data</td>
-	   						<td><input type="checkbox" name=""></td>
-	   					</tr>
-	   					<tr>
-	   						<td>Some data</td>
-	   						<td>Some data</td>
-	   						<td><input type="checkbox" name=""></td>
-	   					</tr>
-	   					<tr>
-	   						<td>Some data</td>
-	   						<td>Some data</td>
-	   						<td><input type="checkbox" name=""></td>
-	   					</tr>
-	   					<tr>
-	   						<td>Some data</td>
-	   						<td>Some data</td>
-	   						<td><input type="checkbox" name=""></td>
-	   					</tr>
-	   					<tr>
-	   						<td>Some data</td>
-	   						<td>Some data</td>
-	   						<td><input type="checkbox" name=""></td>
-	   					</tr>
-	   					<tr>
-	   						<td>Some data</td>
-	   						<td>Some data</td>
-	   						<td><input type="checkbox" name=""></td>
-	   					</tr>
-	   					<tr>
-	   						<td>Some data</td>
-	   						<td>Some data</td>
-	   						<td><input type="checkbox" name=""></td>
-	   					</tr>
-	   					<tr>
-	   						<td>Some data</td>
-	   						<td>Some data</td>
-	   						<td><input type="checkbox" name=""></td>
-	   					</tr>
-	   					<tr>
-	   						<td>Some data</td>
-	   						<td>Some data</td>
-	   						<td><input type="checkbox" name=""></td>
-	   					</tr>
-	   					<tr>
-	   						<td>Some data</td>
-	   						<td>Some data</td>
-	   						<td><input type="checkbox" name=""></td>
-	   					</tr>
-	   				</tbody>
-	   			</table>
+	   			<iframe src="https://docs.google.com/spreadsheets/d/1sIOol5JbKBZgDGBnuARkewSzhAhsLzk4E-lzhaGn50U/edit#gid=0" width="1091px" height="460px;" id="google-iframe"></iframe>
 	   			<form>
-		   			<div class="input-holder">
+	   				<div class="input-holder source">
+			   			<label class="roodtext inputlabel">
+			   				Type of <span class="font700">Source</span>
+			   			</label>
+			   			<div class="radio-holder">
+							<input type="radio" name="source" id="google" value="google"> <label for="google" class="radio-label roodtext">Google</label>
+							<input type="radio" name="source" id="local" value="local"> <label for="local" class="radio-label roodtext">Local</label>
+						</div>
+	   				</div>
+		   			<div class="input-holder local">
 			   			<label class="roodtext inputlabel">
 			   				Income <span class="font700">Source</span>
 			   			</label>
-			   			<a href="#" class="btn pull-right">Select file</a>
+			   			<a href="#" class="btn pull-right">Select location</a>
 			   			<input type="text" name="" value="" class="inputform">
 			   		</div>
-		   			<div class="input-holder">
+		   			<div class="input-holder local">
 			   			<label class="roodtext inputlabel">
 			   				Outcome <span class="font700">Source</span>
 			   			</label>
-			   			<a href="#" class="btn pull-right">Select file</a>
+			   			<a href="#" class="btn pull-right">Select location</a>
 			   			<input type="text" name="" value="" class="inputform">
 			   		</div>
-		   			<div class="input-holder">
+		   			<div class="input-holder google">
 			   			<label class="roodtext inputlabel">
-			   				Tranformed File <span class="font700">Name</span>
+			   				Google Spreadsheet <span class="font700">Link</span>
 			   			</label>
 			   			
 			   			<input type="text" name="" value="" class="inputform">
 			   		</div>
-			   		<a href="#" class="btn pull-right">Submit</a>
+			   		<a href="#" class="btn pull-right" id="submit_transofrm">Submit</a>
+			   		<div class="clearfix"></div>
+			   		<div class="success_notes">
+			   			<p>Data was mapped Successfully!</p>
+			   			<a href="#" class="btn pull-right active">Go to file</a>
+			   			<a href="#" class="btn pull-right last" onClick="window.location.reload()">Map another file</a>
+			   		</div>
 	   			</form>
    			</div>
    		</div>
@@ -173,4 +128,6 @@
 		</footer>
    </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
 </html>

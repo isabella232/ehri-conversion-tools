@@ -11,11 +11,10 @@ $(document).ready(function(){
 
 		$('#submit_transofrm').click(function() {
 				// calculating the height of the main element and setting the loader same size
-				var height = $('#main-inner').height();
-				var height_corrected = height + 60;
+				var height = $('#main-inner').innerHeight();
 				var img_margin = (height / 2) - 50;
 				//alert (img_margin);
-				$(".loader").css({ 'height': height_corrected + "px" });
+				$(".loader").css({ 'height': height + "px" });
 				$(".loader_img").css({'margin-top': img_margin + "px"});
 				$(".loader").show();
 				// hiding the loader after 5s -> will be changed to hide when result apears

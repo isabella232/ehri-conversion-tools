@@ -5,12 +5,22 @@ $(document).ready(function(){
 	$( "#google" ).click(function() {
 		$('.google, #submit_transform').slideDown(300);
 		$('.local').slideUp(300);
+		$("#submit_transform").prop('disabled', true);
+		$("#submit_transform").prop('disabled', true);
 	});
 	$( "#local" ).click(function() {
 		$('.google').slideUp(300);
 		$('.local , #submit_transform').slideDown(300);
+		$("#submit_transform").prop('disabled', true);
 	});
-		// submit function
+	$("#spreadsheet_link").change(function() {
+		var spreadsheet_link = $('#spreadsheet_link').val();
+		if (spreadsheet_link != ''){
+			$("#submit_transform").prop('disabled', false);
+		}
+	});
+
+	// submit function
 	$('#submit_transform').click(function() {
 		// calculating the height of the main element and setting the loader same size
 		var height = $('#main-inner').innerHeight();
@@ -44,6 +54,7 @@ $(document).ready(function(){
                 // show the iframe
                 $('#google-iframe').slideDown(300);
 			}
+
 		}, 3000);
 	});
 
@@ -52,15 +63,23 @@ $(document).ready(function(){
 	});
 	$("#incomesource").change(function() {
 		var value_income = $("#incomesource").val();
+		var value_outcome = $("#outcomesource").val();
 		console.log($("#incomesource").val());
 		document.getElementById("fakeincomesource").value = value_income;
+		if(value_income != "" && value_outcome != ""){
+			$("#submit_transform").prop('disabled', false);
+		}
 	});
 	$('#outcome_location_btn').click(function(){
     	$("#outcomesource").click();
 	});
 	$("#outcomesource").change(function() {
-		var value_income = $("#outcomesource").val();
+		var value_income = $("#incomesource").val();
+		var value_outcome = $("#outcomesource").val();
 		console.log($("#outcomesource").val());
-		document.getElementById("fakeoutcomesource").value = value_income;
+		document.getElementById("fakeoutcomesource").value = value_outcome;
+		if(value_income != "" && value_outcome != ""){
+			$("#submit_transform").prop('disabled', false);
+		}
 	});
 });

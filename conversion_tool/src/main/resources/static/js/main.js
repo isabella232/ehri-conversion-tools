@@ -1,8 +1,4 @@
 $(document).ready(function() {
-	/* TODO
-	optimize the code since its becomming messy -> JS
-	rethink form CSS
-
 	/* 
 	** STRUCTURE
 	** 1. GLOBAL VARS
@@ -11,15 +7,20 @@ $(document).ready(function() {
 	*/
 
 	//1. GLOBAL VARS
-    var submit_button = $('#submit_transform');
-    var loader = $('.loader');
-    var loader_img = $('.loader_img');
-    var incomesource_input = $('#incomesource');
-    var income_location_btn = $('#income_location_btn');
-    var outcomesource_input = $('#outcomesource')
-    var outcome_location_btn = $('#outcome_location_btn');
-    var spreadsheet_link_input = $('#spreadsheet_link');
-    var checked = 0;
+    var submit_button 			= $('#submit_transform');
+    var loader 					= $('.loader');
+    var loader_img 				= $('.loader_img');
+    var incomesource_input 		= $('#incomesource');
+    var fakeincomesource 		= $('#fakeincomesource');
+    var income_location_btn 	= $('#income_location_btn');
+    var outcomesource_input 	= $('#outcomesource')
+    var fakeoutcomesource 		= $('#fakeoutcomesource');
+    var outcome_location_btn 	= $('#outcome_location_btn');
+    var spreadsheet_link_input 	= $('#spreadsheet_link');
+    var localfile_btn 			= $('#localfile_btn');
+    var localfilesource_input 	= $('#localfilesource');
+    var fakelocalfilesource 	= $('#fakelocalfilesource');
+    var checked 				= 0;
     // /1.GLOBAL VARS
 
     //2. MAIN FUNCTIONS
@@ -45,15 +46,22 @@ $(document).ready(function() {
         $(loader).show();
     }
 
+    function hideLoader() {
+    	$(loader).hide();
+    }
+
     function checkFiles() {
-        var value_income = $(incomesource_input).val();
-        var value_outcome = $(outcomesource_input).val();
-        var spreadsheet_link = $(spreadsheet_link_input).val();
+        var value_income 		= $(incomesource_input).val();
+        var value_outcome 		= $(outcomesource_input).val();
+        var value_local 		= $(localfilesource_input).val();
+        var spreadsheet_link 	= $(spreadsheet_link_input).val();
         if (value_income != "" && value_outcome != "") {
         	// checking if there is google spreadsheets to be included
         	// if there isnt enable submit
         	if (checked === 0) {
-            	enableSubmit();
+        		if (value_local != ''){
+					enableSubmit();        			
+        		}
         	} else if (checked === 1) {
         		// check if link is filled if yes then enable submit else keep it disabled
         		if (spreadsheet_link != '') {
@@ -74,23 +82,45 @@ $(document).ready(function() {
     $('#google').click(function() {
     	if ($('#google').prop('checked') == true) {
         	$('.google').slideDown(300);
+        	$('.localfile').slideUp(300);
         	checked = 1;
         	// reason for having disable here is that you can select files and then include google spreadsheet link
         	// because of this we have to disable the button till link is provided
         	disableSubmit();
+        	// clearing localfile value and fake path shower value
+        	$(localfilesource_input).val('');
+        	$(fakelocalfilesource).val('');
     	} else {
-			$('.google').slideUp(300);
+    		$('#google-iframe').remove();
+			$('.google').slideUp(100);
+			$('.localfile').slideDown(100);
 			checked = 0;
+			$(spreadsheet_link_input).val('');
     	}
     });
 
     $(spreadsheet_link_input).change(function() {
+    	//show loader since iframe is loading slow
+    	showLoader();
         //checking if link is entered
         var spreadsheet_link = $(spreadsheet_link_input).val();
         // if input is not empty enable submit button
         if (spreadsheet_link != '') {
         	checkFiles();
         }
+        // get link for the spreadsheet entered by the user
+        // Create an iframe element and append link from the input
+        $('<iframe />', {
+            name: 'google-iframe',
+            id: 'google-iframe',
+            src: spreadsheet_link
+        }).appendTo('#iframe_holder');
+        // show the iframe when its loaded
+	    $('#google-iframe').on('load', function(){
+	    	$('#iframe_holder').show();
+	        $(this).slideDown(300);
+	        hideLoader();
+	    });
     });
 
     // submit function
@@ -105,20 +135,6 @@ $(document).ready(function() {
             $('.source, .google, .local, #submit_transform, .loader').hide();
             // showing success message
             $('.success_notes').slideToggle('fast');
-            // checking if its from google
-            // if from google get the link of the spreadsheet and load it in iframe
-            if ($('#google').is(':checked')) {
-                // get link for the spreadsheet entered by the user
-                var spreadsheet_link = $(spreadsheet_link_input).val();
-                // Create an iframe element and append link from the input
-                $('<iframe />', {
-                    name: 'google-iframe',
-                    id: 'google-iframe',
-                    src: spreadsheet_link
-                }).appendTo('#iframe_holder');
-                // show the iframe
-                $('#google-iframe').slideDown(300);
-            }
         }, 3000);
     });
 
@@ -133,7 +149,7 @@ $(document).ready(function() {
         //gettign the address of the file
         var value_income = $(incomesource_input).val();
         // showing the address to the user
-        document.getElementById('fakeincomesource').value = value_income;
+        $(fakeincomesource).val(value_income);
         // check for enable/disable button
         checkFiles();
     });
@@ -148,7 +164,22 @@ $(document).ready(function() {
         //gettign the address of the file
         var value_outcome = $(outcomesource_input).val();
         // showing the address to the user
-        document.getElementById('fakeoutcomesource').value = value_outcome;
+        $(fakeoutcomesource).val(value_outcome);
+        // check for enable/disable button
+        checkFiles();
+    });
+
+    // simulate click on hidden input type file
+    $(localfile_btn).click(function() {
+        $(localfilesource_input).click();
+    });
+
+    // on change listener for showing the selected file and checking if submit button should be enabled
+    $(localfilesource_input).change(function() {
+        //gettign the address of the file
+        var value_local = $(localfilesource_input).val();
+        // showing the address to the user
+        $(fakelocalfilesource).val(value_local);
         // check for enable/disable button
         checkFiles();
     });

@@ -3,7 +3,7 @@
 	<head>
 	    <title>EHRI Conversion Tool</title>
 		<!-- CSS -->
-		<link rel="stylesheet" type="text/css" href="css/style.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		<!-- /CSS -->
 	</head>
 	<body>
@@ -83,7 +83,6 @@
 	   					<span class="font300">EHRI FILE</span> MAPPING
 	   					<a href="#" class="btn pull-right">documentation</a>
 	   				</h1>
-	   				<div id="iframe_holder"></div>
 		   			<form>
 		   				<div class="input-holder source">
 				   			<label class="roodtext inputlabel">
@@ -109,6 +108,14 @@
 				   			<input type="text" name="" value="" class="inputform" id="fakeoutcomesource" readonly="true"/>
 				   			<input type="file" name="" value="" class="inputform" id="outcomesource"/>
 				   		</div>
+			   			<div class="input-holder localfile">
+				   			<label class="roodtext inputlabel">
+				   				Local File <span class="font700">Select</span>
+				   			</label>
+				   			<a href="#" class="btn pull-right" id="localfile_btn">Select location</a>
+				   			<input type="text" name="" value="" class="inputform" id="fakelocalfilesource" readonly="true"/>
+				   			<input type="file" name="" value="" class="inputform" id="localfilesource"/>
+				   		</div>
 			   			<div class="input-holder google">
 				   			<label class="roodtext inputlabel">
 				   				Google Spreadsheet <span class="font700">Link</span>
@@ -116,6 +123,7 @@
 				   			
 				   			<input type="url" name="" value="" class="inputform" id="spreadsheet_link"/>
 				   		</div>
+				   		<div id="iframe_holder"></div>
 				   		<button type="submit" class="btn pull-right" id="submit_transform">Submit</button>
 				   		<div class="clearfix"></div>
 				   		<div class="success_notes">
@@ -135,7 +143,7 @@
 
 	   <!-- JS -->
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-		<script src="js/main.min.js"></script>
+		<script src="js/main.js"></script>
 		<!-- /JS -->
 	</body>
 </html>

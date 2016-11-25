@@ -281,6 +281,7 @@ ul.menu {
     color: #6f003b;
     border: 1px solid #6f003b;
 }
+#iframe_holder,
 .input-holder {
     margin-bottom: 30px;
 }
@@ -291,7 +292,7 @@ ul.menu {
 .radio-label {
     cursor: pointer;
 }
-.google, #google-iframe, .success_notes, #incomesource, #outcomesource {
+#iframe_holder, .google, #google-iframe, .success_notes, #incomesource, #outcomesource, #localfilesource {
     display: none;
 }
 .success_notes p {

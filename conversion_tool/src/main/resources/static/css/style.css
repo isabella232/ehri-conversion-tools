@@ -227,7 +227,7 @@ ul.menu {
     width: 910px;
     height: 26vw;
     height: 364px;
-    background-color: #cecfcf;
+    background-color: #83004c;
 }
 .view-header-image {
     width: 910px;
@@ -292,7 +292,7 @@ ul.menu {
 .radio-label {
     cursor: pointer;
 }
-#iframe_holder, .google, #google-iframe, .success_notes, #incomesource, #outcomesource, #localfilesource {
+#incomesource, #outcomesource, #localfilesource {
     display: none;
 }
 .success_notes p {
@@ -306,3 +306,49 @@ ul.menu {
     margin-right: 10px;
 }
 /* /Main content and form */
+
+/* steps */
+.steps-form-holder span {
+    color: #fff;
+    background-color: #83004c;
+    padding: 15px 20px;
+    border-radius: 50%;
+    display: block;
+    width: 50px;
+    height: 50px;
+    float: left;
+    line-height: 20px;
+    margin: 0 53px;
+    z-index: 10000;
+    position: relative;
+
+}
+#label_step_1, #label_step_2, #label_step_3, #label_step_4, #label_step_5, #label_step_6, #label_step_7 {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;  
+}
+.steps-form-holder span.active {
+    background-color: #36104f;
+    width: 60px;
+    height: 60px;
+    margin: 0 43px;
+    line-height: 30px;
+    padding: 15px 25px;
+    top: -5px;
+
+}
+.steps-form-holder .line {
+    border-width: 3px;
+    position: relative;
+    width: 100%;
+    left: 0;
+    z-index: 0;
+    top: -35px;
+}
+#step2, #step3,#step4,#step5,#step6,#step7 {
+    display: none;
+}
+
+/* /steps */

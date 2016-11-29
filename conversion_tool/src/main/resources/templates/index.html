@@ -133,11 +133,9 @@
 	   				<form accept-charset="utf-8" id="step4">
 		   				<div class="input-holder source">
 				   			<div class="input-holder google">
-					   			<label class="roodtext inputlabel">
-					   				Google Spreadsheet <span class="font700">Link</span>
-					   			</label>
-				   			
-				   				<input type="url" name="" value="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563" class="inputform" id="spreadsheet_link"/>
+				   				<a class="btn pull-right" href="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563">VIEW Google speadsheet</a>
+				   				<div class="clearfix"></div>
+				   				
 				   			</div>
 				   		</div>
 				   		<div id="iframe_holder">
@@ -171,7 +169,7 @@
 
 	   				<!-- STEP 6 -->
 	   				<form accept-charset="utf-8" id="step6">
-			   			<p>From X files we created N that are VALID and Y are with errors.</p>
+			   			<p>From <span class="roodtext font700">X</span> files we created <span class="roodtext font700">N</span> that are <span class="roodtext font700">VALID</span> and <span class="roodtext font700">Y</span> are with errors.</p>
 			   			<p>Please take a look at the table below to find yout the reason for the errors</p>
 			   			<table>
 			   				<caption>Report for errors</caption>
@@ -194,14 +192,14 @@
 
 	   				<!-- STEP 7-->
 	   				<form accept-charset="utf-8" id="step7">
-			   			SHOW BUTTONS FOR REPEAT TRANSOFRMATION AND START NEW TRANSFORMATION <br/>
-			   			SHOW RIBBON FOR SUCCESS
 				   		<div class="success_notes">
 				   			<p>Data was transformed Successfully!</p>
 				   			<a href="#" class="btn pull-right active" style="display: none;">Go to file</a>
 				   			<a href="#" class="btn pull-right last" onClick="window.location.reload()" style="display: none;">Map another file</a>
 				   		</div>
-		   				<button type="submit" class="btn pull-right" id="submit_step7">Next step</button>
+		   				<button type="submit" class="btn pull-right" id="start_new">Start new transformation</button>
+		   				<button type="submit" class="btn pull-right" id="repeat">Repeat transformation</button>
+
 	   				</form>
 	   				<!-- /STEP 7 -->
 

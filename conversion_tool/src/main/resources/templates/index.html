@@ -3,7 +3,7 @@
 	<head>
 	    <title>EHRI Conversion Tool</title>
 		<!-- CSS -->
-		<link rel="stylesheet" type="text/css" href="css/style.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		<!-- /CSS -->
 	</head>
 	<body>
@@ -33,45 +33,6 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="region region-navigation">
-						<div id="block-menu-menu-about" class="block block-menu submenu first odd" role="navigation">
-							<ul class="menu">
-								<li class="menu__item is-leaf last leaf item">
-									<a href="http://www.ehri-project.eu/about-ehri" class="menu__link item menubalk" target="_blank">About EHRI</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-
-					<div id="block-menu-menu-get-involved" class="block block-menu submenu even" role="navigation">
-						<ul class="menu">
-							<li class="menu__item is-leaf last leaf item">
-								<a href="http://www.ehri-project.eu/ehri-getting-involved" class="menu__link item menubalk" target="_blank">News &amp; Events</a>
-							</li>
-						</ul>
-					</div>
-					<div id="block-menu-menu-research" class="block block-menu submenu odd" role="navigation">
-						<ul class="menu">
-							<li class="menu__item is-leaf last leaf item">
-								<a href="http://www.ehri-project.eu/Research" class="menu__link item menubalk" target="_blank">EHRI Training</a>
-							</li>
-						</ul>
-					</div>
-					<div id="block-menu-menu-publications" class="block block-menu submenu even" role="navigation">
-						<ul class="menu">
-							<li class="menu__item is-leaf last leaf item">
-								<a href="http://www.ehri-project.eu/Publications" class="menu__link item menubalk" target="_blank">EHRI publications</a>
-							</li>
-						</ul>
-					</div>
-					<div id="block-menu-menu-community-hub" class="block block-menu submenu last odd" role="navigation">
-						<ul class="menu">
-							<li class="menu__item is-leaf last leaf item">
-								<a href="http://www.ehri-project.eu/ehri-resources" class="menu__link item menubalk" target="_blank">EHRI resources</a>
-							</li>
-						</ul>
-					</div>
 		   		</div>
 			</header><!-- /header -->
 			<div id="main">
@@ -79,19 +40,115 @@
 					<img class="loader_img" src="img/loader.gif"/>
 				</div>
 				<div id="main-inner">
+					<h4 class="roodtext" style="display: none;">
+					TODO: <br/>
+					1. style dropdown <br/>
+					2. set active step <br/>
+					3. style active step <br/>
+					4. remove EHRI links from menu <br/>
+					5. add ontotext logo <br/>
+					6. Create other 8 steps <br/>
+					7. JS checks <br/>
+					8. JS show/hide forms <br/>
+					9. JS for select DIRECTORY (research) <br/>
+					10. style label holder (too small) <br/>
+					11. JS scenarios based on select <br/>
+					12. Transform google source from input to link <br/>
+					</h4>
 	   				<h1 class="roodtext">
 	   					<span class="font300">EHRI FILE</span> MAPPING
 	   					<a href="#" class="btn pull-right">documentation</a>
 	   				</h1>
-		   			<form>
+	   				<!-- STEPS -->
+	   				<div class="steps-form-holder">
+	   					<span id="label_step_1" class="active">1</span>
+	   					<span id="label_step_2">2</span>
+	   					<span id="label_step_3">3</span>
+	   					<span id="label_step_4">4</span>
+	   					<span id="label_step_5">5</span>
+	   					<span id="label_step_6">6</span>
+	   					<span id="label_step_7">7</span>
+	   					<hr class="line"/>
+	   					<div class="clearfix"></div>
+	   				</div>
+	   				<!-- /STEPS -->
+
+	   				<!-- STEP 1 -->
+	   				<form accept-charset="utf-8" id="step1">
 		   				<div class="input-holder source">
 				   			<label class="roodtext inputlabel">
-				   				Type of <span class="font700">Source</span>
+				   				Please select your <span class="font700">Organization</span>
 				   			</label>
-				   			<div class="radio-holder">
-								<input type="checkbox" name="source" id="google" value="google"/> <label for="google" class="radio-label roodtext">Google</label>
-							</div>
+				   			<select name="organization">
+				   				<option value="ogranization_id">Organization 1</option>
+				   				<option value="ogranization_id">Organization 2</option>
+				   				<option value="ogranization_id">Organization 3</option>
+				   				<option value="ogranization_id">Organization 4</option>
+				   				<option value="ogranization_id">Organization 5</option>
+				   				<option value="ogranization_id">Organization 6</option>
+				   				<option value="ogranization_id">Organization 7</option>
+				   				<option value="ogranization_id">Organization 8</option>
+				   				<option value="ogranization_id">Organization 9</option>
+				   				<option value="ogranization_id">Organization 10</option>
+				   				<option value="no_organization">Other</option>
+				   			</select>
 		   				</div>
+		   				<button type="submit" class="btn pull-right" id="submit_step1">Next step</button>
+	   				</form>
+	   				<!-- /STEP 1 -->
+
+	   				<!-- STEP 2 -->
+	   				<form accept-charset="utf-8" id="step2">
+		   				<div class="input-holder source">
+				   			<label class="roodtext inputlabel">
+				   				Please select your files <span class="font700">INPUT FORMAT</span>
+				   			</label>
+				   			<select name="organization">
+				   				<option value="xml">XML</option>
+				   				<option value="json">JSON</option>
+				   				<option value="sheet">Sheet</option>
+				   				<option value="xml_ead">XML-EAD 2001</option>
+				   			</select>
+		   				</div>
+		   				<button type="submit" class="btn pull-right" id="submit_step2">Next step</button>
+	   				</form>
+	   				<!-- /STEP 2 -->
+
+	   				<!-- STEP 3 -->
+	   				<form accept-charset="utf-8" id="step3">
+		   				<div class="input-holder source">
+				   			<label class="roodtext inputlabel">
+				   				Please select type of <span class="font700">Transformation</span>
+				   			</label>
+				   			<select name="organization">
+				   				<option value="generic">generic</option>
+				   				<option value="specific">specific</option>
+				   			</select>
+		   				</div>
+		   				<button type="submit" class="btn pull-right" id="submit_step3">Next step</button>
+	   				</form>
+	   				<!-- /STEP 3 -->
+
+	   				<!-- STEP 4 -->
+	   				<form accept-charset="utf-8" id="step4">
+		   				<div class="input-holder source">
+				   			<div class="input-holder google">
+					   			<label class="roodtext inputlabel">
+					   				Google Spreadsheet <span class="font700">Link</span>
+					   			</label>
+				   			
+				   				<input type="url" name="" value="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563" class="inputform" id="spreadsheet_link"/>
+				   			</div>
+				   		</div>
+				   		<div id="iframe_holder">
+				   			<iframe src="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563" id="google-iframe"></iframe>
+				   		</div>
+		   				<button type="submit" class="btn pull-right" id="submit_step4">Next step</button>
+	   				</form>
+	   				<!-- /STEP 4 -->
+
+	   				<!-- STEP 5 -->
+	   				<form accept-charset="utf-8" id="step5">
 			   			<div class="input-holder local">
 				   			<label class="roodtext inputlabel">
 				   				Income <span class="font700">Source</span>
@@ -108,34 +165,50 @@
 				   			<input type="text" name="" value="" class="inputform" id="fakeoutcomesource" readonly="true"/>
 				   			<input type="file" name="" value="" class="inputform" id="outcomesource"/>
 				   		</div>
-			   			<div class="input-holder localfile">
-				   			<label class="roodtext inputlabel">
-				   				Local File <span class="font700">Select</span>
-				   			</label>
-				   			<a href="#" class="btn pull-right" id="localfile_btn">Select location</a>
-				   			<input type="text" name="" value="" class="inputform" id="fakelocalfilesource" readonly="true"/>
-				   			<input type="file" name="" value="" class="inputform" id="localfilesource"/>
-				   		</div>
-			   			<div class="input-holder google">
-				   			<label class="roodtext inputlabel">
-				   				Google Spreadsheet <span class="font700">Link</span>
-				   			</label>
-				   			
-				   			<input type="url" name="" value="" class="inputform" id="spreadsheet_link"/>
-				   		</div>
-				   		<div id="iframe_holder"></div>
-				   		<button type="submit" class="btn pull-right" id="submit_transform">Submit</button>
-				   		<div class="clearfix"></div>
+		   				<button type="submit" class="btn pull-right" id="submit_step5">Next step</button>
+	   				</form>
+	   				<!-- /STEP 5 -->
+
+	   				<!-- STEP 6 -->
+	   				<form accept-charset="utf-8" id="step6">
+			   			<p>From X files we created N that are VALID and Y are with errors.</p>
+			   			<p>Please take a look at the table below to find yout the reason for the errors</p>
+			   			<table>
+			   				<caption>Report for errors</caption>
+			   				<thead>
+			   					<tr>
+			   						<th>file name</th>
+			   						<th>error type</th>
+			   					</tr>
+			   				</thead>
+			   				<tbody>
+			   					<tr>
+			   						<td>file</td>
+			   						<td>error</td>
+			   					</tr>
+			   				</tbody>
+			   			</table>
+		   				<button type="submit" class="btn pull-right" id="submit_step6">Next step</button>
+	   				</form>
+	   				<!-- /STEP 6 -->
+
+	   				<!-- STEP 7-->
+	   				<form accept-charset="utf-8" id="step7">
+			   			SHOW BUTTONS FOR REPEAT TRANSOFRMATION AND START NEW TRANSFORMATION <br/>
+			   			SHOW RIBBON FOR SUCCESS
 				   		<div class="success_notes">
-				   			<p>Data was mapped Successfully!</p>
-				   			<a href="#" class="btn pull-right active">Go to file</a>
-				   			<a href="#" class="btn pull-right last" onClick="window.location.reload()">Map another file</a>
+				   			<p>Data was transformed Successfully!</p>
+				   			<a href="#" class="btn pull-right active" style="display: none;">Go to file</a>
+				   			<a href="#" class="btn pull-right last" onClick="window.location.reload()" style="display: none;">Map another file</a>
 				   		</div>
-		   			</form>
+		   				<button type="submit" class="btn pull-right" id="submit_step7">Next step</button>
+	   				</form>
+	   				<!-- /STEP 7 -->
+
 	   			</div>
 	   		</div>
 			<footer id="footer" class="region region-footer">
-				<div id="block-block-17" class="block block-block funding first last odd">
+				<div class="block block-block funding first last odd">
 					<a href="http://europa.eu/" target="_blank" class="external-processed">EHRI is funded by the European Union</a>
 				</div>
 			</footer>
@@ -143,7 +216,7 @@
 
 	   <!-- JS -->
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-		<script src="js/main.min.js"></script>
+		<script src="js/app.js"></script>
 		<!-- /JS -->
 	</body>
 </html>

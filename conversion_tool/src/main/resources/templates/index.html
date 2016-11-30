@@ -93,10 +93,11 @@
 				   				<option value="">Please select</option>
 				   				<option value="xml">XML</option>
 				   				<option value="json">JSON</option>
-				   				<option value="sheet">Sheet</option>
-				   				<option value="xml_ead">XML-EAD 2001</option>
+				   				<option value="sheet">DATA Sheet</option>
+				   				<option value="xml_ead">XML-EAD 1</option>
 				   			</select>
 		   				</div>
+		   				<button type="submit" class="btn pull-left" id="previous_step2">Previous step</button>
 		   				<button type="submit" class="btn pull-right" id="submit_step2">Next step</button>
 	   				</form>
 	   				<!-- /STEP 2 -->
@@ -105,14 +106,15 @@
 	   				<form accept-charset="utf-8" id="step2_1">
 		   				<div class="input-holder source">
 				   			<label class="roodtext inputlabel">
-				   				Select transform to <span class="font700"> Mapping OR EAD 2</span>
+				   				Select transform to <span class="font700"> Mapping OR EAD 2001</span>
 				   			</label>
 				   			<select name="transformation_type" id="transformation_type">
 				   				<option value="">Please select</option>
 				   				<option value="mapping">Mapping</option>
-				   				<option value="ead_2">EAD 2</option>
+				   				<option value="ead_2">EAD 2001</option>
 				   			</select>
 		   				</div>
+		   				<button type="submit" class="btn pull-left" id="previous_step2_1">Previous step</button>
 		   				<button type="submit" class="btn pull-right" id="submit_step2_1">Next step</button>
 	   				</form>
 	   				<!-- /STEP 2.1 -->
@@ -129,6 +131,7 @@
 				   				<option value="specific">specific</option>
 				   			</select>
 		   				</div>
+		   				<button type="submit" class="btn pull-left" id="previous_step3">Previous step</button>
 		   				<button type="submit" class="btn pull-right" id="submit_step3">Next step</button>
 	   				</form>
 	   				<!-- /STEP 3 -->
@@ -137,7 +140,7 @@
 	   				<form accept-charset="utf-8" id="step4">
 		   				<div class="input-holder source">
 				   			<div class="input-holder google">
-				   				<a class="btn pull-right" href="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563" id="view_google">VIEW Google speadsheet</a>
+				   				<a class="btn pull-right" href="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563" id="view_google" target="_blank">VIEW Google speadsheet</a>
 				   				<div class="clearfix"></div>
 				   				<input type="text" name="" value="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563" class="inputform" id="google_link" readonly="true" />
 				   			</div>
@@ -147,12 +150,12 @@
 				   		</div>
 			   			<div class="input-holder specific_mapping">
 				   			<label class="roodtext inputlabel">
-				   				Select Other<span class="font700">Mapping</span>
+				   				Select Local <span class="font700">Mapping</span>
 				   			</label>
 				   			<a href="#" class="btn pull-right" id="mapping_location_btn_google">Select Mapping</a>
-				   			<input type="text" name="" value="" class="inputform" id="fakespecific_mapping_google" readonly="true"/>
-				   			<input type="file" name="" value="" class="inputform" id="specific_mapping_google"/>
+				   			<input type="file" name="" value="" class="inputform file" id="specific_mapping_google"/>
 				   		</div>
+				   		<button type="submit" class="btn pull-left" id="previous_step4">Previous step</button>
 		   				<button type="submit" class="btn pull-right" id="submit_step4">Next step</button>
 	   				</form>
 	   				<!-- /STEP 4 -->
@@ -164,17 +167,16 @@
 				   				Select <span class="font700">XSD File</span>
 				   			</label>
 				   			<a href="#" class="btn pull-right" id="xsd_location_btn">Select XSD File</a>
-				   			<input type="text" name="" value="" class="inputform" id="fakexsdsource" readonly="true"/>
-				   			<input type="file" name="" value="" class="inputform" id="xsdsource"/>
+				   			<input type="file" name="" value="" class="inputform file" id="xsdsource"/>
 				   		</div>
 			   			<div class="input-holder specific_mapping">
 				   			<label class="roodtext inputlabel">
 				   				Select <span class="font700">Mapping</span>
 				   			</label>
 				   			<a href="#" class="btn pull-right" id="mapping_location_btn">Select Mapping</a>
-				   			<input type="text" name="" value="" class="inputform" id="fakespecific_mapping" readonly="true"/>
-				   			<input type="file" name="" value="" class="inputform" id="specific_mapping"/>
+				   			<input type="file" name="" value="" class="inputform file" id="specific_mapping"/>
 				   		</div>
+				   		<button type="submit" class="btn pull-left" id="previous_step4_1">Previous step</button>
 		   				<button type="submit" class="btn pull-right" id="submit_step4_1">Next step</button>
 	   				</form>
 	   				<!-- /STEP 4.1 -->
@@ -186,17 +188,16 @@
 				   				Income <span class="font700">Source</span>
 				   			</label>
 				   			<a href="#" class="btn pull-right" id="income_location_btn">Select location</a>
-				   			<input type="text" name="" value="" class="inputform" id="fakeincomesource" readonly="true"/>
-				   			<input type="file" name="" value="" class="inputform" id="incomesource" webkitdirectory="true" directory="true" multiple="true" />
+				   			<input type="file" name="" value="" class="inputform file" id="incomesource"/>
 				   		</div>
 			   			<div class="input-holder local">
 				   			<label class="roodtext inputlabel">
 				   				Outcome <span class="font700">Source</span>
 				   			</label>
 				   			<a href="#" class="btn pull-right" id="outcome_location_btn">Select location</a>
-				   			<input type="text" name="" value="" class="inputform" id="fakeoutcomesource" readonly="true"/>
-				   			<input type="file" name="" value="" class="inputform" id="outcomesource" webkitdirectory="true" directory="true" multiple="true" />
+				   			<input type="file" name="" value="" class="inputform file" id="outcomesource"/>
 				   		</div>
+				   		<button type="submit" class="btn pull-left" id="previous_step5">Previous step</button>
 		   				<button type="submit" class="btn pull-right" id="submit_step5">Next step</button>
 	   				</form>
 	   				<!-- /STEP 5 -->

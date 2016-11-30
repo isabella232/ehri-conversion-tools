@@ -19,7 +19,6 @@ $(document).ready(function() {
     var fakespecific_mapping_google     = $('#fakespecific_mapping_google');
     var specific_mapping_input_google   = $('#specific_mapping_google');
 
-
     function showLoader() {
         // calculating the height of the main element and setting the loader same size
         var main_height = $('#main-inner').innerHeight();
@@ -39,7 +38,6 @@ $(document).ready(function() {
     }
 
     $('#submit_step1').click(function() {
-
         $('#step1').slideUp(300);
         $('#step2').slideDown(300);
         $( "#label_step_2" ).addClass( "active" );
@@ -58,6 +56,14 @@ $(document).ready(function() {
         }
         return false;
     });
+
+    $('#previous_step2').click(function() {
+        $( "#label_step_1" ).addClass( "active" );
+        $( "#label_step_2" ).removeClass( "active" );
+        $('#step1').slideDown(300);
+        $('#step2').slideUp(100);
+        return false;
+    });
     $('#submit_step2_1').click(function() {
 
         $('#step2_1').slideUp(300)
@@ -72,16 +78,37 @@ $(document).ready(function() {
         }
         return false;
     });
+    $('#previous_step2_1').click(function() {
+        $( "#label_step_1" ).addClass( "active" );
+        $( "#label_step_2" ).removeClass( "active" );
+        $('#step1').slideDown(300);
+        $('#step2_1').slideUp(100);
+        return false;
+    });
     $('#submit_step3').click(function() {        
         if($('#mapping_type').val() === 'generic'){
-            $('#step3').slideUp(300);
-            $('#step4').slideDown(300);
+            if (navigator.onLine) {
+                $('#step3').slideUp(300);
+                $('#step4').slideDown(300);
+            } else {
+                $('#step3').slideUp(300);
+                $('#step4').slideDown(300);
+                $('#view_google').hide();
+                $('#iframe_holder').hide();
+            }
         } else if ($('#mapping_type').val() === 'specific'){
             $('#step3').slideUp(300);
             $('#step4_1').slideDown(300);
         }
         $( "#label_step_4" ).addClass( "active" );
         $( "#label_step_3" ).removeClass( "active" );
+        return false;
+    });
+    $('#previous_step3').click(function() {
+        $( "#label_step_2" ).addClass( "active" );
+        $( "#label_step_1" ).removeClass( "active" );
+        $('#step2').slideDown(300);
+        $('#step3').slideUp(100);
         return false;
     });
 
@@ -92,12 +119,26 @@ $(document).ready(function() {
         $( "#label_step_4" ).removeClass( "active" );
         return false;
     });
+    $('#previous_step4').click(function() {
+        $( "#label_step_3" ).addClass( "active" );
+        $( "#label_step_4" ).removeClass( "active" );
+        $('#step3').slideDown(300);
+        $('#step4').slideUp(100);
+        return false;
+    });
 
     $('#submit_step4_1').click(function() {
         $('#step4_1').slideUp(300);
         $('#step5').slideDown(300);
         $( "#label_step_5" ).addClass( "active" );
         $( "#label_step_4" ).removeClass( "active" );
+        return false;
+    });
+    $('#previous_step4').click(function() {
+        $( "#label_step_3" ).addClass( "active" );
+        $( "#label_step_4" ).removeClass( "active" );
+        $('#step3').slideDown(300);
+        $('#step4_1').slideUp(100);
         return false;
     });
 
@@ -112,6 +153,13 @@ $(document).ready(function() {
         }, 3000);
         return false;
     });
+    $('#previous_step5').click(function() {
+        $( "#label_step_4" ).addClass( "active" );
+        $( "#label_step_5" ).removeClass( "active" );
+        $('#step4').slideDown(300);
+        $('#step5').slideUp(100);
+        return false;
+    });
     $('#submit_step6').click(function() {
         $('#step6').slideUp(300);
         $('#step7').slideDown(300);
@@ -119,20 +167,16 @@ $(document).ready(function() {
         $( "#label_step_6" ).removeClass( "active" );
         return false;
     });
+
     $('#start_new').click(function() {
         $('#step7').slideUp(300);
         $('#step2').slideDown(300);
         $( "#label_step_2" ).addClass( "active" );
         $( "#label_step_7" ).removeClass( "active" );
         $(incomesource_input).val('');
-        $(fakeincomesource).val('');
         $(outcomesource_input).val('');
-        $(fakeoutcomesource).val('');
-        $(fakexsdsource).val('');
         $(xsdsource_input).val('');
-        $(fakespecific_mapping).val('');
         $(specific_mapping_input).val('');
-        $(fakespecific_mapping_google).val('');
         $(specific_mapping_input_google).val('');
         return false;
     });
@@ -142,9 +186,7 @@ $(document).ready(function() {
         $( "#label_step_5" ).addClass( "active" );
         $( "#label_step_7" ).removeClass( "active" );
         $(incomesource_input).val('');
-        $(fakeincomesource).val('');
         $(outcomesource_input).val('');
-        $(fakeoutcomesource).val('');
         return false;
     });
 
@@ -154,27 +196,9 @@ $(document).ready(function() {
         $(incomesource_input).click();
     });
 
-    // on change listener for showing the selected file and checking if submit button should be enabled
-    $(incomesource_input).change(function() {
-        //gettign the address of the file
-        var URL = $(incomesource_input).val();
-        var value_income = URL.substring(0, URL.lastIndexOf("\\") + 1)
-        // showing the address to the user
-        $(fakeincomesource).val(value_income);
-    });
-
     // simulate click on hidden input type file
     $(outcome_location_btn).click(function() {
         $(outcomesource_input).click();
-    });
-
-    // on change listener for showing the selected file and checking if submit button should be enabled
-    $(outcomesource_input).change(function() {
-        //gettign the address of the file
-        var URL = $(outcomesource_input).val();
-        var value_outcome = URL.substring(0, URL.lastIndexOf("\\") + 1)
-        // showing the address to the user
-        $(fakeoutcomesource).val(value_outcome);
     });
 
     // simulate click on hidden input type file
@@ -182,26 +206,12 @@ $(document).ready(function() {
         $(xsdsource_input).click();
     });
 
-    // on change listener for showing the selected file and checking if submit button should be enabled
-    $(xsdsource_input).change(function() {
-        var URL = $(xsdsource_input).val();
-        var value_xsd = URL.substring(0, URL.lastIndexOf("\\") + 1)
-        // showing the address to the user
-        $(fakexsdsource).val(value_xsd);
-    });
 
     // simulate click on hidden input type file
     $(mapping_location_btn).click(function() {
         $(specific_mapping_input).click();
     });
 
-    // on change listener for showing the selected file and checking if submit button should be enabled
-    $(specific_mapping_input).change(function() {
-        var URL = $(specific_mapping_input).val();
-        var value_spmapping = URL.substring(0, URL.lastIndexOf("\\") + 1)
-        // showing the address to the user
-        $(fakespecific_mapping).val(value_spmapping);
-    });
 
     $(mapping_location_btn_google).click(function() {
         $(specific_mapping_input_google).click();
@@ -209,12 +219,86 @@ $(document).ready(function() {
         $('#view_google').slideUp(300);
     });
 
-    // on change listener for showing the selected file and checking if submit button should be enabled
-    $(specific_mapping_input_google).change(function() {
-        var URL = $(specific_mapping_input_google).val();
-        var value_spmapping_google = URL.substring(0, URL.lastIndexOf("\\") + 1)
-        // showing the address to the user
-        $(fakespecific_mapping_google).val(value_spmapping_google);
-    });
 
+    $('#incomesource').attr('webkitdirectory', '');
+    $('#outcomesource').attr('webkitdirectory', '');
+
+
+    $('#label_step_1').click(function() {
+        $('.active').removeClass('active');
+        $('#step1').slideDown(300);
+        $( "#label_step_1" ).addClass( "active" );
+        $('#step2').slideUp(100);
+        $('#step3').slideUp(100);
+        $('#step4').slideUp(100);
+        $('#step5').slideUp(100);
+        $('#step6').slideUp(100);
+        $('#step7').slideUp(100);
+    });
+    $('#label_step_2').click(function() {
+        $('.active').removeClass('active');
+        $( "#label_step_2" ).addClass( "active" );
+        $('#step2').slideDown(300);
+        $('#step1').slideUp(100);
+        $('#step3').slideUp(100);
+        $('#step4').slideUp(100);
+        $('#step5').slideUp(100);
+        $('#step6').slideUp(100);
+        $('#step7').slideUp(100);
+    });
+    $('#label_step_3').click(function() {
+        $('.active').removeClass('active');
+        $( "#label_step_3" ).addClass( "active" );
+        $('#step3').slideDown(300);
+        $('#step1').slideUp(100);
+        $('#step2').slideUp(100);
+        $('#step4').slideUp(100);
+        $('#step5').slideUp(100);
+        $('#step6').slideUp(100);
+        $('#step7').slideUp(100);
+    });
+    $('#label_step_4').click(function() {
+        $('.active').removeClass('active');
+        $( "#label_step_4" ).addClass( "active" );
+        $('#step4').slideDown(300);
+        $('#step1').slideUp(100);
+        $('#step2').slideUp(100);
+        $('#step3').slideUp(100);
+        $('#step5').slideUp(100);
+        $('#step6').slideUp(100);
+        $('#step7').slideUp(100);
+    });
+    $('#label_step_5').click(function() {
+        $('.active').removeClass('active');
+        $( "#label_step_5" ).addClass( "active" );
+        $('#step5').slideDown(300);
+        $('#step1').slideUp(100);
+        $('#step2').slideUp(100);
+        $('#step3').slideUp(100);
+        $('#step4').slideUp(100);
+        $('#step6').slideUp(100);
+        $('#step7').slideUp(100);
+    });
+    $('#label_step_6').click(function() {
+        $('.active').removeClass('active');
+        $( "#label_step_6" ).addClass( "active" );
+        $('#step6').slideDown(300);
+        $('#step1').slideUp(100);
+        $('#step2').slideUp(100);
+        $('#step3').slideUp(100);
+        $('#step4').slideUp(100);
+        $('#step5').slideUp(100);
+        $('#step7').slideUp(100);
+    });
+    $('#label_step_7').click(function() {
+        $('.active').removeClass('active');
+        $( "#label_step_7" ).addClass( "active" );
+        $('#step7').slideDown(300);
+        $('#step1').slideUp(100);
+        $('#step2').slideUp(100);
+        $('#step3').slideUp(100);
+        $('#step4').slideUp(100);
+        $('#step5').slideUp(100);
+        $('#step6').slideUp(100);
+    });
 });

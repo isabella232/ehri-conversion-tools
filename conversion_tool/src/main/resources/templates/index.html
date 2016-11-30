@@ -37,24 +37,10 @@
 			</header><!-- /header -->
 			<div id="main">
 				<div class="loader">
-					<img class="loader_img" src="img/loader.gif"/>
+					<div class="bkg"></div>
+					<img class="loader_img" src="img/ot-loader.svg"/>
 				</div>
 				<div id="main-inner">
-					<h4 class="roodtext" style="display: none;">
-					TODO: <br/>
-					1. style dropdown <br/>
-					2. set active step <br/>
-					3. style active step <br/>
-					4. remove EHRI links from menu <br/>
-					5. add ontotext logo <br/>
-					6. Create other 8 steps <br/>
-					7. JS checks <br/>
-					8. JS show/hide forms <br/>
-					9. JS for select DIRECTORY (research) <br/>
-					10. style label holder (too small) <br/>
-					11. JS scenarios based on select <br/>
-					12. Transform google source from input to link <br/>
-					</h4>
 	   				<h1 class="roodtext">
 	   					<span class="font300">EHRI FILE</span> MAPPING
 	   					<a href="#" class="btn pull-right">documentation</a>
@@ -103,7 +89,8 @@
 				   			<label class="roodtext inputlabel">
 				   				Please select your files <span class="font700">INPUT FORMAT</span>
 				   			</label>
-				   			<select name="organization">
+				   			<select name="file_type" id="file_type">
+				   				<option value="">Please select</option>
 				   				<option value="xml">XML</option>
 				   				<option value="json">JSON</option>
 				   				<option value="sheet">Sheet</option>
@@ -114,13 +101,30 @@
 	   				</form>
 	   				<!-- /STEP 2 -->
 
+	   				<!-- STEP 2.1 CASE XML-EAD-2001 -->
+	   				<form accept-charset="utf-8" id="step2_1">
+		   				<div class="input-holder source">
+				   			<label class="roodtext inputlabel">
+				   				Select transform to <span class="font700"> Mapping OR EAD 2</span>
+				   			</label>
+				   			<select name="transformation_type" id="transformation_type">
+				   				<option value="">Please select</option>
+				   				<option value="mapping">Mapping</option>
+				   				<option value="ead_2">EAD 2</option>
+				   			</select>
+		   				</div>
+		   				<button type="submit" class="btn pull-right" id="submit_step2_1">Next step</button>
+	   				</form>
+	   				<!-- /STEP 2.1 -->
+
 	   				<!-- STEP 3 -->
 	   				<form accept-charset="utf-8" id="step3">
 		   				<div class="input-holder source">
 				   			<label class="roodtext inputlabel">
 				   				Please select type of <span class="font700">Transformation</span>
 				   			</label>
-				   			<select name="organization">
+				   			<select name="mapping_type" id="mapping_type">
+				   				<option value="">Please select</option>
 				   				<option value="generic">generic</option>
 				   				<option value="specific">specific</option>
 				   			</select>
@@ -129,21 +133,51 @@
 	   				</form>
 	   				<!-- /STEP 3 -->
 
-	   				<!-- STEP 4 -->
+	   				<!-- STEP 4 CASE GENERIC-->
 	   				<form accept-charset="utf-8" id="step4">
 		   				<div class="input-holder source">
 				   			<div class="input-holder google">
-				   				<a class="btn pull-right" href="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563">VIEW Google speadsheet</a>
+				   				<a class="btn pull-right" href="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563" id="view_google">VIEW Google speadsheet</a>
 				   				<div class="clearfix"></div>
-				   				
+				   				<input type="text" name="" value="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563" class="inputform" id="google_link" readonly="true" />
 				   			</div>
 				   		</div>
 				   		<div id="iframe_holder">
 				   			<iframe src="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563" id="google-iframe"></iframe>
 				   		</div>
+			   			<div class="input-holder specific_mapping">
+				   			<label class="roodtext inputlabel">
+				   				Select Other<span class="font700">Mapping</span>
+				   			</label>
+				   			<a href="#" class="btn pull-right" id="mapping_location_btn_google">Select Mapping</a>
+				   			<input type="text" name="" value="" class="inputform" id="fakespecific_mapping_google" readonly="true"/>
+				   			<input type="file" name="" value="" class="inputform" id="specific_mapping_google"/>
+				   		</div>
 		   				<button type="submit" class="btn pull-right" id="submit_step4">Next step</button>
 	   				</form>
 	   				<!-- /STEP 4 -->
+
+	   				<!-- STEP 4.1 CASE SPECIFIC-->
+	   				<form accept-charset="utf-8" id="step4_1">
+			   			<div class="input-holder specific">
+				   			<label class="roodtext inputlabel">
+				   				Select <span class="font700">XSD File</span>
+				   			</label>
+				   			<a href="#" class="btn pull-right" id="xsd_location_btn">Select XSD File</a>
+				   			<input type="text" name="" value="" class="inputform" id="fakexsdsource" readonly="true"/>
+				   			<input type="file" name="" value="" class="inputform" id="xsdsource"/>
+				   		</div>
+			   			<div class="input-holder specific_mapping">
+				   			<label class="roodtext inputlabel">
+				   				Select <span class="font700">Mapping</span>
+				   			</label>
+				   			<a href="#" class="btn pull-right" id="mapping_location_btn">Select Mapping</a>
+				   			<input type="text" name="" value="" class="inputform" id="fakespecific_mapping" readonly="true"/>
+				   			<input type="file" name="" value="" class="inputform" id="specific_mapping"/>
+				   		</div>
+		   				<button type="submit" class="btn pull-right" id="submit_step4_1">Next step</button>
+	   				</form>
+	   				<!-- /STEP 4.1 -->
 
 	   				<!-- STEP 5 -->
 	   				<form accept-charset="utf-8" id="step5">
@@ -153,7 +187,7 @@
 				   			</label>
 				   			<a href="#" class="btn pull-right" id="income_location_btn">Select location</a>
 				   			<input type="text" name="" value="" class="inputform" id="fakeincomesource" readonly="true"/>
-				   			<input type="file" name="" value="" class="inputform" id="incomesource"/>
+				   			<input type="file" name="" value="" class="inputform" id="incomesource" webkitdirectory="true" directory="true" multiple="true" />
 				   		</div>
 			   			<div class="input-holder local">
 				   			<label class="roodtext inputlabel">
@@ -161,7 +195,7 @@
 				   			</label>
 				   			<a href="#" class="btn pull-right" id="outcome_location_btn">Select location</a>
 				   			<input type="text" name="" value="" class="inputform" id="fakeoutcomesource" readonly="true"/>
-				   			<input type="file" name="" value="" class="inputform" id="outcomesource"/>
+				   			<input type="file" name="" value="" class="inputform" id="outcomesource" webkitdirectory="true" directory="true" multiple="true" />
 				   		</div>
 		   				<button type="submit" class="btn pull-right" id="submit_step5">Next step</button>
 	   				</form>
@@ -194,8 +228,6 @@
 	   				<form accept-charset="utf-8" id="step7">
 				   		<div class="success_notes">
 				   			<p>Data was transformed Successfully!</p>
-				   			<a href="#" class="btn pull-right active" style="display: none;">Go to file</a>
-				   			<a href="#" class="btn pull-right last" onClick="window.location.reload()" style="display: none;">Map another file</a>
 				   		</div>
 		   				<button type="submit" class="btn pull-right" id="start_new">Start new transformation</button>
 		   				<button type="submit" class="btn pull-right" id="repeat">Repeat transformation</button>
@@ -207,7 +239,9 @@
 	   		</div>
 			<footer id="footer" class="region region-footer">
 				<div class="block block-block funding first last odd">
-					<a href="http://europa.eu/" target="_blank" class="external-processed">EHRI is funded by the European Union</a>
+					<a href="http://europa.eu/" target="_blank" class="external-processed eu">EHRI is funded by the European Union</a>
+					<a href="http://ontotext.com/" target="_blank" class="external-processed ot"></a>
+					<div class="clearfix"></div>
 				</div>
 			</footer>
 	   </div>

@@ -1,34 +1,49 @@
 $(document).ready(function() {
 
     //1. GLOBAL VARS
+    var submit_buttons                  = $('.submit');
     var loader                          = $('.loader');
     var loader_img                      = $('.loader_img');
-    var incomesource_input              = $('#incomesource');
-    var fakeincomesource                = $('#fakeincomesource');
-    var income_location_btn             = $('#income_location_btn');
-    var outcomesource_input             = $('#outcomesource')
-    var fakeoutcomesource               = $('#fakeoutcomesource');
-    var outcome_location_btn            = $('#outcome_location_btn');
-    var xsd_location_btn                = $('#xsd_location_btn');
-    var fakexsdsource                   = $('#fakexsdsource');
-    var xsdsource_input                 = $('#xsdsource');
-    var mapping_location_btn            = $('#mapping_location_btn');
-    var fakespecific_mapping            = $('#fakespecific_mapping');
-    var specific_mapping_input          = $('#specific_mapping');
-    var mapping_location_btn_google     = $('#mapping_location_btn_google');
-    var fakespecific_mapping_google     = $('#fakespecific_mapping_google');
+    
+    // dorpdowns
+    var organization_select             = $('#organization');
+    var file_type_select                = $('#file_type');
+    var transformation_type_select      = $('#transformation_type');
+    var mapping_type_select             = $('#mapping_type');
+
+    // file selects
     var specific_mapping_input_google   = $('#specific_mapping_google');
+    var xsdsource_input                 = $('#xsdsource');
+    var specific_mapping_input          = $('#specific_mapping');
+    var incomesource_input              = $('#incomesource');
+    var outcomesource_input             = $('#outcomesource')
+
+
+    //buttons
+    var mapping_location_btn_google     = $('#mapping_location_btn_google');
+    var xsd_location_btn                = $('#xsd_location_btn');
+    var mapping_location_btn            = $('#mapping_location_btn');
+    var income_location_btn             = $('#income_location_btn');
+    var outcome_location_btn            = $('#outcome_location_btn');
+
+    function disableSubmit() {
+        $(submit_buttons).prop('disabled', true);
+    }
+
+    function enableSubmit() {
+        $(submit_buttons).prop('disabled', false);
+    }
 
     function showLoader() {
         // calculating the height of the main element and setting the loader same size
         var main_height = $('#main-inner').innerHeight();
         var img_margin = (main_height / 2) - 50;
         $(loader).css({
-            'height': main_height + "px"
+           'height': main_height +'px'
         });
         // centering the loader gif
         $(loader_img).css({
-            'margin-top': img_margin + "px"
+           'margin-top': img_margin +'px'
         });
         $(loader).show();
     }
@@ -37,56 +52,98 @@ $(document).ready(function() {
         $(loader).hide();
     }
 
+    // disable submit on page load
+    disableSubmit();
+
+    // Check if organization is selected on change
+    // Enable submit button
+    $(organization_select).on('change', function() {
+        var value_organization = this.value;
+        if(value_organization != ''){
+            enableSubmit();
+        }
+    });
+
     $('#submit_step1').click(function() {
         $('#step1').slideUp(300);
         $('#step2').slideDown(300);
-        $( "#label_step_2" ).addClass( "active" );
-        $( "#label_step_1" ).removeClass( "active" );
-        return false;
+        $('.active').removeClass('active');
+        $('#label_step_2').addClass('active');
+        disableSubmit();
+    });
+
+    // Check if file type is selected on change
+    // Enable submit button
+    $(file_type_select).on('change', function() {
+        var value_file_type = this.value;
+        if (value_file_type != ''){
+            enableSubmit();
+        }
     });
     $('#submit_step2').click(function() {
-
         $('#step2').slideUp(300)
         if ($('#file_type').val() === 'xml_ead'){
             $('#step2_1').slideDown(300);
+            disableSubmit();
         } else {;
             $('#step3').slideDown(300);
-            $( "#label_step_3" ).addClass( "active" );
-            $( "#label_step_2" ).removeClass( "active" );
+            $('.active').removeClass('active');
+            $('#label_step_3').addClass('active');
+            disableSubmit();
         }
-        return false;
+        disableSubmit();
     });
 
     $('#previous_step2').click(function() {
-        $( "#label_step_1" ).addClass( "active" );
-        $( "#label_step_2" ).removeClass( "active" );
+        $('.active').removeClass('active');
+        $('#label_step_1').addClass('active');
         $('#step1').slideDown(300);
         $('#step2').slideUp(100);
-        return false;
+        disableSubmit();
     });
-    $('#submit_step2_1').click(function() {
 
+    
+    // Check if file type is selected on change
+    // Enable submit button
+    $(transformation_type_select).on('change', function() {
+        var value_transformation_type_select = this.value;
+        if (value_transformation_type_select != ''){
+            enableSubmit();
+        }
+    });
+
+    $('#submit_step2_1').click(function() {
         $('#step2_1').slideUp(300)
         if ($('#transformation_type').val() === 'ead_2'){
             $('#step5').slideDown(300);
-            $( "#label_step_5" ).addClass( "active" );
-            $( "#label_step_2" ).removeClass( "active" );
-        } else if ($('#transformation_type').val() === 'mapping'){
+            $('.active').removeClass('active');
+            $('#label_step_5').addClass('active');
+        } else if ($('#transformation_type').val() ==='mapping'){
             $('#step3').slideDown(300);
-            $( "#label_step_3" ).addClass( "active" );
-            $( "#label_step_2" ).removeClass( "active" );
+            $('.active').removeClass('active');
+            $('#label_step_3').addClass('active');
         }
-        return false;
+        disableSubmit();
     });
     $('#previous_step2_1').click(function() {
-        $( "#label_step_1" ).addClass( "active" );
-        $( "#label_step_2" ).removeClass( "active" );
+        $('.active').removeClass('active');
+        $('#label_step_1').addClass('active');
         $('#step1').slideDown(300);
         $('#step2_1').slideUp(100);
-        return false;
+        disableSubmit();
     });
+
+
+    $(mapping_type_select).on('change', function() {
+        var value_mapping_type_select = this.value;
+        if (value_mapping_type_select != ''){
+            enableSubmit();
+        }
+    });
+
     $('#submit_step3').click(function() {        
-        if($('#mapping_type').val() === 'generic'){
+        if($('#mapping_type').val() ==='generic'){
+            //add links from file that we will read if online
             if (navigator.onLine) {
                 $('#step3').slideUp(300);
                 $('#step4').slideDown(300);
@@ -96,50 +153,119 @@ $(document).ready(function() {
                 $('#view_google').hide();
                 $('#iframe_holder').hide();
             }
-        } else if ($('#mapping_type').val() === 'specific'){
+        } else if ($('#mapping_type').val() ==='specific'){
             $('#step3').slideUp(300);
             $('#step4_1').slideDown(300);
         }
-        $( "#label_step_4" ).addClass( "active" );
-        $( "#label_step_3" ).removeClass( "active" );
-        return false;
+        disableSubmit();
+        $('.active').removeClass('active');
+        $('#label_step_4').addClass('active');
     });
+
     $('#previous_step3').click(function() {
-        $( "#label_step_2" ).addClass( "active" );
-        $( "#label_step_1" ).removeClass( "active" );
+        $('.active').removeClass('active');
+        $('#label_step_2').addClass('active');
         $('#step2').slideDown(300);
         $('#step3').slideUp(100);
-        return false;
+        disableSubmit();
+    });
+
+
+    // simulate click on input type file
+
+
+    $(mapping_location_btn_google).click(function() {
+        $(specific_mapping_input_google).click();
+        $('#iframe_holder').slideUp(300);
+        $('#view_google').slideUp(300);
+    });
+    $(specific_mapping_input_google).click(function () {
+        $('#iframe_holder').slideUp(300);
+        $('#view_google').slideUp(300);
+    })
+
+    $(specific_mapping_input_google).on('change', function(){
+        var value_specifi_mapping_input_google = this.value;
+        if (value_specifi_mapping_input_google != ''){
+            enableSubmit();
+        }
     });
 
     $('#submit_step4').click(function() {
         $('#step4').slideUp(300);
         $('#step5').slideDown(300);
-        $( "#label_step_5" ).addClass( "active" );
-        $( "#label_step_4" ).removeClass( "active" );
-        return false;
+        $('.active').removeClass('active');
+        $('#label_step_5').addClass('active');
+        disableSubmit();
     });
     $('#previous_step4').click(function() {
-        $( "#label_step_3" ).addClass( "active" );
-        $( "#label_step_4" ).removeClass( "active" );
+        $('.active').removeClass('active');
+        $('#label_step_3').addClass('active');
         $('#step3').slideDown(300);
         $('#step4').slideUp(100);
-        return false;
+        disableSubmit();
+    });
+
+    // simulate click on hidden input type file
+    $(xsd_location_btn).click(function() {
+        $(xsdsource_input).click();
+    });
+    $(xsdsource_input).on('change', function(){
+        var value_specific_mapping_input = $(specific_mapping_input).val();
+        var value_xsdsource_input = this.value;
+        if (value_xsdsource_input != '' && value_specific_mapping_input != ''){
+            enableSubmit();
+        }
+    });
+    $(mapping_location_btn).click(function() {
+        $(specific_mapping_input).click();
+    });
+    $(specific_mapping_input).on('change', function(){
+        var value_specific_mapping_input = this.value;
+        var value_xsdsource_input = $(xsdsource_input).val();
+        if (value_xsdsource_input != '' && value_specific_mapping_input != ''){
+            enableSubmit();
+        }
     });
 
     $('#submit_step4_1').click(function() {
         $('#step4_1').slideUp(300);
         $('#step5').slideDown(300);
-        $( "#label_step_5" ).addClass( "active" );
-        $( "#label_step_4" ).removeClass( "active" );
-        return false;
+        $('.active').removeClass('active');
+        $('#label_step_5').addClass('active');
+        disableSubmit();
     });
     $('#previous_step4').click(function() {
-        $( "#label_step_3" ).addClass( "active" );
-        $( "#label_step_4" ).removeClass( "active" );
+        $('.active').removeClass('active');
+        $('#label_step_3').addClass('active');
         $('#step3').slideDown(300);
         $('#step4_1').slideUp(100);
-        return false;
+        disableSubmit();
+    });
+
+    //here
+    // simulate click on hidden input type file
+    $(income_location_btn).click(function() {
+        $(incomesource_input).click();
+    });
+    $(incomesource_input).on('change', function(){
+        var value_outcomesource_input = $(outcomesource_input).val();
+        var value_incomesource_input = this.value;
+        if (value_outcomesource_input != '' && value_incomesource_input != ''){
+            enableSubmit();
+        }
+    });
+
+    // simulate click on hidden input type file
+    $(outcome_location_btn).click(function() {
+        $(outcomesource_input).click();
+    });
+    $(outcomesource_input).on('change', function(){
+        var value_outcomesource_input = this.value;
+        var value_incomesource_input = $(incomesource_input).val();
+        if (value_outcomesource_input != '' && value_incomesource_input != ''){
+            enableSubmit();
+        }
     });
 
     $('#submit_step5').click(function() {
@@ -147,32 +273,33 @@ $(document).ready(function() {
         setTimeout(function() {
             $('#step5').slideUp(300);
             $('#step6').slideDown(300);
-            $( "#label_step_6" ).addClass( "active" );
-            $( "#label_step_5" ).removeClass( "active" );
+            $('.active').removeClass('active');
+            $('#label_step_6').addClass('active');
             hideLoader();
         }, 3000);
-        return false;
     });
     $('#previous_step5').click(function() {
-        $( "#label_step_4" ).addClass( "active" );
-        $( "#label_step_5" ).removeClass( "active" );
+        $('.active').removeClass('active');
+        $('#label_step_4').addClass('active');
         $('#step4').slideDown(300);
         $('#step5').slideUp(100);
-        return false;
+        disableSubmit();
     });
+
+    // transform step 6 to last step
     $('#submit_step6').click(function() {
         $('#step6').slideUp(300);
         $('#step7').slideDown(300);
-        $( "#label_step_7" ).addClass( "active" );
-        $( "#label_step_6" ).removeClass( "active" );
+        $('.active').removeClass('active');
+        $('#label_step_7').addClass('active');
         return false;
     });
 
     $('#start_new').click(function() {
         $('#step7').slideUp(300);
         $('#step2').slideDown(300);
-        $( "#label_step_2" ).addClass( "active" );
-        $( "#label_step_7" ).removeClass( "active" );
+        $('.active').removeClass('active');
+        $('#label_step_2').addClass('active');
         $(incomesource_input).val('');
         $(outcomesource_input).val('');
         $(xsdsource_input).val('');
@@ -183,122 +310,77 @@ $(document).ready(function() {
     $('#repeat').click(function() {
         $('#step7').slideUp(300);
         $('#step5').slideDown(300);
-        $( "#label_step_5" ).addClass( "active" );
-        $( "#label_step_7" ).removeClass( "active" );
+        $('.active').removeClass('active');
+        $('#label_step_5').addClass('active');
         $(incomesource_input).val('');
         $(outcomesource_input).val('');
         return false;
     });
 
 
-    // simulate click on hidden input type file
-    $(income_location_btn).click(function() {
-        $(incomesource_input).click();
-    });
+    //creating file with values
+    document.getElementById('submit_step5').onclick = function() {
+        var organization_select_to_file = organization_select.val();
+        var file_type_select_to_file = file_type_select.val();
+        var transformation_type_select_to_file = transformation_type_select.val();
+        var mapping_type_select_to_file = mapping_type_select.val();
+        var specific_mapping_input_google_to_file = specific_mapping_input_google.val();
+        var xsdsource_input_to_file = xsdsource_input.val();
+        var specific_mapping_input_to_file = specific_mapping_input.val();
+        var incomesource_input_to_file = incomesource_input.val();
+        var outcomesource_input_to_file = outcomesource_input.val();
+        this.href = 'data:text/plain;charset=utf-8,'
+          + encodeURIComponent(
+                "selected_organization: " + organization_select_to_file + " \r\n" +
+                "file_type: " + file_type_select_to_file + " \r\n" +
+                "transformation_type: " + transformation_type_select_to_file + " \r\n" +
+                "Mapping type: " + mapping_type_select_to_file + " \r\n" +
+                "Specific mapping not Google: " + specific_mapping_input_google_to_file + " \r\n" +
+                "XSD source if any: " + xsdsource_input_to_file + " \r\n" +
+                "Local mapping selected if any: " + specific_mapping_input_to_file + " \r\n" +
+                "Income source: " + incomesource_input_to_file + " \r\n" +
+                "Outcome source: " + outcomesource_input_to_file + " \r\n"
+            );
+    };
 
-    // simulate click on hidden input type file
-    $(outcome_location_btn).click(function() {
-        $(outcomesource_input).click();
-    });
-
-    // simulate click on hidden input type file
-    $(xsd_location_btn).click(function() {
-        $(xsdsource_input).click();
-    });
-
-
-    // simulate click on hidden input type file
-    $(mapping_location_btn).click(function() {
-        $(specific_mapping_input).click();
-    });
-
-
-    $(mapping_location_btn_google).click(function() {
-        $(specific_mapping_input_google).click();
-        $('#iframe_holder').slideUp(300);
-        $('#view_google').slideUp(300);
-    });
-
-
-    $('#incomesource').attr('webkitdirectory', '');
-    $('#outcomesource').attr('webkitdirectory', '');
+    $('#incomesource').attr('webkitdirectory','');
+    $('#outcomesource').attr('webkitdirectory','');
 
 
     $('#label_step_1').click(function() {
         $('.active').removeClass('active');
         $('#step1').slideDown(300);
-        $( "#label_step_1" ).addClass( "active" );
-        $('#step2').slideUp(100);
-        $('#step3').slideUp(100);
-        $('#step4').slideUp(100);
-        $('#step5').slideUp(100);
-        $('#step6').slideUp(100);
-        $('#step7').slideUp(100);
+        $(this).addClass('active');
+        $('#step2, #step3, #step4, #step5, #step6').slideUp(100);
     });
     $('#label_step_2').click(function() {
         $('.active').removeClass('active');
-        $( "#label_step_2" ).addClass( "active" );
+        $(this).addClass('active');
         $('#step2').slideDown(300);
-        $('#step1').slideUp(100);
-        $('#step3').slideUp(100);
-        $('#step4').slideUp(100);
-        $('#step5').slideUp(100);
-        $('#step6').slideUp(100);
-        $('#step7').slideUp(100);
+        $('#step1, #step3, #step4, #step5, #step6').slideUp(100);
     });
     $('#label_step_3').click(function() {
         $('.active').removeClass('active');
-        $( "#label_step_3" ).addClass( "active" );
+        $(this).addClass('active');
         $('#step3').slideDown(300);
-        $('#step1').slideUp(100);
-        $('#step2').slideUp(100);
-        $('#step4').slideUp(100);
-        $('#step5').slideUp(100);
-        $('#step6').slideUp(100);
-        $('#step7').slideUp(100);
+        $('#step1, #step2, #step4, #step5, #step6').slideUp(100);
     });
     $('#label_step_4').click(function() {
         $('.active').removeClass('active');
-        $( "#label_step_4" ).addClass( "active" );
+        $(this).addClass('active');
         $('#step4').slideDown(300);
-        $('#step1').slideUp(100);
-        $('#step2').slideUp(100);
-        $('#step3').slideUp(100);
-        $('#step5').slideUp(100);
-        $('#step6').slideUp(100);
-        $('#step7').slideUp(100);
+        $('#step1, #step2, #step3, #step5, #step6').slideUp(100);
     });
     $('#label_step_5').click(function() {
         $('.active').removeClass('active');
-        $( "#label_step_5" ).addClass( "active" );
+        $(this).addClass('active');
         $('#step5').slideDown(300);
-        $('#step1').slideUp(100);
-        $('#step2').slideUp(100);
-        $('#step3').slideUp(100);
-        $('#step4').slideUp(100);
-        $('#step6').slideUp(100);
-        $('#step7').slideUp(100);
+        $('#step1, #step2, #step3, #step4, #step6').slideUp(100);
     });
     $('#label_step_6').click(function() {
         $('.active').removeClass('active');
-        $( "#label_step_6" ).addClass( "active" );
+        $(this).addClass('active');
         $('#step6').slideDown(300);
-        $('#step1').slideUp(100);
-        $('#step2').slideUp(100);
-        $('#step3').slideUp(100);
-        $('#step4').slideUp(100);
-        $('#step5').slideUp(100);
-        $('#step7').slideUp(100);
-    });
-    $('#label_step_7').click(function() {
-        $('.active').removeClass('active');
-        $( "#label_step_7" ).addClass( "active" );
-        $('#step7').slideDown(300);
-        $('#step1').slideUp(100);
-        $('#step2').slideUp(100);
-        $('#step3').slideUp(100);
-        $('#step4').slideUp(100);
-        $('#step5').slideUp(100);
-        $('#step6').slideUp(100);
+        $('#step1, #step2, #step3, #step4, #step5').slideUp(100);
     });
 });

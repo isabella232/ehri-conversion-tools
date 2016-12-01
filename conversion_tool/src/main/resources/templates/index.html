@@ -36,6 +36,7 @@
 		   		</div>
 			</header><!-- /header -->
 			<div id="main">
+
 				<div class="loader">
 					<div class="bkg"></div>
 					<img class="loader_img" src="img/ot-loader.svg"/>
@@ -53,38 +54,38 @@
 	   					<span id="label_step_4">4</span>
 	   					<span id="label_step_5">5</span>
 	   					<span id="label_step_6">6</span>
-	   					<span id="label_step_7">7</span>
 	   					<hr class="line"/>
 	   					<div class="clearfix"></div>
 	   				</div>
 	   				<!-- /STEPS -->
 
 	   				<!-- STEP 1 -->
-	   				<form accept-charset="utf-8" id="step1">
+	   				<div id="step1">
 		   				<div class="input-holder source">
 				   			<label class="roodtext inputlabel">
 				   				Please select your <span class="font700">Organization</span>
 				   			</label>
-				   			<select name="organization">
-				   				<option value="ogranization_id">Organization 1</option>
-				   				<option value="ogranization_id">Organization 2</option>
-				   				<option value="ogranization_id">Organization 3</option>
-				   				<option value="ogranization_id">Organization 4</option>
-				   				<option value="ogranization_id">Organization 5</option>
-				   				<option value="ogranization_id">Organization 6</option>
-				   				<option value="ogranization_id">Organization 7</option>
-				   				<option value="ogranization_id">Organization 8</option>
-				   				<option value="ogranization_id">Organization 9</option>
-				   				<option value="ogranization_id">Organization 10</option>
+				   			<select name="organization" id="organization">
+	   							<option value="">Please select</option>
+				   				<option value="1">Organization 1</option>
+				   				<option value="2">Organization 2</option>
+				   				<option value="3">Organization 3</option>
+				   				<option value="4">Organization 4</option>
+				   				<option value="5">Organization 5</option>
+				   				<option value="6">Organization 6</option>
+				   				<option value="7">Organization 7</option>
+				   				<option value="8">Organization 8</option>
+				   				<option value="9">Organization 9</option>
+				   				<option value="10">Organization 10</option>
 				   				<option value="no_organization">Other</option>
 				   			</select>
 		   				</div>
-		   				<button type="submit" class="btn pull-right" id="submit_step1">Next step</button>
-	   				</form>
+		   				<button class="btn pull-right submit" id="submit_step1">Next step</button>
+	   				</div>
 	   				<!-- /STEP 1 -->
 
 	   				<!-- STEP 2 -->
-	   				<form accept-charset="utf-8" id="step2">
+	   				<div id="step2">
 		   				<div class="input-holder source">
 				   			<label class="roodtext inputlabel">
 				   				Please select your files <span class="font700">INPUT FORMAT</span>
@@ -97,16 +98,16 @@
 				   				<option value="xml_ead">XML-EAD 1</option>
 				   			</select>
 		   				</div>
-		   				<button type="submit" class="btn pull-left" id="previous_step2">Previous step</button>
-		   				<button type="submit" class="btn pull-right" id="submit_step2">Next step</button>
-	   				</form>
+		   				<button class="btn pull-left" id="previous_step2">Previous step</button>
+		   				<button class="btn pull-right submit" id="submit_step2">Next step</button>
+	   				</div>
 	   				<!-- /STEP 2 -->
 
 	   				<!-- STEP 2.1 CASE XML-EAD-2001 -->
-	   				<form accept-charset="utf-8" id="step2_1">
+	   				<div id="step2_1">
 		   				<div class="input-holder source">
 				   			<label class="roodtext inputlabel">
-				   				Select transform to <span class="font700"> Mapping OR EAD 2001</span>
+				   				Select transform to <span class="font700">Mapping</span> or <span class="font700">EAD 2001</span>
 				   			</label>
 				   			<select name="transformation_type" id="transformation_type">
 				   				<option value="">Please select</option>
@@ -114,30 +115,30 @@
 				   				<option value="ead_2">EAD 2001</option>
 				   			</select>
 		   				</div>
-		   				<button type="submit" class="btn pull-left" id="previous_step2_1">Previous step</button>
-		   				<button type="submit" class="btn pull-right" id="submit_step2_1">Next step</button>
-	   				</form>
+		   				<button class="btn pull-left" id="previous_step2_1">Previous step</button>
+		   				<button class="btn pull-right submit" id="submit_step2_1">Next step</button>
+	   				</div>
 	   				<!-- /STEP 2.1 -->
 
 	   				<!-- STEP 3 -->
-	   				<form accept-charset="utf-8" id="step3">
+	   				<div id="step3">
 		   				<div class="input-holder source">
 				   			<label class="roodtext inputlabel">
-				   				Please select type of <span class="font700">Transformation</span>
+				   				Select type of <span class="font700">Transformation</span>
 				   			</label>
 				   			<select name="mapping_type" id="mapping_type">
 				   				<option value="">Please select</option>
-				   				<option value="generic">generic</option>
-				   				<option value="specific">specific</option>
+				   				<option value="generic">Generic Transformation</option>
+				   				<option value="specific">Specific Transformation</option>
 				   			</select>
 		   				</div>
-		   				<button type="submit" class="btn pull-left" id="previous_step3">Previous step</button>
-		   				<button type="submit" class="btn pull-right" id="submit_step3">Next step</button>
-	   				</form>
+		   				<button class="btn pull-left" id="previous_step3">Previous step</button>
+		   				<button class="btn pull-right submit" id="submit_step3">Next step</button>
+	   				</div>
 	   				<!-- /STEP 3 -->
 
 	   				<!-- STEP 4 CASE GENERIC-->
-	   				<form accept-charset="utf-8" id="step4">
+	   				<div id="step4">
 		   				<div class="input-holder source">
 				   			<div class="input-holder google">
 				   				<a class="btn pull-right" href="https://docs.google.com/spreadsheets/d/1EvUiDcgpAoI6mNt6rjZmUee7Sn4-I84AQ-KZb6wBvIg/edit#gid=602396563" id="view_google" target="_blank">VIEW Google speadsheet</a>
@@ -156,12 +157,12 @@
 				   			<input type="file" name="" value="" class="inputform file" id="specific_mapping_google"/>
 				   		</div>
 				   		<button type="submit" class="btn pull-left" id="previous_step4">Previous step</button>
-		   				<button type="submit" class="btn pull-right" id="submit_step4">Next step</button>
-	   				</form>
+		   				<button type="submit" class="btn pull-right submit" id="submit_step4">Next step</button>
+	   				</div>
 	   				<!-- /STEP 4 -->
 
 	   				<!-- STEP 4.1 CASE SPECIFIC-->
-	   				<form accept-charset="utf-8" id="step4_1">
+	   				<div id="step4_1">
 			   			<div class="input-holder specific">
 				   			<label class="roodtext inputlabel">
 				   				Select <span class="font700">XSD File</span>
@@ -176,13 +177,13 @@
 				   			<a href="#" class="btn pull-right" id="mapping_location_btn">Select Mapping</a>
 				   			<input type="file" name="" value="" class="inputform file" id="specific_mapping"/>
 				   		</div>
-				   		<button type="submit" class="btn pull-left" id="previous_step4_1">Previous step</button>
-		   				<button type="submit" class="btn pull-right" id="submit_step4_1">Next step</button>
-	   				</form>
+				   		<button class="btn pull-left" id="previous_step4_1">Previous step</button>
+		   				<button class="btn pull-right submit" id="submit_step4_1">Next step</button>
+	   				</div>
 	   				<!-- /STEP 4.1 -->
 
 	   				<!-- STEP 5 -->
-	   				<form accept-charset="utf-8" id="step5">
+	   				<div id="step5">
 			   			<div class="input-holder local">
 				   			<label class="roodtext inputlabel">
 				   				Income <span class="font700">Source</span>
@@ -197,15 +198,19 @@
 				   			<a href="#" class="btn pull-right" id="outcome_location_btn">Select location</a>
 				   			<input type="file" name="" value="" class="inputform file" id="outcomesource"/>
 				   		</div>
-				   		<button type="submit" class="btn pull-left" id="previous_step5">Previous step</button>
-		   				<button type="submit" class="btn pull-right" id="submit_step5">Next step</button>
-	   				</form>
+
+				   		<button class="btn pull-left" id="previous_step5" >Previous step</button>
+		   				<a class="btn pull-right submit" id="submit_step5" href="#" download="values.txt">Next step</a>
+	   				</div>
 	   				<!-- /STEP 5 -->
 
 	   				<!-- STEP 6 -->
-	   				<form accept-charset="utf-8" id="step6">
+	   				<div id="step6">
+				   		<div class="success_notes">
+				   			<p>Data was transformed Successfully!</p>
+				   		</div>
 			   			<p>From <span class="roodtext font700">X</span> files we created <span class="roodtext font700">N</span> that are <span class="roodtext font700">VALID</span> and <span class="roodtext font700">Y</span> are with errors.</p>
-			   			<p>Please take a look at the table below to find yout the reason for the errors</p>
+			   			<p>Please take a look at the table below to find out the reason for the errors</p>
 			   			<table>
 			   				<caption>Report for errors</caption>
 			   				<thead>
@@ -221,20 +226,11 @@
 			   					</tr>
 			   				</tbody>
 			   			</table>
-		   				<button type="submit" class="btn pull-right" id="submit_step6">Next step</button>
-	   				</form>
-	   				<!-- /STEP 6 -->
-
-	   				<!-- STEP 7-->
-	   				<form accept-charset="utf-8" id="step7">
-				   		<div class="success_notes">
-				   			<p>Data was transformed Successfully!</p>
-				   		</div>
 		   				<button type="submit" class="btn pull-right" id="start_new">Start new transformation</button>
 		   				<button type="submit" class="btn pull-right" id="repeat">Repeat transformation</button>
+	   				</div>
+	   				<!-- /STEP 6 -->
 
-	   				</form>
-	   				<!-- /STEP 7 -->
 
 	   			</div>
 	   		</div>

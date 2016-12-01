@@ -157,9 +157,9 @@ $(document).ready(function() {
             $('#step3').slideUp(300);
             $('#step4_1').slideDown(300);
         }
-        disableSubmit();
         $('.active').removeClass('active');
         $('#label_step_4').addClass('active');
+        event.preventDefault();
     });
 
     $('#previous_step3').click(function() {
@@ -331,15 +331,15 @@ $(document).ready(function() {
         var outcomesource_input_to_file = outcomesource_input.val();
         this.href = 'data:text/plain;charset=utf-8,'
           + encodeURIComponent(
-                "selected_organization: " + organization_select_to_file + " \r\n" +
-                "file_type: " + file_type_select_to_file + " \r\n" +
-                "transformation_type: " + transformation_type_select_to_file + " \r\n" +
-                "Mapping type: " + mapping_type_select_to_file + " \r\n" +
-                "Specific mapping not Google: " + specific_mapping_input_google_to_file + " \r\n" +
-                "XSD source if any: " + xsdsource_input_to_file + " \r\n" +
-                "Local mapping selected if any: " + specific_mapping_input_to_file + " \r\n" +
-                "Income source: " + incomesource_input_to_file + " \r\n" +
-                "Outcome source: " + outcomesource_input_to_file + " \r\n"
+                "selectedOrganization " + organization_select_to_file + " \r\n" +
+                "fileType " + file_type_select_to_file + " \r\n" +
+                "transformationType " + transformation_type_select_to_file + " \r\n" +
+                "mappingTypeGeneric " + mapping_type_select_to_file + " \r\n" +
+                "specificMapping " + specific_mapping_input_google_to_file + " \r\n" +
+                "xsdSource " + xsdsource_input_to_file + " \r\n" +
+                "localMapping " + specific_mapping_input_to_file + " \r\n" +
+                "incomeSource " + incomesource_input_to_file + " \r\n" +
+                "outcomeSource " + outcomesource_input_to_file + " \r\n"
             );
     };
 

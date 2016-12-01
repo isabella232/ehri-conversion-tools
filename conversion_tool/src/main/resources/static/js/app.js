@@ -1,31 +1,33 @@
 $(document).ready(function() {
 
     //1. GLOBAL VARS
-    var submit_buttons                  = $('.submit');
-    var loader                          = $('.loader');
-    var loader_img                      = $('.loader_img');
-    
+    var submit_buttons = $('.submit');
+    var loader = $('.loader');
+    var loader_img = $('.loader_img');
+
     // dorpdowns
-    var organization_select             = $('#organization');
-    var file_type_select                = $('#file_type');
-    var transformation_type_select      = $('#transformation_type');
-    var mapping_type_select             = $('#mapping_type');
+    var organization_select = $('#organization');
+    var file_type_select = $('#file_type');
+    var transformation_type_select = $('#transformation_type');
+    var mapping_type_select = $('#mapping_type');
 
     // file selects
-    var specific_mapping_input_google   = $('#specific_mapping_google');
-    var xsdsource_input                 = $('#xsdsource');
-    var specific_mapping_input          = $('#specific_mapping');
-    var incomesource_input              = $('#incomesource');
-    var outcomesource_input             = $('#outcomesource')
+    var specific_mapping_input_google = $('#specific_mapping_google');
+    var xsdsource_input = $('#xsdsource');
+    var specific_mapping_input = $('#specific_mapping');
+    var incomesource_input = $('#incomesource');
+    var outcomesource_input = $('#outcomesource')
 
 
     //buttons
-    var mapping_location_btn_google     = $('#mapping_location_btn_google');
-    var xsd_location_btn                = $('#xsd_location_btn');
-    var mapping_location_btn            = $('#mapping_location_btn');
-    var income_location_btn             = $('#income_location_btn');
-    var outcome_location_btn            = $('#outcome_location_btn');
+    var mapping_location_btn_google = $('#mapping_location_btn_google');
+    var xsd_location_btn = $('#xsd_location_btn');
+    var mapping_location_btn = $('#mapping_location_btn');
+    var income_location_btn = $('#income_location_btn');
+    var outcome_location_btn = $('#outcome_location_btn');
 
+
+    // Common functions
     function disableSubmit() {
         $(submit_buttons).prop('disabled', true);
     }
@@ -39,11 +41,11 @@ $(document).ready(function() {
         var main_height = $('#main-inner').innerHeight();
         var img_margin = (main_height / 2) - 50;
         $(loader).css({
-           'height': main_height +'px'
+            'height': main_height + 'px'
         });
         // centering the loader gif
         $(loader_img).css({
-           'margin-top': img_margin +'px'
+            'margin-top': img_margin + 'px'
         });
         $(loader).show();
     }
@@ -59,7 +61,7 @@ $(document).ready(function() {
     // Enable submit button
     $(organization_select).on('change', function() {
         var value_organization = this.value;
-        if(value_organization != ''){
+        if (value_organization != '') {
             enableSubmit();
         }
     });
@@ -76,13 +78,13 @@ $(document).ready(function() {
     // Enable submit button
     $(file_type_select).on('change', function() {
         var value_file_type = this.value;
-        if (value_file_type != ''){
+        if (value_file_type != '') {
             enableSubmit();
         }
     });
     $('#submit_step2').click(function() {
         $('#step2').slideUp(300)
-        if ($('#file_type').val() === 'xml_ead'){
+        if ($('#file_type').val() === 'xml_ead') {
             $('#step2_1').slideDown(300);
             disableSubmit();
         } else {;
@@ -102,23 +104,23 @@ $(document).ready(function() {
         disableSubmit();
     });
 
-    
+
     // Check if file type is selected on change
     // Enable submit button
     $(transformation_type_select).on('change', function() {
         var value_transformation_type_select = this.value;
-        if (value_transformation_type_select != ''){
+        if (value_transformation_type_select != '') {
             enableSubmit();
         }
     });
 
     $('#submit_step2_1').click(function() {
         $('#step2_1').slideUp(300)
-        if ($('#transformation_type').val() === 'ead_2'){
+        if ($('#transformation_type').val() === 'ead_2') {
             $('#step5').slideDown(300);
             $('.active').removeClass('active');
             $('#label_step_5').addClass('active');
-        } else if ($('#transformation_type').val() ==='mapping'){
+        } else if ($('#transformation_type').val() === 'mapping') {
             $('#step3').slideDown(300);
             $('.active').removeClass('active');
             $('#label_step_3').addClass('active');
@@ -136,13 +138,13 @@ $(document).ready(function() {
 
     $(mapping_type_select).on('change', function() {
         var value_mapping_type_select = this.value;
-        if (value_mapping_type_select != ''){
+        if (value_mapping_type_select != '') {
             enableSubmit();
         }
     });
 
-    $('#submit_step3').click(function() {        
-        if($('#mapping_type').val() ==='generic'){
+    $('#submit_step3').click(function() {
+        if ($('#mapping_type').val() === 'generic') {
             //add links from file that we will read if online
             if (navigator.onLine) {
                 $('#step3').slideUp(300);
@@ -153,7 +155,7 @@ $(document).ready(function() {
                 $('#view_google').hide();
                 $('#iframe_holder').hide();
             }
-        } else if ($('#mapping_type').val() ==='specific'){
+        } else if ($('#mapping_type').val() === 'specific') {
             $('#step3').slideUp(300);
             $('#step4_1').slideDown(300);
         }
@@ -179,14 +181,14 @@ $(document).ready(function() {
         $('#iframe_holder').slideUp(300);
         $('#view_google').slideUp(300);
     });
-    $(specific_mapping_input_google).click(function () {
+    $(specific_mapping_input_google).click(function() {
         $('#iframe_holder').slideUp(300);
         $('#view_google').slideUp(300);
     })
 
-    $(specific_mapping_input_google).on('change', function(){
+    $(specific_mapping_input_google).on('change', function() {
         var value_specifi_mapping_input_google = this.value;
-        if (value_specifi_mapping_input_google != ''){
+        if (value_specifi_mapping_input_google != '') {
             enableSubmit();
         }
     });
@@ -210,20 +212,20 @@ $(document).ready(function() {
     $(xsd_location_btn).click(function() {
         $(xsdsource_input).click();
     });
-    $(xsdsource_input).on('change', function(){
+    $(xsdsource_input).on('change', function() {
         var value_specific_mapping_input = $(specific_mapping_input).val();
         var value_xsdsource_input = this.value;
-        if (value_xsdsource_input != '' && value_specific_mapping_input != ''){
+        if (value_xsdsource_input != '' && value_specific_mapping_input != '') {
             enableSubmit();
         }
     });
     $(mapping_location_btn).click(function() {
         $(specific_mapping_input).click();
     });
-    $(specific_mapping_input).on('change', function(){
+    $(specific_mapping_input).on('change', function() {
         var value_specific_mapping_input = this.value;
         var value_xsdsource_input = $(xsdsource_input).val();
-        if (value_xsdsource_input != '' && value_specific_mapping_input != ''){
+        if (value_xsdsource_input != '' && value_specific_mapping_input != '') {
             enableSubmit();
         }
     });
@@ -248,10 +250,10 @@ $(document).ready(function() {
     $(income_location_btn).click(function() {
         $(incomesource_input).click();
     });
-    $(incomesource_input).on('change', function(){
+    $(incomesource_input).on('change', function() {
         var value_outcomesource_input = $(outcomesource_input).val();
         var value_incomesource_input = this.value;
-        if (value_outcomesource_input != '' && value_incomesource_input != ''){
+        if (value_outcomesource_input != '' && value_incomesource_input != '') {
             enableSubmit();
         }
     });
@@ -260,10 +262,10 @@ $(document).ready(function() {
     $(outcome_location_btn).click(function() {
         $(outcomesource_input).click();
     });
-    $(outcomesource_input).on('change', function(){
+    $(outcomesource_input).on('change', function() {
         var value_outcomesource_input = this.value;
         var value_incomesource_input = $(incomesource_input).val();
-        if (value_outcomesource_input != '' && value_incomesource_input != ''){
+        if (value_outcomesource_input != '' && value_incomesource_input != '') {
             enableSubmit();
         }
     });
@@ -329,22 +331,21 @@ $(document).ready(function() {
         var specific_mapping_input_to_file = specific_mapping_input.val();
         var incomesource_input_to_file = incomesource_input.val();
         var outcomesource_input_to_file = outcomesource_input.val();
-        this.href = 'data:text/plain;charset=utf-8,'
-          + encodeURIComponent(
-                "selectedOrganization " + organization_select_to_file + " \r\n" +
-                "fileType " + file_type_select_to_file + " \r\n" +
-                "transformationType " + transformation_type_select_to_file + " \r\n" +
-                "mappingTypeGeneric " + mapping_type_select_to_file + " \r\n" +
-                "specificMapping " + specific_mapping_input_google_to_file + " \r\n" +
-                "xsdSource " + xsdsource_input_to_file + " \r\n" +
-                "localMapping " + specific_mapping_input_to_file + " \r\n" +
-                "incomeSource " + incomesource_input_to_file + " \r\n" +
-                "outcomeSource " + outcomesource_input_to_file + " \r\n"
-            );
+        this.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(
+            "selectedOrganization " + organization_select_to_file + " \r\n" +
+            "fileType " + file_type_select_to_file + " \r\n" +
+            "transformationType " + transformation_type_select_to_file + " \r\n" +
+            "mappingTypeGeneric " + mapping_type_select_to_file + " \r\n" +
+            "specificMapping " + specific_mapping_input_google_to_file + " \r\n" +
+            "xsdSource " + xsdsource_input_to_file + " \r\n" +
+            "localMapping " + specific_mapping_input_to_file + " \r\n" +
+            "incomeSource " + incomesource_input_to_file + " \r\n" +
+            "outcomeSource " + outcomesource_input_to_file + " \r\n"
+        );
     };
 
-    $('#incomesource').attr('webkitdirectory','');
-    $('#outcomesource').attr('webkitdirectory','');
+    $('#incomesource').attr('webkitdirectory', '');
+    $('#outcomesource').attr('webkitdirectory', '');
 
 
     $('#label_step_1').click(function() {

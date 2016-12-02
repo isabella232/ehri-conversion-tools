@@ -1,30 +1,17 @@
-/*
-** FILE STRUCTURE
-** General styles
-** Page and header
-** Main content and form 
-*/
-
-
 /* General styles */
-
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
 * {
     box-sizing: border-box;
 }
-
 .font300 {
     font-weight: 400 !important;
 }
-
 .font700 {
     font-weight: 700 !important;
 }
-
 .roodtext {
     color: #83004c !important;
 }
-
 html {
     font-family: 'Roboto', sans-serif;
     font-size: 100%;
@@ -32,30 +19,25 @@ html {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
 }
-
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
     font-style: normal;
 }
-
 body {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-style: normal;
     margin: 0;
 }
-
 iframe {
     width: 1091px;
     height: 460px;
     border: 1px solid #909090;
 }
-
 .clearfix {
     clear: both;
 }
-
 .loader {
     position: absolute;
     z-index: 1000;
@@ -65,25 +47,21 @@ iframe {
     margin: 0 auto;
     text-align: center;
 }
-
 .loader img {
     position: absolute;
     top: 0;
     left: 46%;
     width: 100px;
 }
-
 .loader .bkg {
     width: 100%;
     height: 100%;
     opacity: .6;
     background: #000;
 }
-
 .loader_img {
     line-height: 150px;
 }
-
 .btn.active, .btn:hover, .btn:focus {
     font-size: 16px;
     text-decoration: none;
@@ -92,12 +70,10 @@ iframe {
     outline: none;
     background: #6f003b;
 }
-
 .btn:disabled {
     cursor: not-allowed;
     color: #9e9e9e;
 }
-
 table {
     font-size: 16px;
     line-height: 40px;
@@ -107,16 +83,13 @@ table {
     text-align: center;
     border: 1px solid #909090;
 }
-
 table th {
     color: #83004c;
     background: #999;
 }
-
 table tr:nth-child(odd) td {
     background: #cdcfd1;
 }
-
 .btn.active:hover, .btn {
     font-size: 16px;
     font-weight: bold;
@@ -128,15 +101,12 @@ table tr:nth-child(odd) td {
     border: none;
     background: transparent;
 }
-
 .pull-right {
     float: right;
 }
-
 .pull-left {
     float: left;
 }
-
 select {
     font-weight: 600;
     width: 450px;
@@ -145,13 +115,8 @@ select {
     color: #83004c;
     border-radius: 6px;
 }
-
-
 /* /General styles */
-
-
 /* Page and header */
-
 #page {
     margin-top: 322px;
     margin-right: auto;
@@ -164,7 +129,6 @@ select {
     background-position: left 42px;
     background-size: 980px 100%;
 }
-
 header {
     position: absolute;
     top: 0;
@@ -179,20 +143,16 @@ header {
     word-wrap: break-word;
     -ms-box-sizing: border-box;
 }
-
 header, #main, #footer {
     width: 1260px;
     margin: 0 auto;
 }
-
 menu, ol, ul {
     padding: 0 0 0 30px;
 }
-
 h1#logo {
     margin: 0;
 }
-
 h1#logo a {
     display: block;
     display: block;
@@ -208,11 +168,9 @@ h1#logo a {
     background-position: center;
     background-size: 90%;
 }
-
 .block-menu ul.menu {
     margin: 0;
 }
-
 .submenu ul li {
     display: inline-block;
     float: none;
@@ -225,11 +183,9 @@ h1#logo a {
     background-color: transparent;
     background-image: none;
 }
-
 ul.menu {
     padding: 0;
 }
-
 #navigation .block-menu {
     position: relative;
     float: left;
@@ -237,7 +193,6 @@ ul.menu {
     height: 42px;
     border-left: 1px solid #fff;
 }
-
 #navigation .block-menu > ul {
     font-size: 14px;
     font-weight: bold;
@@ -247,12 +202,10 @@ ul.menu {
     left: 0;
     width: 100%;
 }
-
 #navigation .block-menu a {
     font-weight: bold;
     text-decoration: none;
 }
-
 #navigation .block-menu.submenu > ul > li.last {
     line-height: 42px;
     width: 100%;
@@ -260,7 +213,6 @@ ul.menu {
     margin-top: 14px;
     padding: 0;
 }
-
 #navigation .block-menu a.menubalk {
     display: block;
     box-sizing: border-box;
@@ -271,12 +223,10 @@ ul.menu {
     color: #fff;
     background-color: #83004c;
 }
-
 #navigation .block-menu a:hover {
     text-decoration: underline;
     color: #bdbdbd;
 }
-
 #navigation {
     position: absolute;
     z-index: 1;
@@ -289,24 +239,20 @@ ul.menu {
     height: 364px;
     background-color: #83004c;
 }
-
 .view-header-image {
     width: 910px;
     height: 322px;
 }
-
 .view-header-image img {
     width: 100%;
     max-width: 100%;
     height: auto;
 }
-
 #main-inner {
     overflow: hidden;
     padding: 28px 84px 28px 84px;
     background-color: #ecedee;
 }
-
 .funding a.eu {
     display: inline-block;
     float: none;
@@ -322,7 +268,6 @@ ul.menu {
     background-position: center;
     background-size: 100% auto;
 }
-
 .funding a.ot {
     display: inline-block;
     float: none;
@@ -334,17 +279,13 @@ ul.menu {
     background-image: url(../img/logo.png);
     filter: drop-shadow(0px 1px 1px #fff);
 }
-
-
 /* /Page and header */
 
 
 /* Main content and form */
-
 #main-inner h1 {
     font-size: 48px;
 }
-
 .inputlabel {
     font-size: 24px;
     line-height: 36px;
@@ -352,7 +293,6 @@ ul.menu {
     width: 440px;
     vertical-align: middle;
 }
-
 .inputform {
     font-size: 16px;
     line-height: 30px;
@@ -365,7 +305,6 @@ ul.menu {
     border: 1px solid #6f003b;
     background-color: #fff;
 }
-
 .inputform.file {
     line-height: 22px;
     display: inline-block !important;
@@ -379,23 +318,18 @@ ul.menu {
     border: 1px solid #6f003b;
     background-color: #fff;
 }
-
 #iframe_holder, .input-holder {
     margin-bottom: 30px;
 }
-
 .radio-holder {
     display: inline-block;
 }
-
 .radio-label {
     cursor: pointer;
 }
-
 #incomesource, #outcomesource, #localfilesource, #xsdsource, #specific_mapping, #google_link {
     display: none;
 }
-
 .success_notes p {
     font-size: 24px;
     padding: 6px 0;
@@ -403,23 +337,18 @@ ul.menu {
     color: #fff;
     background-color: #83004c !important;
 }
-
 .success_notes .btn.last {
     margin-right: 10px;
 }
-
-
 /* /Main content and form */
 
 
 /* steps */
-
 .steps-form-holder {
     position: relative;
     margin-bottom: 30px;
 }
-
-.steps-form-holder span {
+.steps-form-holder .step_label {
     line-height: 20px;
     position: relative;
     z-index: 10;
@@ -433,14 +362,12 @@ ul.menu {
     border-radius: 50%;
     background-color: #83004c;
 }
-
 .step_label {
     -webkit-transition: all .5s ease;
     -moz-transition: all .5s ease;
     -o-transition: all .5s ease;
     transition: all .5s ease;
 }
-
 .steps-form-holder span.active {
     line-height: 30px;
     top: -5px;
@@ -450,11 +377,9 @@ ul.menu {
     padding: 15px 25px;
     background-color: #36104f;
 }
-
 .steps-form-holder span:hover {
     cursor: pointer;
 }
-
 .steps-form-holder .line {
     position: absolute;
     z-index: 0;
@@ -463,18 +388,13 @@ ul.menu {
     width: 100%;
     border-width: 3px;
 }
-
 .step.active {
     display: block;
 }
-
 .step {
     display: none;
 }
-
-
 /* /steps */
-
 .region-footer {
     text-align: center;
 }

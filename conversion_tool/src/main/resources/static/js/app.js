@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    //1. GLOBAL VARS
+    //GLOBAL VARS
     var submit_buttons = $('.submit');
     var loader = $('.loader');
     var loader_img = $('.loader_img');
@@ -18,14 +18,12 @@ $(document).ready(function() {
     var incomesource_input = $('#incomesource');
     var outcomesource_input = $('#outcomesource')
 
-
     //buttons
     var mapping_location_btn_google = $('#mapping_location_btn_google');
     var xsd_location_btn = $('#xsd_location_btn');
     var mapping_location_btn = $('#mapping_location_btn');
     var income_location_btn = $('#income_location_btn');
     var outcome_location_btn = $('#outcome_location_btn');
-
 
     // Common functions
     function disableSubmit() {
@@ -82,6 +80,7 @@ $(document).ready(function() {
             enableSubmit();
         }
     });
+
     $('#submit_step2').click(function() {
         $('#step2').slideUp(300)
         if ($('#file_type').val() === 'xml_ead') {
@@ -127,6 +126,7 @@ $(document).ready(function() {
         }
         disableSubmit();
     });
+
     $('#previous_step2_1').click(function() {
         $('.active').removeClass('active');
         $('#label_step_1').addClass('active');
@@ -172,15 +172,13 @@ $(document).ready(function() {
         disableSubmit();
     });
 
-
     // simulate click on input type file
-
-
     $(mapping_location_btn_google).click(function() {
         $(specific_mapping_input_google).click();
         $('#iframe_holder').slideUp(300);
         $('#view_google').slideUp(300);
     });
+
     $(specific_mapping_input_google).click(function() {
         $('#iframe_holder').slideUp(300);
         $('#view_google').slideUp(300);
@@ -200,6 +198,7 @@ $(document).ready(function() {
         $('#label_step_5').addClass('active');
         disableSubmit();
     });
+
     $('#previous_step4').click(function() {
         $('.active').removeClass('active');
         $('#label_step_3').addClass('active');
@@ -212,6 +211,7 @@ $(document).ready(function() {
     $(xsd_location_btn).click(function() {
         $(xsdsource_input).click();
     });
+
     $(xsdsource_input).on('change', function() {
         var value_specific_mapping_input = $(specific_mapping_input).val();
         var value_xsdsource_input = this.value;
@@ -219,9 +219,11 @@ $(document).ready(function() {
             enableSubmit();
         }
     });
+
     $(mapping_location_btn).click(function() {
         $(specific_mapping_input).click();
     });
+
     $(specific_mapping_input).on('change', function() {
         var value_specific_mapping_input = this.value;
         var value_xsdsource_input = $(xsdsource_input).val();
@@ -237,6 +239,7 @@ $(document).ready(function() {
         $('#label_step_5').addClass('active');
         disableSubmit();
     });
+
     $('#previous_step4').click(function() {
         $('.active').removeClass('active');
         $('#label_step_3').addClass('active');
@@ -250,6 +253,7 @@ $(document).ready(function() {
     $(income_location_btn).click(function() {
         $(incomesource_input).click();
     });
+
     $(incomesource_input).on('change', function() {
         var value_outcomesource_input = $(outcomesource_input).val();
         var value_incomesource_input = this.value;
@@ -262,6 +266,7 @@ $(document).ready(function() {
     $(outcome_location_btn).click(function() {
         $(outcomesource_input).click();
     });
+
     $(outcomesource_input).on('change', function() {
         var value_outcomesource_input = this.value;
         var value_incomesource_input = $(incomesource_input).val();
@@ -280,6 +285,7 @@ $(document).ready(function() {
             hideLoader();
         }, 3000);
     });
+
     $('#previous_step5').click(function() {
         $('.active').removeClass('active');
         $('#label_step_4').addClass('active');
@@ -309,6 +315,7 @@ $(document).ready(function() {
         $(specific_mapping_input_google).val('');
         return false;
     });
+
     $('#repeat').click(function() {
         $('#step7').slideUp(300);
         $('#step5').slideDown(300);
@@ -318,7 +325,6 @@ $(document).ready(function() {
         $(outcomesource_input).val('');
         return false;
     });
-
 
     //creating file with values
     document.getElementById('submit_step5').onclick = function() {
@@ -347,37 +353,41 @@ $(document).ready(function() {
     $('#incomesource').attr('webkitdirectory', '');
     $('#outcomesource').attr('webkitdirectory', '');
 
-
     $('#label_step_1').click(function() {
         $('.active').removeClass('active');
         $('#step1').slideDown(300);
         $(this).addClass('active');
         $('#step2, #step3, #step4, #step5, #step6').slideUp(100);
     });
+
     $('#label_step_2').click(function() {
         $('.active').removeClass('active');
         $(this).addClass('active');
         $('#step2').slideDown(300);
         $('#step1, #step3, #step4, #step5, #step6').slideUp(100);
     });
+
     $('#label_step_3').click(function() {
         $('.active').removeClass('active');
         $(this).addClass('active');
         $('#step3').slideDown(300);
         $('#step1, #step2, #step4, #step5, #step6').slideUp(100);
     });
+
     $('#label_step_4').click(function() {
         $('.active').removeClass('active');
         $(this).addClass('active');
         $('#step4').slideDown(300);
         $('#step1, #step2, #step3, #step5, #step6').slideUp(100);
     });
+
     $('#label_step_5').click(function() {
         $('.active').removeClass('active');
         $(this).addClass('active');
         $('#step5').slideDown(300);
         $('#step1, #step2, #step3, #step4, #step6').slideUp(100);
     });
+
     $('#label_step_6').click(function() {
         $('.active').removeClass('active');
         $(this).addClass('active');

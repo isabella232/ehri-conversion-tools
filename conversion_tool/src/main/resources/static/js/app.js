@@ -5,7 +5,7 @@ $(document).ready(function() {
     var loader = $('.loader');
     var loader_img = $('.loader_img');
 
-    // dorpdowns
+    // dorpdowns   
     var organization_select = $('#organization');
     var file_type_select = $('#file_type');
     var transformation_type_select = $('#transformation_type');

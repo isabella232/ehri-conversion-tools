@@ -1,9 +1,10 @@
 package com.ontotext.ehri.controllers;
 
 import com.ontotext.ehri.model.TransformationModel;
+import com.ontotext.ehri.services.TransformationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by Boyan on 23-Nov-16.
@@ -13,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = "/rest")
 public class RestController {
 
+    @Autowired
+    private TransformationService service;
+
     @RequestMapping(value = "/process", method = RequestMethod.GET)
     public String transform(TransformationModel transformationModel){
-
+        service.transform(transformationModel);
         return "Your files are annotated successfully!";
     }
 

@@ -57,7 +57,12 @@ public class TransformationService {
 
         } else {
             LOGGER.info("performing custom transformation");
-            LOGGER.warn("NOT IMPLEMENTED YET");
+
+            try {
+                XqueryTransformations.transform(model.getXquery(), namespaces, structPath, null, model.getInputDir(), model.getOutputDir());
+            } catch (IOException | QueryException e) {
+                LOGGER.error("exception while performing custom transformation", e);
+            }
         }
 
         long time = System.currentTimeMillis() - start;

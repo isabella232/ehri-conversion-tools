@@ -29,7 +29,7 @@ public class XqueryTransformations {
         QueryProcessor processor = new QueryProcessor(xquery, CONTEXT);
         processor.bind("namespaces", basexMap(namespaces), "map(xs:string, xs:string)");
         processor.bind("structure-path", structPath, "xs:string");
-        processor.bind("configuration", mapping, "xs:string");
+        if (mapping != null) processor.bind("configuration", mapping, "xs:string");
         processor.bind("source-dir", inputDir, "xs:string");
         processor.bind("target-dir", outputDir, "xs:string");
         processor.value();

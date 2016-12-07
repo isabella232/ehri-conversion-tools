@@ -13,9 +13,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import static com.ontotext.ehri.tools.Reader.read;
-
-public class XqueryTransformations {
+public class XQueryRunner {
     private static final String GENERIC_TRANSFORM_PATH = "/xquery/transform.xqy";
     private static final Charset ENCODING = StandardCharsets.UTF_8;
     private static final Context CONTEXT = new Context();
@@ -25,7 +23,7 @@ public class XqueryTransformations {
     }
 
     public static void transform(String xqueryPath, Map<String, String> namespaces, String structPath, String mapping, String inputDir, String outputDir) throws IOException, QueryException {
-        String xquery = read(xqueryPath, ENCODING.name());
+        String xquery = TextReader.readText(xqueryPath, ENCODING);
         QueryProcessor processor = new QueryProcessor(xquery, CONTEXT);
         processor.bind("namespaces", basexMap(namespaces), "map(xs:string, xs:string)");
         processor.bind("structure-path", structPath, "xs:string");

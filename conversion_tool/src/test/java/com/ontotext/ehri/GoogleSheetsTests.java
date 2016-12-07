@@ -1,6 +1,6 @@
 package com.ontotext.ehri;
 
-import com.ontotext.ehri.tools.GoogleSheets;
+import com.ontotext.ehri.tools.GoogleSheetReader;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -28,7 +28,7 @@ public class GoogleSheetsTests {
     }
 
     private static void checkValue(String spreadsheetId, String range, Object expected) throws IOException {
-        List<List<Object>> values = GoogleSheets.getValues(spreadsheetId, range);
+        List<List<Object>> values = GoogleSheetReader.getValues(spreadsheetId, range);
         assertFalse("no rows", values.isEmpty());
         assertFalse("no cells at first row", values.get(0).isEmpty());
         assertEquals("unexpected value at \"" + range + "\" in spreadsheet \"" + spreadsheetId + "\"", expected, values.get(0).get(0));

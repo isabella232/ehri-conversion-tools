@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Code adapted from this example: https://developers.google.com/sheets/quickstart/java#step_3_set_up_the_sample
  */
-public class GoogleSheets {
+public class GoogleSheetReader {
 
     /** Application name. */
     private static final String APPLICATION_NAME = "EAD Generator";
@@ -67,7 +67,7 @@ public class GoogleSheets {
     public static Credential authorize() throws IOException {
 
         // Load client secrets.
-        InputStream in = GoogleSheets.class.getResourceAsStream("/client_secret.json");
+        InputStream in = GoogleSheetReader.class.getResourceAsStream("/client_secret.json");
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.

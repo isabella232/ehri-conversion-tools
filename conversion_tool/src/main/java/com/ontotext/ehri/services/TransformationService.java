@@ -1,9 +1,9 @@
 package com.ontotext.ehri.services;
 
 import com.ontotext.ehri.model.TransformationModel;
-import com.ontotext.ehri.tools.GoogleSheets;
-import com.ontotext.ehri.tools.Reader;
-import com.ontotext.ehri.tools.XqueryTransformations;
+import com.ontotext.ehri.tools.GoogleSheetReader;
+import com.ontotext.ehri.tools.TextReader;
+import com.ontotext.ehri.tools.XQueryRunner;
 import org.basex.query.QueryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,13 +26,8 @@ public class TransformationService {
 
     public TransformationService(String configPath) {
         LOGGER.info("initializing transformation service with config at: " + configPath);
-
-        try {
-            String configContent = Reader.read(configPath, "UTF-8");
-            config = (Map) new Yaml().load(configContent);
-        } catch (IOException e) {
-            LOGGER.error("exception while initializing transformation service", e);
-        }
+        String configContent = TextReader.readText(configPath);
+        config = (Map) new Yaml().load(configContent);
     }
 
     public void transform(TransformationModel model) {
@@ -49,8 +44,8 @@ public class TransformationService {
             LOGGER.info("performing generic transformation");
 
             try {
-                String mapping = GoogleSheets.toString(GoogleSheets.getValues(model.getMapping(), model.getMappingRange()), "\n", "\t");
-                XqueryTransformations.transform(namespaces, structPath, mapping, model.getInputDir(), model.getOutputDir());
+                String mapping = GoogleSheetReader.toString(GoogleSheetReader.getValues(model.getMapping(), model.getMappingRange()), "\n", "\t");
+                XQueryRunner.transform(namespaces, structPath, mapping, model.getInputDir(), model.getOutputDir());
             } catch (IOException | QueryException e) {
                 LOGGER.error("exception while performing generic transformation", e);
             }
@@ -59,7 +54,7 @@ public class TransformationService {
             LOGGER.info("performing custom transformation");
 
             try {
-                XqueryTransformations.transform(model.getXquery(), namespaces, structPath, null, model.getInputDir(), model.getOutputDir());
+                XQueryRunner.transform(model.getXquery(), namespaces, structPath, null, model.getInputDir(), model.getOutputDir());
             } catch (IOException | QueryException e) {
                 LOGGER.error("exception while performing custom transformation", e);
             }

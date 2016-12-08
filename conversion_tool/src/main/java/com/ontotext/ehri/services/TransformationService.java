@@ -1,6 +1,7 @@
 package com.ontotext.ehri.services;
 
 import com.ontotext.ehri.model.TransformationModel;
+import com.ontotext.ehri.tools.ExcelReader;
 import com.ontotext.ehri.tools.GoogleSheetReader;
 import com.ontotext.ehri.tools.TextReader;
 import com.ontotext.ehri.tools.XQueryRunner;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -44,7 +46,17 @@ public class TransformationService {
             LOGGER.info("performing generic transformation");
 
             try {
-                String mapping = GoogleSheetReader.toString(GoogleSheetReader.getValues(model.getMapping(), model.getMappingRange()), "\n", "\t");
+                File mappingFile = new File(model.getMapping());
+                String mapping;
+
+                if (mappingFile.isFile()) {
+                    LOGGER.info("reading mapping from Excel file: " + mappingFile.getAbsolutePath());
+                    mapping = ExcelReader.stringify(ExcelReader.readSheet(mappingFile.getAbsolutePath(), 0), "\t", "\n");
+                } else {
+                    LOGGER.info("reading mapping from Google spreadsheet with ID: " + model.getMapping());
+                    mapping = GoogleSheetReader.toString(GoogleSheetReader.getValues(model.getMapping(), model.getMappingRange()), "\n", "\t");
+                }
+
                 XQueryRunner.transform(namespaces, structPath, mapping, model.getInputDir(), model.getOutputDir());
             } catch (IOException | QueryException e) {
                 LOGGER.error("exception while performing generic transformation", e);

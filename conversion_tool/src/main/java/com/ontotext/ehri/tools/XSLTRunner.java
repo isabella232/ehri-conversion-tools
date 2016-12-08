@@ -17,11 +17,14 @@ public class XSLTRunner {
     private static final Processor PROCESSOR = new Processor(CONFIGURATION);
     private static final XsltCompiler COMPILER = PROCESSOR.newXsltCompiler();
 
+    private static Serializer serializer = PROCESSOR.newSerializer();
+
     public static XsltExecutable compileStylesheet(String stylesheetPath) {
 
         try (InputStream inputStream = TextReader.openInputStream(stylesheetPath)) {
             Source source = new StreamSource(inputStream);
 
+            // set system identifier to stylesheet location so that relative URIs can be resolved
             File stylesheetFile = TextReader.resolvePath(stylesheetPath);
             if (stylesheetFile.isFile()) source.setSystemId(stylesheetFile.toURI().toURL().toExternalForm());
 
@@ -33,24 +36,35 @@ public class XSLTRunner {
     }
 
     public static void runStylesheet(XsltExecutable stylesheet, String inputPath, String outputPath) {
+        File inputDir = TextReader.resolvePath(inputPath);
+        File outputDir = TextReader.resolvePath(outputPath);
+        if (! (inputDir.isDirectory() || outputDir.isDirectory())) return;
+
         XsltTransformer transformer = stylesheet.load();
 
-        try (InputStream inputStream = TextReader.openInputStream(inputPath)) {
-            transformer.setSource(new StreamSource(inputStream));
+        for (File inputFile : inputDir.listFiles()) {
+            if (! inputFile.isFile()) continue;
 
-            Serializer serializer = PROCESSOR.newSerializer(new File(outputPath));
-            transformer.setDestination(serializer);
+            File outputFile = new File(outputDir, inputFile.getName());
+            runTransformer(transformer, inputFile, outputFile);
+        }
 
+        try {
+            transformer.close();
+        } catch (SaxonApiException e) {
+            LOGGER.error("failed to close transformer", e);
+        }
+    }
+
+    private static void runTransformer(XsltTransformer transformer, File input, File output) {
+        serializer.setOutputFile(output);
+        transformer.setDestination(serializer);
+
+        try {
+            transformer.setSource(new StreamSource(input));
             transformer.transform();
-        } catch (IOException | SaxonApiException e) {
-            LOGGER.error("failed to run stylesheet on: " + inputPath, e);
-        } finally {
-
-            try {
-                transformer.close();
-            } catch (SaxonApiException e) {
-                LOGGER.error("failed to close transformer", e);
-            }
+        } catch (SaxonApiException e) {
+            LOGGER.error("failed to run stylesheet on file: " + input.getAbsolutePath(), e);
         }
     }
 }

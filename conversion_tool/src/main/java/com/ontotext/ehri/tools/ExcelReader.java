@@ -10,9 +10,10 @@ import java.io.InputStream;
 
 public class ExcelReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelReader.class);
+    private static final DataFormatter FORMATTER = new DataFormatter();
 
     private static String parseCell(Cell cell) {
-        return cell.getStringCellValue();
+        return FORMATTER.formatCellValue(cell);
     }
 
     private static String[] parseRow(Row row) {
@@ -60,7 +61,7 @@ public class ExcelReader {
 
     private static String[][] parseSheet(Sheet sheet) {
         int numColumns = numColumns(sheet);
-        String[][] rows = new String[sheet.getLastRowNum()][];
+        String[][] rows = new String[sheet.getLastRowNum() + 1][];
         for (int i = 0; i < rows.length; i++) rows[i] = parseRow(sheet.getRow(i), numColumns);
         return rows;
     }

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -13,6 +14,17 @@ public class TextReader {
     private static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
 
     private static byte[] buffer = new byte[1024];
+
+    public static File resolvePath(String path) {
+        URL resource = TextReader.class.getResource(path);
+        if (resource != null) try {
+            return new File(resource.toURI());
+        } catch (URISyntaxException e) {
+            LOGGER.error("failed to resolve path: " + path, e);
+        }
+
+        return new File(path);
+    }
 
     /**
      * Open stream to a resource, file, or URL.

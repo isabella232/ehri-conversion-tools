@@ -22,8 +22,8 @@ public class XSLTRunner {
         try (InputStream inputStream = TextReader.openInputStream(stylesheetPath)) {
             Source source = new StreamSource(inputStream);
 
-            File stylesheetFile = new File(stylesheetPath);
-            if (stylesheetFile.isFile()) source.setSystemId(stylesheetFile.getParentFile().toURI().toURL().toExternalForm());
+            File stylesheetFile = TextReader.resolvePath(stylesheetPath);
+            if (stylesheetFile.isFile()) source.setSystemId(stylesheetFile.toURI().toURL().toExternalForm());
 
             return COMPILER.compile(source);
         } catch (IOException | SaxonApiException e) {

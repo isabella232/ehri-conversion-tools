@@ -1,10 +1,8 @@
 package com.ontotext.ehri.services;
 
 import com.ontotext.ehri.model.TransformationModel;
-import com.ontotext.ehri.tools.ExcelReader;
-import com.ontotext.ehri.tools.GoogleSheetReader;
-import com.ontotext.ehri.tools.TextReader;
-import com.ontotext.ehri.tools.XQueryRunner;
+import com.ontotext.ehri.tools.*;
+import net.sf.saxon.s9api.XsltExecutable;
 import org.basex.query.QueryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +17,7 @@ import java.util.Map;
 public class TransformationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformationService.class);
     private static final String CONFIG_PATH = "/config.yml";
+    private static final XsltExecutable EAD1_TO_EAD2002 = XSLTRunner.compileStylesheet("/xslt/v1to02.xsl");
 
     private Map config;
 
@@ -41,7 +40,7 @@ public class TransformationService {
 
         if (model.getMapping() == null && model.getXquery() == null) {
             LOGGER.info("performing EAD1 to EAD2002 conversion");
-            LOGGER.warn("NOT IMPLEMENTED YET");
+            XSLTRunner.runStylesheet(EAD1_TO_EAD2002, model.getInputDir(), model.getOutputDir());
         } else if (model.getXquery() == null) {
             LOGGER.info("performing generic transformation");
 

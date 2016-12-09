@@ -42,9 +42,7 @@ public class XSLTRunner {
 
         XsltTransformer transformer = stylesheet.load();
 
-        for (File inputFile : inputDir.listFiles()) {
-            if (! inputFile.isFile()) continue;
-
+        for (File inputFile : inputDir.listFiles(XMLFileFilter.INSTANCE)) {
             File outputFile = new File(outputDir, inputFile.getName());
             runTransformer(transformer, inputFile, outputFile);
         }

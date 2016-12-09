@@ -25,9 +25,7 @@ public class JingRunner {
             validate(rng, xml, svrl);
         } else if (xml.isDirectory()) {
 
-            for (File xmlFile : xml.listFiles()) {
-                if (! xmlFile.isFile()) continue;
-
+            for (File xmlFile : xml.listFiles(XMLFileFilter.INSTANCE)) {
                 File svrlFile = new File(xmlFile.getAbsolutePath() + ".svrl");
                 validate(rng, xmlFile, svrlFile);
             }

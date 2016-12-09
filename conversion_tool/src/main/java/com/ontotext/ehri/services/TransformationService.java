@@ -36,7 +36,7 @@ public class TransformationService {
         long start = System.currentTimeMillis();
 
         Map<String, String> namespaces = (Map<String, String>) config.get("namespaces");
-        String structPath = TransformationService.class.getResource((String) config.get("structure-file")).getFile();
+        String structPath = TextReader.resolvePath((String) config.get("structure-file")).getAbsolutePath();
 
         if (model.getMapping() == null && model.getXquery() == null) {
             LOGGER.info("performing EAD1 to EAD2002 conversion");

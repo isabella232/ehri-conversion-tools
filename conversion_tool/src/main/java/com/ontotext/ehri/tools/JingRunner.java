@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 public class JingRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(JingRunner.class);
     private static final Charset ENCODING = StandardCharsets.UTF_8;
+    private static final Driver DRIVER = new Driver();
 
     public static void validate(String rngPath, String xmlPath) {
         File rng = TextReader.resolvePath(rngPath);
@@ -42,7 +43,7 @@ public class JingRunner {
                 xml.getAbsolutePath()
         };
 
-        Driver.main(args);
+        DRIVER.doMain(args);
         LOGGER.info("validation report for \"" + xml.getAbsolutePath() + "\" written to \"" + svrl.getAbsolutePath() + "\"");
     }
 }

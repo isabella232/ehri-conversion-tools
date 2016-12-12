@@ -19,7 +19,7 @@ let $formatting := csv:parse(file:read-text($formatting-path), $csv_options)
 let $translations := csv:parse(file:read-text($translations-path), $csv_options)
 
 (: transform each XML document to HTML :)
-let $index-items := for $document-name in file:list($document-dir, fn:false(), "*.xml,*.XML")
+let $index-items := for $document-name in file:list($document-dir, fn:false(), "*.inj")
   let $document-path := fn:concat($document-dir, $document-name)
   let $html := ead2html:document-to-html($document-path, $stylesheet-location, $formatting, $translations, $language)
   

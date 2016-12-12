@@ -18,16 +18,14 @@ public class JingRunner {
         if (! rng.isFile()) return;
 
         File xml = TextReader.resolvePath(xmlPath);
-        if (! xml.exists()) return;
-
         if (xml.isFile()) {
             File svrl = new File(xml.getAbsolutePath() + ".svrl");
             validate(rng, xml, svrl);
         } else if (xml.isDirectory()) {
 
             for (File xmlFile : xml.listFiles(XMLFileFilter.INSTANCE)) {
-                File svrlFile = new File(xmlFile.getAbsolutePath() + ".svrl");
-                validate(rng, xmlFile, svrlFile);
+                File svrl = new File(xmlFile.getAbsolutePath() + ".svrl");
+                validate(rng, xmlFile, svrl);
             }
         }
     }

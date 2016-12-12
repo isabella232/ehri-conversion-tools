@@ -1,20 +1,18 @@
 xquery version "3.0";
 
-import module namespace ead2html = "ead2html" at "ead2html.xqm";
+import module namespace ead2html = "ead2html" at "target/classes/xquery/ead2html.xqm";
+
+declare variable $document-dir as xs:string external;
+declare variable $html-dir as xs:string external;
+declare variable $language as xs:string external;
+
+declare variable $formatting-path as xs:string external;
+declare variable $translations-path as xs:string external;
+declare variable $stylesheet-location as xs:string external;
 
 (: serialization options :)
 let $csv_options := map { "separator": "tab", "header": "yes" }
 let $html_options := map { "method": "html", "media-type": "text/html", "include-content-type": "yes" }
-
-(: resource locations :)
-let $stylesheet-location := "../ead.css"
-let $formatting-path := "/home/georgi/git/data-transformations/XQuery/formatting.tsv"
-let $translations-path := "/home/georgi/git/data-transformations/XQuery/labels.tsv"
-
-(: script parameters :)
-let $language := "de"
-let $document-dir := "/home/georgi/schem/injected/"
-let $html-dir := "/home/georgi/schem/output/"
 
 (: read configurations :)
 let $formatting := csv:parse(file:read-text($formatting-path), $csv_options)

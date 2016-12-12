@@ -3,9 +3,12 @@ package com.ontotext.ehri.controllers;
 import com.ontotext.ehri.model.TransformationModel;
 import com.ontotext.ehri.services.TransformationService;
 import com.ontotext.ehri.services.ValidationService;
+import com.ontotext.ehri.tools.TextReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.io.File;
 
 /**
  * Created by Boyan on 23-Nov-16.
@@ -25,7 +28,8 @@ public class RestController {
     public String transform(TransformationModel transformationModel){
         transformationService.transform(transformationModel);
         validationService.validate(transformationModel);
-        return "Your files are annotated successfully!";
+        File html = new File(new File(TextReader.resolvePath(transformationModel.getOutputDir()).getAbsolutePath(), "html"), "index.html");
+        return "Done! Your HTML is here: " + html.getAbsolutePath();
     }
 
     @RequestMapping(value = "/error", method = RequestMethod.GET)

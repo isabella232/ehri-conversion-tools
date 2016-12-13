@@ -13,7 +13,7 @@ import static org.junit.Assert.fail;
 public class GoogleSheetReaderTests {
 
     @Test
-    public void testGetValues() {
+    public void testValues() {
         String spreadsheetId = "1H8bgPSWTvvfICZ6znvFpf4iDCib39KZ0jfgTYHmv5e0";
 
         try {
@@ -28,7 +28,7 @@ public class GoogleSheetReaderTests {
     }
 
     private static void checkValue(String spreadsheetId, String range, Object expected) throws IOException {
-        List<List<Object>> values = GoogleSheetReader.getValues(spreadsheetId, range);
+        List<List<Object>> values = GoogleSheetReader.values(spreadsheetId, range);
         assertFalse("no rows", values.isEmpty());
         assertFalse("no cells at first row", values.get(0).isEmpty());
         assertEquals("unexpected value at \"" + range + "\" in spreadsheet \"" + spreadsheetId + "\"", expected, values.get(0).get(0));

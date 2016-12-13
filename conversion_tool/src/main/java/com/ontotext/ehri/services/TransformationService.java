@@ -53,7 +53,7 @@ public class TransformationService {
                     mapping = ExcelReader.stringify(ExcelReader.readSheet(mappingFile.getAbsolutePath(), 0), "\t", "\n");
                 } else {
                     LOGGER.info("reading mapping from Google spreadsheet with ID: " + model.getMapping());
-                    mapping = GoogleSheetReader.toString(GoogleSheetReader.getValues(model.getMapping(), model.getMappingRange()), "\n", "\t");
+                    mapping = GoogleSheetReader.toString(GoogleSheetReader.values(model.getMapping(), model.getMappingRange()), "\n", "\t");
                 }
 
                 XQueryRunner.transform(namespaces, structPath, mapping, model.getInputDir(), model.getOutputDir());

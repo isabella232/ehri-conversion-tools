@@ -1,6 +1,6 @@
 xquery version "3.0";
 
-import module namespace transform = "transform" at "target/classes/xquery/transform.xqm";
+import module namespace transform = "transform" at "transform.xqm";
 
 declare variable $namespaces as map(xs:string, xs:string) external;
 declare variable $structure-path as xs:string external;

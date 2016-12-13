@@ -1,6 +1,6 @@
 xquery version "3.0";
 
-import module namespace ead2html = "ead2html" at "target/classes/xquery/ead2html.xqm";
+import module namespace ead2html = "ead2html" at "ead2html.xqm";
 
 declare variable $document-dir as xs:string external;
 declare variable $html-dir as xs:string external;

@@ -1,8 +1,10 @@
 package com.ontotext.ehri.tools;
 
 import org.basex.core.Context;
+import org.basex.io.IOFile;
 import org.basex.query.QueryException;
 import org.basex.query.QueryProcessor;
+import org.basex.query.util.UriResolver;
 import org.basex.query.value.Value;
 import org.basex.query.value.item.Item;
 import org.basex.query.value.item.Str;
@@ -17,10 +19,12 @@ import java.util.Map;
 
 public class XQueryRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(XQueryRunner.class);
+    private static final String MODULE_DIR = "/xquery/lib/";
     private static final String GENERIC_TRANSFORM_PATH = "/xquery/transform.xqy";
     private static final String HTML_GENERATOR_PATH = "/xquery/ead2html.xqy";
     private static final Charset ENCODING = StandardCharsets.UTF_8;
     private static final Context CONTEXT = new Context();
+    private static final UriResolver URI_RESOLVER = (path, uri, base) -> new IOFile(TextReader.resolvePath(MODULE_DIR + path));
 
     public static void transform(Map<String, String> namespaces, String structPath, String mapping, String inputDir, String outputDir) throws IOException, QueryException {
         transform(GENERIC_TRANSFORM_PATH, namespaces, structPath, mapping, inputDir, outputDir);
@@ -28,7 +32,7 @@ public class XQueryRunner {
 
     public static void transform(String xqueryPath, Map<String, String> namespaces, String structPath, String mapping, String inputDir, String outputDir) throws IOException, QueryException {
         String xquery = TextReader.readText(xqueryPath, ENCODING);
-        QueryProcessor processor = new QueryProcessor(xquery, CONTEXT);
+        QueryProcessor processor = new QueryProcessor(xquery, CONTEXT).uriResolver(URI_RESOLVER);
         processor.bind("namespaces", basexMap(namespaces), "map(xs:string, xs:string)");
         processor.bind("structure-path", structPath, "xs:string");
         if (mapping != null) processor.bind("configuration", mapping, "xs:string");
@@ -39,7 +43,7 @@ public class XQueryRunner {
 
     public static void generateHTML(String documentDir, String htmlDir, String language) {
         String xquery = TextReader.readText(HTML_GENERATOR_PATH, ENCODING);
-        QueryProcessor processor = new QueryProcessor(xquery, CONTEXT);
+        QueryProcessor processor = new QueryProcessor(xquery, CONTEXT).uriResolver(URI_RESOLVER);
 
         try {
             processor.bind("document-dir", documentDir, "xs:string");

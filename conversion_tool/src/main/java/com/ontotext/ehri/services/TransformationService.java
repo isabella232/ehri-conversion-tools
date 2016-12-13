@@ -3,7 +3,6 @@ package com.ontotext.ehri.services;
 import com.ontotext.ehri.model.TransformationModel;
 import com.ontotext.ehri.tools.*;
 import net.sf.saxon.s9api.XsltExecutable;
-import org.basex.query.QueryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -56,19 +55,14 @@ public class TransformationService {
                     mapping = GoogleSheetReader.toString(GoogleSheetReader.values(model.getMapping(), model.getMappingRange()), "\n", "\t");
                 }
 
-                XQueryRunner.transform(namespaces, structPath, mapping, model.getInputDir(), model.getOutputDir());
-            } catch (IOException | QueryException e) {
+                XQueryRunner.genericTransform(mapping, model.getInputDir(), model.getOutputDir());
+            } catch (IOException e) {
                 LOGGER.error("exception while performing generic transformation", e);
             }
 
         } else {
             LOGGER.info("performing custom transformation");
-
-            try {
-                XQueryRunner.transform(model.getXquery(), namespaces, structPath, null, model.getInputDir(), model.getOutputDir());
-            } catch (IOException | QueryException e) {
-                LOGGER.error("exception while performing custom transformation", e);
-            }
+            XQueryRunner.customTransform(model.getXquery(), model.getInputDir(), model.getOutputDir());
         }
 
         long time = System.currentTimeMillis() - start;

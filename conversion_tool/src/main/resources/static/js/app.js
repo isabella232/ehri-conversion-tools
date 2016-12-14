@@ -55,6 +55,12 @@ $(document).ready(function() {
     // disable submit on page load
     disableSubmit();
 
+    function sendDataRest(){          
+        $.get( "http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&inputDir=/home/georgi/Downloads/test-conversion-input/&outputDir=/home/georgi/Downloads/test-conversion-output/", function( data ) {
+          alert( "Data Loaded: " + data );
+        });
+    }
+
     // Check if organization is selected on change
     // Enable submit button
     $(organization_select).on('change', function() {
@@ -62,6 +68,7 @@ $(document).ready(function() {
         if (value_organization != '') {
             enableSubmit();
         }
+        
     });
 
     $('#submit_step1').click(function() {
@@ -284,6 +291,49 @@ $(document).ready(function() {
             $('#label_step_6').addClass('active');
             hideLoader();
         }, 3000);
+
+        var organization_select_to_file = organization_select.val();
+        var file_type_select_to_file = file_type_select.val();
+        var transformation_type_select_to_file = transformation_type_select.val();
+        var mapping_type_select_to_file = mapping_type_select.val();
+        var specific_mapping_input_google_to_file = specific_mapping_input_google.val();
+        var xsdsource_input_to_file = xsdsource_input.val();
+        var specific_mapping_input_to_file = specific_mapping_input.val();
+        var incomesource_input_to_file = incomesource_input.val();
+        var outcomesource_input_to_file = outcomesource_input.val();
+        var googledocsurl = $('#googledocsurl');
+        var googledocsurl_val = googledocsurl.val();
+        console.log(googledocsurl_val);
+
+        /*
+        create check so that we know if we will make
+        1. EAD1-to-EAD2002 conversion: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&inputDir=/home/georgi/Downloads/test-conversion-input/&outputDir=/home/georgi/Downloads/test-conversion-output/
+        2. generic transform using Google Sheet mapping: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&mapping=1H8bgPSWTvvfICZ6znvFpf4iDCib39KZ0jfgTYHmv5e0&mappingRange=A1:D&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/
+        3. generic transform using local Excel mapping: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&mapping=/home/georgi/Downloads/0-TEST-mapping-DO-NOT-MODIFY.xlsx&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/
+        4. custom transform using Google Sheet mapping: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&xquery=/home/georgi/Downloads/test.xqy&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/
+        */
+        //1. EAD1-to-EAD2002
+        if ($(file_type_select).val() === 'xml_ead'){
+            var urlToBeSend = 'http://localhost:8080/rest/process?organisation='+organization_select_to_file+'&fileType='+file_type_select_to_file+'&inputDir=/home/georgi/Downloads/test-conversion-input/&outputDir=/home/georgi/Downloads/test-conversion-output/';
+        }
+        //3. generic transform using local
+        //2. generic transform using Google Sheet mapping:
+        if ($(mapping_type_select).val() === 'generic' && specific_mapping_input_google_to_file != '') {
+            console.log('if');
+            var urlToBeSend = 'http://localhost:8080/rest/process?organisation='+organization_select_to_file+'&fileType='+file_type_select_to_file+'&mapping='+specific_mapping_input_google_to_file+'&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/';
+        } else if ($(mapping_type_select).val() === 'generic' && specific_mapping_input_google_to_file === ''){
+            console.log('else if');
+            var urlToBeSend = 'http://localhost:8080/rest/process?organisation='+organization_select_to_file+'&fileType='+file_type_select_to_file+'&mapping='+googledocsurl_val+'&mappingRange=A1:D&&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/';
+        }
+        //4 custom transform using Google Sheet mapping
+        if ($(mapping_type_select).val() === 'specific') {
+            var urlToBeSend = 'http://localhost:8080/rest/process?organisation='+organization_select_to_file+'&fileType='+file_type_select_to_file+'&mapping='+specific_mapping_input_google_to_file+'&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/';
+        }
+        console.log(urlToBeSend);
+        $.get( urlToBeSend, function( data ) {
+          alert( data );
+        });
+
     });
 
     $('#previous_step5').click(function() {
@@ -327,6 +377,7 @@ $(document).ready(function() {
     });
 
     //creating file with values
+    /*
     document.getElementById('submit_step5').onclick = function() {
         var organization_select_to_file = organization_select.val();
         var file_type_select_to_file = file_type_select.val();
@@ -349,6 +400,7 @@ $(document).ready(function() {
             "outcomeSource " + outcomesource_input_to_file + " \r\n"
         );
     };
+    */
 
     $('#incomesource').attr('webkitdirectory', '');
     $('#outcomesource').attr('webkitdirectory', '');

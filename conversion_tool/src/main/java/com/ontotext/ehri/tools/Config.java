@@ -46,17 +46,11 @@ public class Config {
         }
     }
 
-    private static Map loadConfig(String configPath) {
-        LOGGER.info("loading configuration from: " + configPath);
-
-        try (InputStream inputStream = TextReader.openInputStream(configPath)) {
-            return (Map) new Yaml().load(inputStream);
-        } catch (IOException e) {
-            LOGGER.error("failed to load configuration from: " + configPath, e);
-            return null;
-        }
-    }
-
+    /**
+     * Return the value of the configuration parameter with the given name.
+     * @param name The name of the configuration parameter.
+     * @return The value of the configuration parameter, or null if no such parameter exists.
+     */
     public static Object param(String name) {
         Object value = config.get(name);
         if (value == null) LOGGER.warn("no such parameter: " + name);

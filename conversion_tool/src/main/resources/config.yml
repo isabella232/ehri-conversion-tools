@@ -1,1 +1,14 @@
+# external resources
+input-dir: "../input"
+output-dir: "../output"
+mapping-dir: "../mapping"
+xquery-dir: "../xquery"
+google-key-path: "../google-sheet-accessor.key"
 user-config-path: "../config.yml"
+
+# internal resources
+ead1-to-ead2002-path: "/xslt/v1to02.xsl"
+ead-rng-path: "/rng/ead.rng"
+
+# other stuff
+google-app-name: "EHRI Conversion Tool"

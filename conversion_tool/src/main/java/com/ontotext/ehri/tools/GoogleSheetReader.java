@@ -11,6 +11,8 @@ import com.google.api.services.sheets.v4.model.ValueRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
@@ -20,11 +22,9 @@ import java.util.List;
 
 public class GoogleSheetReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(GoogleSheetReader.class);
-    private static final String APPLICATION_NAME = "EHRI Conversion Tool";
-    private static final String KEY_PATH = "/google-sheet-accessor.key";
     private static final Collection<String> SCOPES = Collections.singleton(SheetsScopes.SPREADSHEETS_READONLY);
-
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+
     private static HttpTransport httpTransport;
     static {
         try {
@@ -73,15 +73,19 @@ public class GoogleSheetReader {
     }
 
     private static Sheets buildService() {
-        return new Sheets.Builder(httpTransport, JSON_FACTORY, authorize(KEY_PATH)).setApplicationName(APPLICATION_NAME).build();
+        GoogleCredential credential = authorize((String) Config.param("google-key-path"));
+        return new Sheets.Builder(httpTransport, JSON_FACTORY, credential)
+                .setApplicationName((String) Config.param("google-app-name"))
+                .build();
     }
 
     private static GoogleCredential authorize(String keyPath) {
+        File keyFile = new File(keyPath);
 
-        try (InputStream inputStream = TextReader.openInputStream(keyPath)) {
+        try (InputStream inputStream = new FileInputStream(keyFile)) {
             return GoogleCredential.fromStream(inputStream).createScoped(SCOPES);
         } catch (IOException e) {
-            LOGGER.error("failed to authorize from key at: " + keyPath, e);
+            LOGGER.error("failed to authorize from key at: " + keyFile.getAbsolutePath(), e);
             return null;
         }
     }

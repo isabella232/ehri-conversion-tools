@@ -13,10 +13,9 @@ import java.io.IOException;
 @Service
 public class TransformationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformationService.class);
-    private static final XsltExecutable EAD1_TO_EAD2002 = XSLTRunner.compileStylesheet("/xslt/v1to02.xsl");
+    private static final XsltExecutable EAD1_TO_EAD2002 = XSLTRunner.compileStylesheet((String) Config.param("ead1-to-ead2002-path"));
 
     public void transform(TransformationModel model) {
-        LOGGER.info("KUR = " + Config.param("kur"));
         LOGGER.info("starting transformation with these parameters: " + model.toString());
         long start = System.currentTimeMillis();
 

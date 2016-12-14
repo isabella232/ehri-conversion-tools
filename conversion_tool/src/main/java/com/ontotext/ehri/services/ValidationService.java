@@ -1,10 +1,7 @@
 package com.ontotext.ehri.services;
 
 import com.ontotext.ehri.model.TransformationModel;
-import com.ontotext.ehri.tools.JingRunner;
-import com.ontotext.ehri.tools.SVRLInjector;
-import com.ontotext.ehri.tools.TextReader;
-import com.ontotext.ehri.tools.XQueryRunner;
+import com.ontotext.ehri.tools.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,7 +17,7 @@ public class ValidationService {
         LOGGER.info("starting validation with these parameters: " + model.toString());
         long start = System.currentTimeMillis();
 
-        JingRunner.validate(EAD_RNG, model.getOutputDir());
+        JingRunner.validate((String) Config.param("ead-rng-path"), model.getOutputDir());
         SVRLInjector.inject(model.getOutputDir());
 
         File htmlDir = new File(TextReader.resolvePath(model.getOutputDir()), "html");

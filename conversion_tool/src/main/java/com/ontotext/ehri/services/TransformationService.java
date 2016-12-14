@@ -6,36 +6,19 @@ import net.sf.saxon.s9api.XsltExecutable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 @Service
 public class TransformationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformationService.class);
-    private static final String CONFIG_PATH = "/config.yml";
     private static final XsltExecutable EAD1_TO_EAD2002 = XSLTRunner.compileStylesheet("/xslt/v1to02.xsl");
 
-    private Map config;
-
-    public TransformationService() {
-        this(CONFIG_PATH);
-    }
-
-    public TransformationService(String configPath) {
-        LOGGER.info("initializing transformation service with config at: " + configPath);
-        String configContent = TextReader.readText(configPath);
-        config = (Map) new Yaml().load(configContent);
-    }
-
     public void transform(TransformationModel model) {
+        LOGGER.info("KUR = " + Config.param("kur"));
         LOGGER.info("starting transformation with these parameters: " + model.toString());
         long start = System.currentTimeMillis();
-
-        Map<String, String> namespaces = (Map<String, String>) config.get("namespaces");
-        String structPath = TextReader.resolvePath((String) config.get("structure-file")).getAbsolutePath();
 
         if (model.getMapping() == null && model.getXquery() == null) {
             LOGGER.info("performing EAD1 to EAD2002 conversion");

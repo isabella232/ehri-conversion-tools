@@ -5,9 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class Config {
+    public static final Charset ENCODING = StandardCharsets.UTF_8;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(Config.class);
     private static final String CONFIG_PATH = "/config.yml";
 

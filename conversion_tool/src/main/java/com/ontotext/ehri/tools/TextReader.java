@@ -7,11 +7,9 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 public class TextReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(TextReader.class);
-    private static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
 
     private static byte[] buffer = new byte[1024];
 
@@ -84,6 +82,6 @@ public class TextReader {
     }
 
     public static String readText(String path) {
-        return readText(path, DEFAULT_ENCODING);
+        return readText(path, Config.ENCODING);
     }
 }

@@ -11,26 +11,13 @@ import org.basex.query.value.type.AtomType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 public class XQueryRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(XQueryRunner.class);
-    private static final String MODULE_DIR = "/xquery/lib/";
-    private static final String GENERIC_TRANSFORMER_PATH = "/xquery/transform.xqy";
-    private static final String HTML_GENERATOR_PATH = "/xquery/ead2html.xqy";
-    private static final Charset ENCODING = StandardCharsets.UTF_8;
     private static final Context CONTEXT = new Context();
-    private static final UriResolver URI_RESOLVER = (path, uri, base) -> new IOFile(TextReader.resolvePath(MODULE_DIR + path));
-
-    private static final Map<String, String> NAMESPACES = new HashMap<String, String>();
-    static {
-        NAMESPACES.put("", "urn:isbn:1-931666-22-9");
-        NAMESPACES.put("xlink", "http://www.w3.org/1999/xlink");
-        NAMESPACES.put("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-    }
+    private static final UriResolver URI_RESOLVER = (path, uri, base) -> new IOFile(TextReader.resolvePath(Config.param("xquery-module-dir") + path));
 
     public static void customTransform(String xqueryPath, String inputDir, String outputDir) {
         Map<String, Object> variables = new HashMap<String, Object>();
@@ -43,10 +30,10 @@ public class XQueryRunner {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("source-dir", inputDir);
         variables.put("target-dir", outputDir);
-        variables.put("structure-path", TextReader.resolvePath("/ead2002.struct").getAbsolutePath());
+        variables.put("structure-path", TextReader.resolvePath((String) Config.param("ead-struct-path")).getAbsolutePath()); // TODO: read and pass string
         variables.put("configuration", mapping);
-        variables.put("namespaces", NAMESPACES);
-        run(GENERIC_TRANSFORMER_PATH, variables);
+        variables.put("namespaces", Config.param("ead-namespaces"));
+        run((String) Config.param("generic-transformer-path"), variables);
     }
 
     public static void generateHTML(String documentDir, String htmlDir, String language) {
@@ -54,10 +41,10 @@ public class XQueryRunner {
         variables.put("document-dir", documentDir);
         variables.put("html-dir", htmlDir);
         variables.put("language", language);
-        variables.put("formatting-path", TextReader.resolvePath("/tsv/formatting.tsv").getAbsolutePath());
-        variables.put("translations-path", TextReader.resolvePath("/tsv/labels.tsv").getAbsolutePath());
-        variables.put("stylesheet-location", TextReader.resolvePath("/css/ead.css").getAbsolutePath());
-        run(HTML_GENERATOR_PATH, variables);
+        variables.put("formatting-path", TextReader.resolvePath((String) Config.param("formatting-path")).getAbsolutePath());  // TODO: read and pass string
+        variables.put("translations-path", TextReader.resolvePath((String) Config.param("translations-path")).getAbsolutePath());  // TODO: read and pass string
+        variables.put("stylesheet-location", TextReader.resolvePath((String) Config.param("stylesheet-path")).getAbsolutePath()); // TODO
+        run((String) Config.param("html-generator-path"), variables);
     }
 
     public static void run(String xqueryPath, Map<String, Object> variables) {
@@ -109,7 +96,7 @@ public class XQueryRunner {
     }
 
     private static Item basexItem(Object javaObject) {
-        if (javaObject instanceof String) return new Str(((String) javaObject).getBytes(ENCODING), AtomType.STR);
+        if (javaObject instanceof String) return new Str(((String) javaObject).getBytes(Config.ENCODING), AtomType.STR);
 
         LOGGER.error("unsupported item type: " + javaObject.getClass().getName());
         return null;

@@ -5,12 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 public class JingRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(JingRunner.class);
-    private static final Charset ENCODING = StandardCharsets.UTF_8;
     private static final Driver DRIVER = new Driver();
 
     public static void validate(String rngPath, String xmlPath) {
@@ -33,7 +30,7 @@ public class JingRunner {
     private static void validate(File rng, File xml, File svrl) {
         LOGGER.info("validating \"" + xml.getAbsolutePath() + "\" with \"" + rng.getAbsolutePath() + "\"");
         String[] args = {
-                //"-e", ENCODING.name(),
+                //"-e", Config.ENCODING.name(),
                 "-S", svrl.getAbsolutePath(),
                 rng.getAbsolutePath(),
                 xml.getAbsolutePath()

@@ -9,6 +9,17 @@ user-config-path: "../config.yml"
 # internal resources
 ead1-to-ead2002-path: "/xslt/v1to02.xsl"
 ead-rng-path: "/rng/ead.rng"
+xquery-module-dir: "/xquery/lib/"
+generic-transformer-path: "/xquery/transform.xqy"
+html-generator-path: "/xquery/ead2html.xqy"
+ead-struct-path: "/ead2002.struct"
+formatting-path: "/tsv/formatting.tsv"
+translations-path: "/tsv/labels.tsv"
+stylesheet-path: "/css/ead.css"
 
 # other stuff
 google-app-name: "EHRI Conversion Tool"
+ead-namespaces:
+  "": "urn:isbn:1-931666-22-9"
+  "xlink": "http://www.w3.org/1999/xlink"
+  "xsi": "http://www.w3.org/2001/XMLSchema-instance"

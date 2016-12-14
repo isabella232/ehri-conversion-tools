@@ -284,13 +284,7 @@ $(document).ready(function() {
 
     $('#submit_step5').click(function() {
         showLoader();
-        setTimeout(function() {
-            $('#step5').slideUp(300);
-            $('#step6').slideDown(300);
-            $('.active').removeClass('active');
-            $('#label_step_6').addClass('active');
-            hideLoader();
-        }, 3000);
+
 
         var organization_select_to_file = organization_select.val();
         var file_type_select_to_file = file_type_select.val();
@@ -302,8 +296,9 @@ $(document).ready(function() {
         var incomesource_input_to_file = incomesource_input.val();
         var outcomesource_input_to_file = outcomesource_input.val();
         var googledocsurl = $('#googledocsurl');
-        var googledocsurl_val = googledocsurl.val();
+        var googledocsurl_val = $('#googledocsurl').val();
         console.log(googledocsurl_val);
+        console.log($(mapping_type_select).val());
 
         /*
         create check so that we know if we will make
@@ -331,7 +326,12 @@ $(document).ready(function() {
         }
         console.log(urlToBeSend);
         $.get( urlToBeSend, function( data ) {
-          alert( data );
+            alert( data );
+            $('#step5').slideUp(300);
+            $('#step6').slideDown(300);
+            $('.active').removeClass('active');
+            $('#label_step_6').addClass('active');
+            hideLoader();
         });
 
     });
@@ -375,32 +375,6 @@ $(document).ready(function() {
         $(outcomesource_input).val('');
         return false;
     });
-
-    //creating file with values
-    /*
-    document.getElementById('submit_step5').onclick = function() {
-        var organization_select_to_file = organization_select.val();
-        var file_type_select_to_file = file_type_select.val();
-        var transformation_type_select_to_file = transformation_type_select.val();
-        var mapping_type_select_to_file = mapping_type_select.val();
-        var specific_mapping_input_google_to_file = specific_mapping_input_google.val();
-        var xsdsource_input_to_file = xsdsource_input.val();
-        var specific_mapping_input_to_file = specific_mapping_input.val();
-        var incomesource_input_to_file = incomesource_input.val();
-        var outcomesource_input_to_file = outcomesource_input.val();
-        this.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(
-            "selectedOrganization " + organization_select_to_file + " \r\n" +
-            "fileType " + file_type_select_to_file + " \r\n" +
-            "transformationType " + transformation_type_select_to_file + " \r\n" +
-            "mappingTypeGeneric " + mapping_type_select_to_file + " \r\n" +
-            "specificMapping " + specific_mapping_input_google_to_file + " \r\n" +
-            "xsdSource " + xsdsource_input_to_file + " \r\n" +
-            "localMapping " + specific_mapping_input_to_file + " \r\n" +
-            "incomeSource " + incomesource_input_to_file + " \r\n" +
-            "outcomeSource " + outcomesource_input_to_file + " \r\n"
-        );
-    };
-    */
 
     $('#incomesource').attr('webkitdirectory', '');
     $('#outcomesource').attr('webkitdirectory', '');

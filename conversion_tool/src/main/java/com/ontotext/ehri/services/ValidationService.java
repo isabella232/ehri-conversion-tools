@@ -11,18 +11,17 @@ import java.io.File;
 @Service
 public class ValidationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidationService.class);
-    private static final String EAD_RNG = "/rng/ead.rng";
 
     public void validate(TransformationModel model) {
         LOGGER.info("starting validation with these parameters: " + model.toString());
         long start = System.currentTimeMillis();
 
-        JingRunner.validate((String) Config.param("ead-rng-path"), model.getOutputDir());
-        SVRLInjector.inject(model.getOutputDir());
+        JingRunner.validate((String) Config.param("ead-rng-path"), (String) Config.param("output-dir"));
+        SVRLInjector.inject((String) Config.param("output-dir"));
 
-        File htmlDir = new File(TextReader.resolvePath(model.getOutputDir()), "html");
+        File htmlDir = new File(TextReader.resolvePath((String) Config.param("output-dir")), "html");
         htmlDir.mkdir();
-        XQueryRunner.generateHTML(model.getOutputDir(), htmlDir.getAbsolutePath() + "/", "de");
+        XQueryRunner.generateHTML((String) Config.param("output-dir"), htmlDir.getAbsolutePath() + "/", model.getLanguage());
 
         long time = System.currentTimeMillis() - start;
         LOGGER.info("finished validation in " + time + " ms");

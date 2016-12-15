@@ -6,8 +6,7 @@ public class TransformationModel {
     private String xquery;
     private String mapping;
     private String mappingRange;
-    private String inputDir;
-    private String outputDir;
+    private String language;
 
     public String getOrganisation() {
         return organisation;
@@ -49,20 +48,12 @@ public class TransformationModel {
         this.mappingRange = mappingRange;
     }
 
-    public String getInputDir() {
-        return inputDir;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setInputDir(String inputDir) {
-        this.inputDir = inputDir;
-    }
-
-    public String getOutputDir() {
-        return outputDir;
-    }
-
-    public void setOutputDir(String outputDir) {
-        this.outputDir = outputDir;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     @Override
@@ -72,7 +63,6 @@ public class TransformationModel {
                 ", xquery='" + xquery + '\'' +
                 ", mapping='" + mapping + '\'' +
                 ", mappingRange='" + mappingRange + '\'' +
-                ", inputDir='" + inputDir + '\'' +
-                ", outputDir='" + outputDir + '\'';
+                ", language='" + language + '\'';
     }
 }

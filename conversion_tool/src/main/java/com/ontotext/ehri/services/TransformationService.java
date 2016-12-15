@@ -21,7 +21,7 @@ public class TransformationService {
 
         if (model.getMapping() == null && model.getXquery() == null) {
             LOGGER.info("performing EAD1 to EAD2002 conversion");
-            XSLTRunner.runStylesheet(EAD1_TO_EAD2002, model.getInputDir(), model.getOutputDir());
+            XSLTRunner.runStylesheet(EAD1_TO_EAD2002, (String) Config.param("input-dir"), (String) Config.param("output-dir"));
         } else if (model.getXquery() == null) {
             LOGGER.info("performing generic transformation");
 
@@ -37,14 +37,14 @@ public class TransformationService {
                     mapping = GoogleSheetReader.toString(GoogleSheetReader.values(model.getMapping(), model.getMappingRange()), "\n", "\t");
                 }
 
-                XQueryRunner.genericTransform(mapping, model.getInputDir(), model.getOutputDir());
+                XQueryRunner.genericTransform(mapping, (String) Config.param("input-dir"), (String) Config.param("output-dir"));
             } catch (IOException e) {
                 LOGGER.error("exception while performing generic transformation", e);
             }
 
         } else {
             LOGGER.info("performing custom transformation");
-            XQueryRunner.customTransform(model.getXquery(), model.getInputDir(), model.getOutputDir());
+            XQueryRunner.customTransform(model.getXquery(), (String) Config.param("input-dir"), (String) Config.param("output-dir"));
         }
 
         long time = System.currentTimeMillis() - start;

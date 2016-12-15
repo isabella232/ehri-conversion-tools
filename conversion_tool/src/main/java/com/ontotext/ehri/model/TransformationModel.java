@@ -5,7 +5,6 @@ public class TransformationModel {
     private String fileType;
     private String xquery;
     private String mapping;
-    private String mappingRange;
     private String language;
 
     public String getOrganisation() {
@@ -40,14 +39,6 @@ public class TransformationModel {
         this.mapping = mapping;
     }
 
-    public String getMappingRange() {
-        return mappingRange;
-    }
-
-    public void setMappingRange(String mappingRange) {
-        this.mappingRange = mappingRange;
-    }
-
     public String getLanguage() {
         return language;
     }
@@ -62,7 +53,6 @@ public class TransformationModel {
                 ", fileType='" + fileType + '\'' +
                 ", xquery='" + xquery + '\'' +
                 ", mapping='" + mapping + '\'' +
-                ", mappingRange='" + mappingRange + '\'' +
                 ", language='" + language + '\'';
     }
 }

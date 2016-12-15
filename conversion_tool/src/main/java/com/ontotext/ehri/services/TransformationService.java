@@ -18,26 +18,29 @@ public class TransformationService {
         LOGGER.info("starting transformation with these parameters: " + model.toString());
         long start = System.currentTimeMillis();
 
-        if (model.getMapping() == null && model.getXquery() == null) {
+        if (model.getOrganisation() == null && model.getMapping() == null && model.getXquery() == null) {
             LOGGER.info("performing EAD1 to EAD2002 conversion");
             XSLTRunner.runStylesheet(EAD1_TO_EAD2002, (String) Config.param("input-dir"), (String) Config.param("output-dir"));
-        } else if (model.getXquery() == null) {
-            LOGGER.info("performing generic transformation");
-            File mappingFile = new File(model.getMapping());
-            String mapping;
 
-            if (mappingFile.isFile()) {
-                LOGGER.info("reading mapping from Excel file: " + mappingFile.getAbsolutePath());
-                mapping = ExcelReader.stringify(ExcelReader.readSheet(mappingFile.getAbsolutePath(), 0), "\t", "\n");
-            } else {
-                LOGGER.info("reading mapping from Google spreadsheet with ID: " + model.getMapping());
-                mapping = GoogleSheetReader.toString(GoogleSheetReader.values(model.getMapping(), model.getMappingRange()), "\n", "\t");
-            }
-
+        } else if (model.getMapping() == null && model.getXquery() == null) {
+            LOGGER.info("performing generic transformation with Google Sheet mapping for organisation: " + model.getOrganisation());
+            String sheetID = Config.mappingSheetID(model.getOrganisation());
+            String sheetRange = Config.mappingSheetRange(model.getOrganisation());
+            String mapping = GoogleSheetReader.toString(GoogleSheetReader.values(sheetID, sheetRange), "\n", "\t");
             XQueryRunner.genericTransform(mapping, (String) Config.param("input-dir"), (String) Config.param("output-dir"));
+
+        } else if (model.getXquery() == null) {
+            LOGGER.info("performing generic transformation with local sheet mapping: " + model.getMapping());
+            File mappingDir = new File((String) Config.param("mapping-dir"));
+            File mappingFile = new File(mappingDir, model.getMapping());
+            String mapping = ExcelReader.stringify(ExcelReader.readSheet(mappingFile.getAbsolutePath(), 0), "\t", "\n");
+            XQueryRunner.genericTransform(mapping, (String) Config.param("input-dir"), (String) Config.param("output-dir"));
+
         } else {
-            LOGGER.info("performing custom transformation");
-            XQueryRunner.customTransform(model.getXquery(), (String) Config.param("input-dir"), (String) Config.param("output-dir"));
+            LOGGER.info("performing transformation with custom XQuery: " + model.getXquery());
+            File xqueryDir = new File((String) Config.param("xquery-dir"));
+            File xqueryFile = new File(xqueryDir, model.getXquery());
+            XQueryRunner.customTransform(xqueryFile.getAbsolutePath(), (String) Config.param("input-dir"), (String) Config.param("output-dir"));
         }
 
         long time = System.currentTimeMillis() - start;

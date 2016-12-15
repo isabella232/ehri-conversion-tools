@@ -1,8 +1,8 @@
 # external resources
-input-dir: "../input"
-output-dir: "../output"
-mapping-dir: "../mapping"
-xquery-dir: "../xquery"
+input-dir: "../input/"
+output-dir: "../output/"
+mapping-dir: "../mapping/"
+xquery-dir: "../xquery/"
 google-key-path: "../google-sheet-accessor.key"
 user-config-path: "../config.yml"
 
@@ -21,6 +21,7 @@ stylesheet-path: "/css/ead.css"
 google-app-name: "EHRI Conversion Tool"
 organisation-mappings-sheet: "1OnFlXptIfsq2erZBYQUXcBEp4NEqOGD_R9Xu8gMfYds"
 organisation-mappings-sheet-range: "A2:C"
+default-language: "en"
 ead-namespaces:
   "": "urn:isbn:1-931666-22-9"
   "xlink": "http://www.w3.org/1999/xlink"

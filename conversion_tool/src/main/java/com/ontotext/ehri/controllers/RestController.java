@@ -30,7 +30,7 @@ public class RestController {
     public String transform(TransformationModel transformationModel){
         transformationService.transform(transformationModel);
         validationService.validate(transformationModel);
-        return "Done!";
+        return validationService.numErrors();
     }
 
     @RequestMapping(value = "/list-input-dir-contents", method = RequestMethod.GET)

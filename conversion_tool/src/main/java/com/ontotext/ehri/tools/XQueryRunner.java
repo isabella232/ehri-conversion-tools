@@ -41,14 +41,14 @@ public class XQueryRunner {
         run((String) Config.param("generic-transformer-path"), variables);
     }
 
-    public static void generateHTML(String documentDir, String htmlDir, String language) {
+    public static void generateHTML(String inputDir, String outputDir, String language) {
         Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("document-dir", documentDir);
-        variables.put("html-dir", htmlDir);
+        variables.put("input-dir", inputDir);
+        variables.put("output-dir", outputDir);
+        variables.put("stylesheet-location", TextReader.resolvePath((String) Config.param("stylesheet-location")).getAbsolutePath());
+        variables.put("formatting", TextReader.readText((String) Config.param("formatting-path")));
+        variables.put("translations", TextReader.readText((String) Config.param("translations-path")));
         variables.put("language", language);
-        variables.put("formatting-path", TextReader.resolvePath((String) Config.param("formatting-path")).getAbsolutePath());  // TODO: read and pass string
-        variables.put("translations-path", TextReader.resolvePath((String) Config.param("translations-path")).getAbsolutePath());  // TODO: read and pass string
-        variables.put("stylesheet-location", TextReader.resolvePath((String) Config.param("stylesheet-path")).getAbsolutePath()); // TODO
         run((String) Config.param("html-generator-path"), variables);
     }
 

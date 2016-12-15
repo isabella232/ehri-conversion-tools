@@ -169,14 +169,14 @@ declare function ead2html:generate-table-of-contents(
 
 (: transform a document to HTML :)
 declare function ead2html:document-to-html(
-  $document-path as xs:string,
+  $document-name as xs:string,
+  $document as document-node(),
   $stylesheet-location as xs:string,
   $formatting as document-node(),
   $translations as document-node(),
   $language as xs:string
 ) as document-node() {
-  let $document-name := fn:replace($document-path, fn:concat(".*", file:dir-separator()), "")
-  let $root := for $element in fn:doc($document-path)/*
+  let $root := for $element in $document/*
     return ead2html:element-to-html($element, $formatting, $translations, $language)
   
   return document {

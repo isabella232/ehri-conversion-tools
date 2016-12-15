@@ -15,7 +15,7 @@ html-generator-path: "/xquery/ead2html.xqy"
 ead-struct-path: "/ead2002.struct"
 formatting-path: "/tsv/formatting.tsv"
 translations-path: "/tsv/labels.tsv"
-stylesheet-path: "/css/ead.css"
+stylesheet-location: "/css/ead.css"
 
 # other stuff
 google-app-name: "EHRI Conversion Tool"

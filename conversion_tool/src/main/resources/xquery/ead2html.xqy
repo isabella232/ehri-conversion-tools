@@ -2,30 +2,30 @@ xquery version "3.0";
 
 import module namespace ead2html = "ead2html" at "ead2html.xqm";
 
-declare variable $document-dir as xs:string external;
-declare variable $html-dir as xs:string external;
-declare variable $language as xs:string external;
-
-declare variable $formatting-path as xs:string external;
-declare variable $translations-path as xs:string external;
+declare variable $input-dir as xs:string external;
+declare variable $output-dir as xs:string external;
 declare variable $stylesheet-location as xs:string external;
+declare variable $formatting as xs:string external;
+declare variable $translations as xs:string external;
+declare variable $language as xs:string external;
 
 (: serialization options :)
 let $csv_options := map { "separator": "tab", "header": "yes" }
 let $html_options := map { "method": "html", "media-type": "text/html", "include-content-type": "yes" }
 
 (: read configurations :)
-let $formatting := csv:parse(file:read-text($formatting-path), $csv_options)
-let $translations := csv:parse(file:read-text($translations-path), $csv_options)
+let $formatting-configuration := csv:parse($formatting, $csv_options)
+let $translation-configuration := csv:parse($translations, $csv_options)
 
-(: transform each XML document to HTML :)
-let $index-items := for $document-name in file:list($document-dir, fn:false(), "*.inj")
-  let $document-path := fn:concat($document-dir, $document-name)
-  let $html := ead2html:document-to-html($document-path, $stylesheet-location, $formatting, $translations, $language)
+(: transform each injected XML document to HTML :)
+let $index-items := for $document-name in file:list($input-dir, fn:false(), "*.inj")
+  let $document := fn:doc(fn:concat($input-dir, file:dir-separator(), $document-name))
+  let $document-name := fn:replace($document-name, "\.(xml|XML)\.inj$", "")
+  let $html := ead2html:document-to-html($document-name, $document, $stylesheet-location, $formatting-configuration, $translation-configuration, $language)
   
   (: write the HTML to file :)
-  let $html-name := fn:replace($document-name, ".(xml|XML)$", ".html")
-  let $html-path := fn:concat($html-dir, $html-name)
+  let $html-name := fn:concat($document-name, ".html")
+  let $html-path := fn:concat($output-dir, file:dir-separator(), $html-name)
   let $void := file:write($html-path, $html, $html_options)
   
   (: return a link to the HTML file and the number of errors in it :)
@@ -51,5 +51,5 @@ let $index := document {
 }
 
 (: write the index to file :)
-let $index-path := fn:concat($html-dir, "index.html")
+let $index-path := fn:concat($output-dir, file:dir-separator(), "index.html")
 return file:write($index-path, $index, $html_options)

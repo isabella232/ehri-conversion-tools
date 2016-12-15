@@ -49,7 +49,7 @@ public class ValidationService {
         File htmlDir = new File(outputDir, "html");
         File htmlIndex = new File(htmlDir, "index.html");
 
-        Pattern fileName = Pattern.compile("<a href=\"([^\"]+)\\.inj\">");
+        Pattern fileName = Pattern.compile("<a href=\"([^\"]+)\\.html\">");
         Pattern numErrors = Pattern.compile("<span class=\"num-errors\">(\\d+)</span>");
         StringBuilder errors = new StringBuilder();
 

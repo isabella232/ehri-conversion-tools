@@ -367,7 +367,7 @@ $(document).ready(function() {
             $('#file_type').val('');
             $('#transformation_type').val('');
             $('#mapping_type').val('');
-            $('#google_link').val('');
+            $('#iframe_holder').show();
             $('#specific_mapping_google_step').val('');
             $('#specific_trans_xquery').val('');
             $('#specific_trans_mapping').val('');

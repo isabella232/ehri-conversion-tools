@@ -7,6 +7,7 @@ import com.ontotext.ehri.services.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by Boyan on 23-Nov-16.
@@ -50,6 +51,21 @@ public class RestController {
     @RequestMapping(value = "/list-xquery-dir-contents", method = RequestMethod.GET)
     public String listXqueryDirContents() {
         return resourceService.listXqueryDirContents();
+    }
+
+    @RequestMapping(value = "/list-organisations", method = RequestMethod.GET)
+    public String listOrganisations() {
+        return resourceService.listOrganisations();
+    }
+
+    @RequestMapping(value = "/mapping-sheet-ID", method = RequestMethod.GET)
+    public String mappingSheetID(@RequestParam("organisation") String organisation) {
+        return resourceService.mappingSheetID(organisation);
+    }
+
+    @RequestMapping(value = "/mapping-sheet-range", method = RequestMethod.GET)
+    public String mappingSheetRange(@RequestParam("organisation") String organisation) {
+        return resourceService.mappingSheetRange(organisation);
     }
 
     @RequestMapping(value = "/error", method = RequestMethod.GET)

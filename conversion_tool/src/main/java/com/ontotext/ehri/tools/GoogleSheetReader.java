@@ -7,7 +7,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
-import com.google.api.services.sheets.v4.model.ValueRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,10 +65,15 @@ public class GoogleSheetReader {
      * @return The values as a list of lists of objects (rows containing cells containing values).
      * @throws IOException
      */
-    public static List<List<Object>> values(String spreadsheetId, String range) throws IOException {
+    public static List<List<Object>> values(String spreadsheetId, String range) {
         Sheets service = buildService();
-        ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
-        return response.getValues();
+
+        try {
+            return service.spreadsheets().values().get(spreadsheetId, range).execute().getValues();
+        } catch (IOException e) {
+            LOGGER.error("failed to fetch values for Google Sheet with ID: " + spreadsheetId);
+            return null;
+        }
     }
 
     private static Sheets buildService() {

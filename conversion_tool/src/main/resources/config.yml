@@ -19,6 +19,8 @@ stylesheet-path: "/css/ead.css"
 
 # other stuff
 google-app-name: "EHRI Conversion Tool"
+organisation-mappings-sheet: "1OnFlXptIfsq2erZBYQUXcBEp4NEqOGD_R9Xu8gMfYds"
+organisation-mappings-sheet-range: "A2:C"
 ead-namespaces:
   "": "urn:isbn:1-931666-22-9"
   "xlink": "http://www.w3.org/1999/xlink"

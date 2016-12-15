@@ -63,4 +63,16 @@ public class ResourceService {
 
         return names;
     }
+
+    public String listOrganisations() {
+        return String.join(SEPARATOR, Config.organisations());
+    }
+
+    public String mappingSheetID(String organisation) {
+        return Config.mappingSheetID(organisation);
+    }
+
+    public String mappingSheetRange(String organisation) {
+        return Config.mappingSheetRange(organisation);
+    }
 }

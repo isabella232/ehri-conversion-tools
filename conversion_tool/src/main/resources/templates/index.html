@@ -11,8 +11,8 @@
         <header id="header" class="header" role="header">
             <div id="logoregion">
                 <h1 id="logo">
-					<a href="http://www.ehri-project.eu" target="_blank">EHRI- European Holocaust Research Infrastructure</a>
-				</h1>
+                    <a href="http://www.ehri-project.eu" target="_blank">EHRI- European Holocaust Research Infrastructure</a>
+                </h1>
             </div>
             <div id="navigation">
                 <div class="view-header-image ">
@@ -28,9 +28,9 @@
             </div>
             <div id="main-inner">
                 <h1 class="roodtext">
-   					<span class="font300">EHRI FILE</span> MAPPING
-   					<a href="#" class="btn pull-right">documentation</a>
-   				</h1>
+                    <span class="font300">EHRI FILE</span> MAPPING
+                    <a href="#" class="btn pull-right">documentation</a>
+                </h1>
                 <!-- STEPS -->
                 <div class="steps-form-holder">
                     <span id="label_step_1" class="step_label active">1</span>
@@ -108,7 +108,7 @@
                             Select type of <span class="font700">Transformation</span>
                         </label>
                         <select name="mapping_type" id="mapping_type">
-                            <option value="">Please select</option>
+                            <option value="" selected="true">Please select</option>
                             <option value="generic">Generic Transformation</option>
                             <option value="specific">Specific Transformation</option>
                         </select>
@@ -133,8 +133,9 @@
                         <label class="roodtext inputlabel">
                             Select Local <span class="font700">Mapping</span>
                         </label>
-                        <a href="#" class="btn pull-right" id="mapping_location_btn_google">Select Mapping</a>
-                        <input type="file" name="specific_mapping_google" value="" class="inputform file" id="specific_mapping_google" />
+                        <select name="specific_mapping_google_step" id="specific_mapping_google_step" >
+                            <option value="" selected="true">Select local mapping file</option>
+                        </select>
                     </div>
                     <button class="btn pull-left" id="previous_step4">Previous step</button>
                     <button class="btn pull-right submit" id="submit_step4">Next step</button>
@@ -146,15 +147,17 @@
                         <label class="roodtext inputlabel">
                             Select <span class="font700">XSD File</span>
                         </label>
-                        <a href="#" class="btn pull-right" id="xsd_location_btn">Select XSD File</a>
-                        <input type="file" name="xsdsource" value="" class="inputform file" id="xsdsource" />
+                        <select name="specific_trans_xsd" id="specific_trans_xsd">
+                            <option value="" selected="true">Please select XSD File</option>
+                        </select>
                     </div>
                     <div class="input-holder specific_mapping">
                         <label class="roodtext inputlabel">
                             Select <span class="font700">Mapping</span>
                         </label>
-                        <a href="#" class="btn pull-right" id="mapping_location_btn">Select Mapping</a>
-                        <input type="file" name="specific_mapping" value="" class="inputform file" id="specific_mapping" />
+                        <select name="specific_trans_mapping" id="specific_trans_mapping" >
+                            <option value="" selected="true">Please select mapping file</option>
+                        </select>
                     </div>
                     <button class="btn pull-left" id="previous_step4_1">Previous step</button>
                     <button class="btn pull-right submit" id="submit_step4_1">Next step</button>
@@ -163,21 +166,39 @@
                 <!-- STEP 5 -->
                 <div id="step5" class="step">
                     <div class="input-holder local">
-                        <label class="roodtext inputlabel">
-                            Income <span class="font700">Source</span>
-                        </label>
-                        <a href="#" class="btn pull-right" id="income_location_btn">Select location</a>
-                        <input type="file" name="incomesource" value="" class="inputform file" id="incomesource" />
+                        <table>
+                            <caption>
+                                <label class="roodtext inputlabel">
+                                    Income Folder <span class="font700">Content</span>
+                                </label>
+                            </caption>
+                            <thead>
+                                <th>Files</th>
+                            </thead>
+                            <tbody id="income_folder">
+
+                            </tbody>
+                        </table>
                     </div>
                     <div class="input-holder local">
-                        <label class="roodtext inputlabel">
-                            Outcome <span class="font700">Source</span>
-                        </label>
-                        <a href="#" class="btn pull-right" id="outcome_location_btn">Select location</a>
-                        <input type="file" name="outcomesource" value="" class="inputform file" id="outcomesource" />
+                        <table>
+                            <caption>
+                                
+                                <label class="roodtext inputlabel">
+                                    Outcome Folder <span class="font700">Content</span>
+                                </label>
+
+                            </caption>
+                            <thead>
+                                <th>Files</th>
+                            </thead>
+                            <tbody id="outcome_folder">
+
+                            </tbody>
+                        </table>
                     </div>
                     <button class="btn pull-left" id="previous_step5">Previous step</button>
-                    <a class="btn pull-right submit" id="submit_step5" href="#" download="values.txt">Next step</a>
+                    <a class="btn pull-right submit" id="submit_step5" href="#">Next step</a>
                 </div>
                 <!-- /STEP 5 -->
                 <!-- STEP 6 -->
@@ -185,7 +206,7 @@
                     <div class="success_notes">
                         <p>Data was transformed Successfully!</p>
                     </div>
-                    <p>From <span class="roodtext font700">X</span> files we created <span class="roodtext font700">N</span> that are <span class="roodtext font700">VALID</span> and <span class="roodtext font700">Y</span> are with errors.</p>
+                    <p>From <span class="roodtext font700" id="for_transformation_files"></span> files we created <span class="roodtext font700" id="transformed_files"></span> that are <span class="roodtext font700">VALID</span> and <span class="roodtext font700">Y</span> are with errors.</p>
                     <p>Please take a look at the table below to find out the reason for the errors</p>
                     <table>
                         <caption>Report for errors</caption>
@@ -218,7 +239,7 @@
     </div>
     <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script src="js/app.min.js"></script>
+    <script src="js/app.js"></script>
     <!-- /JS -->
 </body>
 </html>

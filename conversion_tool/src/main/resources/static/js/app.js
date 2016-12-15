@@ -1,4 +1,11 @@
 $(document).ready(function() {
+    // Discuss - 
+    // i need the address of income and outcome dir to parse it to the Rest
+    // i think we need 2 more calls to get the folders location
+    // i need another call for getting the errors and files
+    // from where to get list of organizations and their google urls for generic mapping?
+    // generic transform using Google Sheet mapping WHAT IS mappingRange=A1:D
+    // custom transform using Google Sheet mapping I THINK WE AGREED THIS TO BE WITH SELECTION FOR LOCAL MAPPING NOT GOOGLE ONE
 
     //GLOBAL VARS
     var submit_buttons = $('.submit');
@@ -11,19 +18,15 @@ $(document).ready(function() {
     var transformation_type_select = $('#transformation_type');
     var mapping_type_select = $('#mapping_type');
 
-    // file selects
-    var specific_mapping_input_google = $('#specific_mapping_google');
-    var xsdsource_input = $('#xsdsource');
-    var specific_mapping_input = $('#specific_mapping');
-    var incomesource_input = $('#incomesource');
-    var outcomesource_input = $('#outcomesource')
-
     //buttons
     var mapping_location_btn_google = $('#mapping_location_btn_google');
-    var xsd_location_btn = $('#xsd_location_btn');
-    var mapping_location_btn = $('#mapping_location_btn');
-    var income_location_btn = $('#income_location_btn');
-    var outcome_location_btn = $('#outcome_location_btn');
+
+    // REST urls
+    var mapping_files_url = 'http://localhost:8080/rest/list-mapping-dir-contents';
+    var output_dir_content_url = 'http://localhost:8080/rest/list-output-dir-contents';
+    var input_dir_content_url = 'http://localhost:8080/rest/list-input-dir-contents';
+    var xquery_files_url = 'http://localhost:8080/rest/list-xquery-dir-contents';
+
 
     // Common functions
     function disableSubmit() {
@@ -55,6 +58,80 @@ $(document).ready(function() {
     // disable submit on page load
     disableSubmit();
 
+    // listing the content of input and output folder
+    function inputFolderListingContent(){
+
+        $.get( input_dir_content_url, function( data ) {
+            var input_dir_content = data;
+            // if folder is not empty list all items in it
+            $.each(input_dir_content.split("|").slice(0,-1), function(index, item) {
+                $('#income_folder').append('<tr><td>'+item+'</td></tr>');
+            });
+        });
+    };
+
+    function outputFolderListingContent() {
+        $.get( output_dir_content_url, function( data ) {
+            var output_dir_content = data;
+            // if folder is not empty list all items in it
+            $.each(output_dir_content.split("|").slice(0,-1), function(index, item) {
+                $('#outcome_folder').append('<tr><td>'+item+'</td></tr>');
+            });
+        });
+    };
+
+    //starting transformation
+    function startTransformation (){
+
+    //getting all the values of inputs
+    var organizationVal = $('#organization').val()
+    var fileTypeVal = $('#file_type').val();
+    var transformationTypeVal = $('#transformation_type').val();
+    var mappingTypeVal = $('#mapping_type').val();
+    var googleLinkVal = $('#google_link').val();
+    var specificMappingGoogleStepVal = $('#specific_mapping_google_step').val();
+    var specificTransXsdVal = $('#specific_trans_xsd');
+    var specificTransMapping = $('#specific_trans_mapping');
+
+        /*
+        create check so that we know if we will make
+        1. EAD1-to-EAD2002 conversion: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&inputDir=/home/georgi/Downloads/test-conversion-input/&outputDir=/home/georgi/Downloads/test-conversion-output/
+        2. generic transform using Google Sheet mapping: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&mapping=1H8bgPSWTvvfICZ6znvFpf4iDCib39KZ0jfgTYHmv5e0&mappingRange=A1:D&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/
+        3. generic transform using local Excel mapping: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&mapping=/home/georgi/Downloads/0-TEST-mapping-DO-NOT-MODIFY.xlsx&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/
+        4. custom transform using Google Sheet mapping: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&xquery=/home/georgi/Downloads/test.xqy&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/
+        */
+        //1. EAD1-to-EAD2002
+        if ($(fileTypeVal).val() === 'xml_ead'){
+            var urlToBeSend = 'http://localhost:8080/rest/process?organisation='+organizationVal+'&fileType='+fileTypeVal+'&inputDir=D:/Projects/EHRI/ehri-conversion-tools/input';
+        }
+
+        //3. generic transform using local
+        //2. generic transform using Google Sheet mapping:
+
+        if ($(mappingTypeVal).val() === 'generic' && specificMappingGoogleStepVal != '') {
+            console.log('if');
+            var urlToBeSend = 'http://localhost:8080/rest/process?organisation='+organizationVal+'&fileType='+fileTypeVal+'&mapping='+specificMappingGoogleStepVal+'&inputDir=/D:/Projects/EHRI/ehri-conversion-tools/input/';
+        } else if ($(mappingTypeVal).val() === 'generic' && specificMappingGoogleStepVal === ''){
+            console.log('else if');
+            var urlToBeSend = 'http://localhost:8080/rest/process?organisation='+organizationVal+'&fileType='+fileTypeVal+'&mapping='+googleLinkVal+'&mappingRange=A1:D&&inputDir=/D:/Projects/EHRI/ehri-conversion-tools/input&outputDir=/D:/Projects/EHRI/ehri-conversion-tools/output/';
+        }
+
+        //4 custom transform using Google Sheet mapping
+        
+        if ($(mappingTypeVal).val() === 'specific') {
+            var urlToBeSend = 'http://localhost:8080/rest/process?organisation='+organizationVal+'&fileType='+fileTypeVal+'&xquery='+specificTransXsdVal+'&inputDir=/D:/Projects/EHRI/ehri-conversion-tools/input&outputDir=/D:/Projects/EHRI/ehri-conversion-tools/output/';
+        }
+
+        $.get( urlToBeSend, function( data ) {
+            $('#step5').slideUp(300);
+            $('#step6').slideDown(300);
+            $('.active').removeClass('active');
+            $('#label_step_6').addClass('active');
+            hideLoader();
+        });
+    }
+
+
     // Check if organization is selected on change
     // Enable submit button
     $(organization_select).on('change', function() {
@@ -62,6 +139,7 @@ $(document).ready(function() {
         if (value_organization != '') {
             enableSubmit();
         }
+        
     });
 
     $('#submit_step1').click(function() {
@@ -149,19 +227,49 @@ $(document).ready(function() {
             if (navigator.onLine) {
                 $('#step3').slideUp(300);
                 $('#step4').slideDown(300);
+
             } else {
                 $('#step3').slideUp(300);
                 $('#step4').slideDown(300);
                 $('#view_google').hide();
                 $('#iframe_holder').hide();
             }
+            //getting mapping files
+            $.get( mapping_files_url, function( data ) {
+                console.log( data );
+                var mapping_files = data;
+
+                $.each(mapping_files.split("|").slice(0,-1), function(index, item) {
+                    $('#specific_mapping_google_step').append('<option value="'+ item + '">'+item+'</option>');
+                });
+            });
         } else if ($('#mapping_type').val() === 'specific') {
             $('#step3').slideUp(300);
             $('#step4_1').slideDown(300);
+            
+   
+            $.get( xquery_files_url, function( data ) {
+                console.log( data );
+                var xquery_files = data;
+
+                $.each(xquery_files.split("|").slice(0,-1), function(index, item) {
+                    $('#specific_trans_xsd').append('<option value="'+ item + '">'+item+'</option>');
+                });
+            });
+            $.get( mapping_files_url, function( data ) {
+                console.log( data );
+                var mapping_files = data;
+
+                $.each(mapping_files.split("|").slice(0,-1), function(index, item) {
+                    $('#specific_trans_mapping').append('<option value="'+ item + '">'+item+'</option>');
+                });
+            });
         }
         $('.active').removeClass('active');
         $('#label_step_4').addClass('active');
         event.preventDefault();
+
+
     });
 
     $('#previous_step3').click(function() {
@@ -172,31 +280,15 @@ $(document).ready(function() {
         disableSubmit();
     });
 
-    // simulate click on input type file
-    $(mapping_location_btn_google).click(function() {
-        $(specific_mapping_input_google).click();
-        $('#iframe_holder').slideUp(300);
-        $('#view_google').slideUp(300);
-    });
-
-    $(specific_mapping_input_google).click(function() {
-        $('#iframe_holder').slideUp(300);
-        $('#view_google').slideUp(300);
-    })
-
-    $(specific_mapping_input_google).on('change', function() {
-        var value_specifi_mapping_input_google = this.value;
-        if (value_specifi_mapping_input_google != '') {
-            enableSubmit();
-        }
-    });
-
     $('#submit_step4').click(function() {
         $('#step4').slideUp(300);
         $('#step5').slideDown(300);
         $('.active').removeClass('active');
         $('#label_step_5').addClass('active');
+
         disableSubmit();
+        inputFolderListingContent();
+        outputFolderListingContent();
     });
 
     $('#previous_step4').click(function() {
@@ -207,37 +299,16 @@ $(document).ready(function() {
         disableSubmit();
     });
 
-    // simulate click on hidden input type file
-    $(xsd_location_btn).click(function() {
-        $(xsdsource_input).click();
-    });
-
-    $(xsdsource_input).on('change', function() {
-        var value_specific_mapping_input = $(specific_mapping_input).val();
-        var value_xsdsource_input = this.value;
-        if (value_xsdsource_input != '' && value_specific_mapping_input != '') {
-            enableSubmit();
-        }
-    });
-
-    $(mapping_location_btn).click(function() {
-        $(specific_mapping_input).click();
-    });
-
-    $(specific_mapping_input).on('change', function() {
-        var value_specific_mapping_input = this.value;
-        var value_xsdsource_input = $(xsdsource_input).val();
-        if (value_xsdsource_input != '' && value_specific_mapping_input != '') {
-            enableSubmit();
-        }
-    });
-
+    //here
     $('#submit_step4_1').click(function() {
         $('#step4_1').slideUp(300);
         $('#step5').slideDown(300);
         $('.active').removeClass('active');
         $('#label_step_5').addClass('active');
+
         disableSubmit();
+        inputFolderListingContent();
+        outputFolderListingContent();
     });
 
     $('#previous_step4').click(function() {
@@ -248,42 +319,32 @@ $(document).ready(function() {
         disableSubmit();
     });
 
-    //here
-    // simulate click on hidden input type file
-    $(income_location_btn).click(function() {
-        $(incomesource_input).click();
-    });
-
-    $(incomesource_input).on('change', function() {
-        var value_outcomesource_input = $(outcomesource_input).val();
-        var value_incomesource_input = this.value;
-        if (value_outcomesource_input != '' && value_incomesource_input != '') {
-            enableSubmit();
-        }
-    });
-
-    // simulate click on hidden input type file
-    $(outcome_location_btn).click(function() {
-        $(outcomesource_input).click();
-    });
-
-    $(outcomesource_input).on('change', function() {
-        var value_outcomesource_input = this.value;
-        var value_incomesource_input = $(incomesource_input).val();
-        if (value_outcomesource_input != '' && value_incomesource_input != '') {
-            enableSubmit();
-        }
-    });
-
     $('#submit_step5').click(function() {
         showLoader();
-        setTimeout(function() {
-            $('#step5').slideUp(300);
-            $('#step6').slideDown(300);
-            $('.active').removeClass('active');
-            $('#label_step_6').addClass('active');
-            hideLoader();
-        }, 3000);
+
+        startTransformation();
+
+        // listing the content of input and output folder
+        var input_files_count = 1;
+        $.get( input_dir_content_url, function( data ) {
+            var input_dir_content = data;
+            // if folder is not empty list all items in it
+            $.each(input_dir_content.split("|").slice(0,-1), function(index, item) {
+                input_files_count++;
+            });
+            $('#for_transformation_files').append(input_files_count);
+        });
+
+        var output_files_count = 1;
+        $.get( output_dir_content_url, function( data ) {
+            var output_dir_content = data;
+            // if folder is not empty list all items in it
+            $.each(output_dir_content.split("|").slice(0,-1), function(index, item) {
+                output_files_count++;
+            });
+            $('#transformed_files').append(output_files_count);
+        });
+
     });
 
     $('#previous_step5').click(function() {
@@ -308,11 +369,6 @@ $(document).ready(function() {
         $('#step2').slideDown(300);
         $('.active').removeClass('active');
         $('#label_step_2').addClass('active');
-        $(incomesource_input).val('');
-        $(outcomesource_input).val('');
-        $(xsdsource_input).val('');
-        $(specific_mapping_input).val('');
-        $(specific_mapping_input_google).val('');
         return false;
     });
 
@@ -321,38 +377,11 @@ $(document).ready(function() {
         $('#step5').slideDown(300);
         $('.active').removeClass('active');
         $('#label_step_5').addClass('active');
-        $(incomesource_input).val('');
-        $(outcomesource_input).val('');
         return false;
     });
 
-    //creating file with values
-    document.getElementById('submit_step5').onclick = function() {
-        var organization_select_to_file = organization_select.val();
-        var file_type_select_to_file = file_type_select.val();
-        var transformation_type_select_to_file = transformation_type_select.val();
-        var mapping_type_select_to_file = mapping_type_select.val();
-        var specific_mapping_input_google_to_file = specific_mapping_input_google.val();
-        var xsdsource_input_to_file = xsdsource_input.val();
-        var specific_mapping_input_to_file = specific_mapping_input.val();
-        var incomesource_input_to_file = incomesource_input.val();
-        var outcomesource_input_to_file = outcomesource_input.val();
-        this.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(
-            "selectedOrganization " + organization_select_to_file + " \r\n" +
-            "fileType " + file_type_select_to_file + " \r\n" +
-            "transformationType " + transformation_type_select_to_file + " \r\n" +
-            "mappingTypeGeneric " + mapping_type_select_to_file + " \r\n" +
-            "specificMapping " + specific_mapping_input_google_to_file + " \r\n" +
-            "xsdSource " + xsdsource_input_to_file + " \r\n" +
-            "localMapping " + specific_mapping_input_to_file + " \r\n" +
-            "incomeSource " + incomesource_input_to_file + " \r\n" +
-            "outcomeSource " + outcomesource_input_to_file + " \r\n"
-        );
-    };
 
-    $('#incomesource').attr('webkitdirectory', '');
-    $('#outcomesource').attr('webkitdirectory', '');
-
+    // rethink this shit here
     $('#label_step_1').click(function() {
         $('.active').removeClass('active');
         $('#step1').slideDown(300);

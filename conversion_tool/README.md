@@ -2,16 +2,14 @@
 
 ## REST Parameters (WIP)
 This is a description of the available REST parameters and their effect. Keep in mind that this is work-in-progress and very likely to change.
-* `organisation`: name of the organisation (UNUSED)
-* `fileType`: file type, e.g. XML, JSON, CSV (UNUSED)
-* `xquery`: path to local XQuery script; if present, this script will be executed instead of the generic transformation script (OPTIONAL)
-* `mapping`: path to local Excel file (.xls or .xlsx) or Google Sheet ID containing mapping configuration; if absent, EAD1-to-EAD2002 conversion will be performed (OPTIONAL)
-* `mappingRange`: cell range defining which cells from a Google Sheet to take, e.g. A1:D (OPTIONAL unless using Google Sheet)
-* `inputDir`: path to directory containing input files (REQUIRED)
-* `outputDir`: path to directory where output files will be written (REQUIRED)
+* `organisation` - name of organisation; if given, will use the corresponding Google Sheet mapping
+* `mapping` - name of an Excel mapping file; if given, will use it as the mapping
+* `xquery` - name of an XQuery file; if given, will use it for the transformation
+* `language` - two-letter code of the language for HTML generation; if given, will use it instead of the configured default
+* `fileType` - type of input files; doesn't do anything
 
 Some example requests:
-* EAD1-to-EAD2002 conversion: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&inputDir=/home/georgi/Downloads/test-conversion-input/&outputDir=/home/georgi/Downloads/test-conversion-output/
-* generic transform using Google Sheet mapping: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&mapping=1H8bgPSWTvvfICZ6znvFpf4iDCib39KZ0jfgTYHmv5e0&mappingRange=A1:D&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/
-* generic transform using local Excel mapping: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&mapping=/home/georgi/Downloads/0-TEST-mapping-DO-NOT-MODIFY.xlsx&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/
-* custom transform using Google Sheet mapping: http://localhost:8080/rest/process?organisation=ontotext&fileType=xml&xquery=/home/georgi/Downloads/test.xqy&inputDir=/home/georgi/Downloads/test-input/&outputDir=/home/georgi/Downloads/test-output/
+* http://localhost:8080/rest/process - convert from EAD1 to EAD2002
+* http://localhost:8080/rest/process?organisation=TEST - transform with the Google Sheet mapping for organisation "TEST"
+* http://localhost:8080/rest/process?mapping=test.xlsx - transform with the Excel mapping file "test.xlsx"
+* http://localhost:8080/rest/process?xquery=test.xqy - transform with the custom XQuery file "test.xqy"

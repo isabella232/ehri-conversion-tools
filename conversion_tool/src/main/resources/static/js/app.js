@@ -1,12 +1,4 @@
 $(document).ready(function() {
-    // Discuss - 
-    // i need the address of income and outcome dir to parse it to the Rest
-    // i think we need 2 more calls to get the folders location
-    // i need another call for getting the errors and files
-    // from where to get list of organizations and their google urls for generic mapping?
-    // generic transform using Google Sheet mapping WHAT IS mappingRange=A1:D
-    // custom transform using Google Sheet mapping I THINK WE AGREED THIS TO BE WITH SELECTION FOR LOCAL MAPPING NOT GOOGLE ONE
-
     //GLOBAL VARS
     var submit_buttons  = $('.submit');
     var loader          = $('.loader');
@@ -22,6 +14,7 @@ $(document).ready(function() {
     var mapping_location_btn_google = $('#mapping_location_btn_google');
 
     // REST urls
+    var get_organizations_url   = 'http://localhost:8080/rest/list-organisations';
     var mapping_files_url       = 'http://localhost:8080/rest/list-mapping-dir-contents';
     var output_dir_content_url  = 'http://localhost:8080/rest/list-output-dir-contents';
     var input_dir_content_url   = 'http://localhost:8080/rest/list-input-dir-contents';
@@ -77,14 +70,23 @@ $(document).ready(function() {
         });
     };
 
+    // Delete rows from table
     function emptyIncomeOutcomeTables() {
         $('#income_folder').empty();
         $('#outcome_folder').empty();
     }
 
-    function removeResults(){
+    // Delete rows from table
+    function removeResults() {
         $('#for_transformation_files').empty();
-        $('#transformed_files').empty();   
+        $('#transformed_files').empty();
+    }
+
+    // Steps hide steps, Remove Active class and disable submit
+    function inactiveState(){
+        $('.active').removeClass('active');
+        $('.step').slideUp(100);
+        disableSubmit();
     }
 
     //starting transformation
@@ -97,9 +99,14 @@ $(document).ready(function() {
         var mappingTypeVal                  = $('#mapping_type').val();
         var googleLinkVal                   = $('#google_link').val();
         var specificMappingGoogleStepVal    = $('#specific_mapping_google_step').val();
-        var specificTransXsdVal             = $('#specific_trans_xsd').val();
+        var specificTransxqueryVal          = $('#specific_trans_xquery').val();
         var specificTransMapping            = $('#specific_trans_mapping').val();
 
+        var getMappingRangeUrl = 'http://localhost:8080/rest/mapping-sheet-range?organisation='+organizationVal;
+        $.get(getMappingRangeUrl, function(data) {
+            console.log(data);
+            var mappingRange = data;
+        });
 
         //          1. EAD1-to-EAD2002
         if ($(fileTypeVal).val() === 'xml_ead') {
@@ -111,13 +118,13 @@ $(document).ready(function() {
         if ($(mappingTypeVal).val() === 'generic' && specificMappingGoogleStepVal != '') {
             var urlToBeSend = 'http://localhost:8080/rest/process?organisation=' + organizationVal + '&fileType=' + fileTypeVal + '&mapping=' + specificMappingGoogleStepVal;
         } else if ($(mappingTypeVal).val() === 'generic' && specificMappingGoogleStepVal === '') {
-            var urlToBeSend = 'http://localhost:8080/rest/process?organisation=' + organizationVal + '&fileType=' + fileTypeVal + '&mapping=' + googleLinkVal + '&mappingRange=A1:D';
+            var urlToBeSend = 'http://localhost:8080/rest/process?organisation=' + organizationVal + '&fileType=' + fileTypeVal + '&mapping=' + googleLinkVal + '&mappingRange='+mappingRange;
         }
 
         //          4 custom transform using Google Sheet mapping
 
         if ($(mappingTypeVal).val() === 'specific') {
-            var urlToBeSend = 'http://localhost:8080/rest/process?organisation=' + organizationVal + '&fileType=' + fileTypeVal + '&xquery=' + specificTransXsdVal;
+            var urlToBeSend = 'http://localhost:8080/rest/process?organisation=' + organizationVal + '&fileType=' + fileTypeVal + '&xquery=' + specificTransxqueryVal;
         }
 
         $.get(urlToBeSend, function(data) {
@@ -126,6 +133,16 @@ $(document).ready(function() {
             $('.active').removeClass('active');
             $('#label_step_6').addClass('active');
             hideLoader();
+        });
+    }
+
+    function getAllOrganizations(){
+        $.get(get_organizations_url, function(data) {
+            var organizationsList = data;
+            $.each(organizationsList.split("|"), function(index, item) {
+                $('#organization').append('<option value="'+item+'">'+item+'</option>');
+            });
+            $('#organization').append('<option value="no_organization">Other</option>');
         });
     }
 
@@ -138,7 +155,6 @@ $(document).ready(function() {
         if (value_organization != '') {
             enableSubmit();
         }
-
     });
 
     // Check if file type is selected on change
@@ -183,61 +199,52 @@ $(document).ready(function() {
 
     //MAIN LOGIC
 
+    //on laod load all organizations
+    getAllOrganizations();
+
     // disable submit on page load
     disableSubmit();
 
     // previous step
     $(".previous_step").click(function(event) {
         var previous_button = event.target.id;
-        if (previous_button === 'previous_step2'){
-            $('.active').removeClass('active');
+        if (previous_button === 'previous_step2') {
+            inactiveState();
             $('#label_step_1').addClass('active');
             $('#step1').slideDown(300);
-            $('#step2').slideUp(100);
-            disableSubmit();
-        } else if (previous_button === 'previous_step2_1'){
-            $('.active').removeClass('active');
+        } else if (previous_button === 'previous_step2_1') {
+            inactiveState();
             $('#label_step_1').addClass('active');
             $('#step1').slideDown(300);
-            $('#step2_1').slideUp(100);
-            disableSubmit();
-        } else if (previous_button === 'previous_step3'){
-            $('.active').removeClass('active');
+        } else if (previous_button === 'previous_step3') {
+            inactiveState();
             $('#label_step_2').addClass('active');
             $('#step2').slideDown(300);
-            $('#step3').slideUp(100);
-            disableSubmit();
-        } else if (previous_button === 'previous_step4'){
-            $('.active').removeClass('active');
+        } else if (previous_button === 'previous_step4') {
+            inactiveState();
             $('#label_step_3').addClass('active');
             $('#step3').slideDown(300);
-            $('#step4').slideUp(100);
-            disableSubmit();
-        } else if (previous_button === 'previous_step4_1'){
-            $('.active').removeClass('active');
+        } else if (previous_button === 'previous_step4_1') {
+            inactiveState();
             $('#label_step_3').addClass('active');
             $('#step3').slideDown(300);
-            $('#step4_1').slideUp(100);
-            disableSubmit();
-        } else if (previous_button === 'previous_step5'){
-            $('.active').removeClass('active');
+        } else if (previous_button === 'previous_step5') {
+            inactiveState();
             $('#label_step_4').addClass('active');
             $('#step4').slideDown(300);
-            $('#step5').slideUp(100);
-            disableSubmit();
         }
     });
 
     // Submitting steps of form
     $(".submit_step").click(function(event) {
         var submit_button = event.target.id;
-        if (submit_button === 'submit_step1'){
+        if (submit_button === 'submit_step1') {
             $('#step1').slideUp(300);
             $('#step2').slideDown(300);
             $('.active').removeClass('active');
             $('#label_step_2').addClass('active');
             disableSubmit();
-        } else if (submit_button === 'submit_step2'){
+        } else if (submit_button === 'submit_step2') {
             $('#step2').slideUp(300)
             if ($('#file_type').val() === 'xml_ead') {
                 $('#step2_1').slideDown(300);
@@ -262,11 +269,19 @@ $(document).ready(function() {
             }
             disableSubmit();
         } else if (submit_button === 'submit_step3') {
-                // IF      -> Generic transformation
-                // ELSE IF -> Specific transforamtion
+            // IF      -> Generic transformation
+            // ELSE IF -> Specific transforamtion
             if ($('#mapping_type').val() === 'generic') {
                 //add links from file that we will read if online
                 if (navigator.onLine) {
+                    var restUrlSheetUrl = 'http://localhost:8080/rest/mapping-sheet-ID?organisation='+ $('#organization').val();
+                    $.get(restUrlSheetUrl, function(data) {
+                        var urlForIframeLink = 'https://docs.google.com/spreadsheets/d/'+data+'/edit?usp=sharing';
+                        $('#view_google').attr('href', urlForIframeLink);
+                        $('#google_link').val(urlForIframeLink);
+                        $('#google_link').attr('value', urlForIframeLink);
+                        $("#google-iframe").attr("src", urlForIframeLink);
+                    });
                     $('#step3').slideUp(300);
                     $('#step4').slideDown(300);
                 } else {
@@ -285,12 +300,12 @@ $(document).ready(function() {
             } else if ($('#mapping_type').val() === 'specific') {
                 $('#step3').slideUp(300);
                 $('#step4_1').slideDown(300);
-                //getting xsd files and appending them to select
+                //getting xquery files and appending them to select
                 $.get(xquery_files_url, function(data) {
                     var xquery_files = data;
 
                     $.each(xquery_files.split("|"), function(index, item) {
-                        $('#specific_trans_xsd').append('<option value="' + item + '">' + item + '</option>');
+                        $('#specific_trans_xquery').append('<option value="' + item + '">' + item + '</option>');
                     });
                 });
                 //getting mapping files and appending them to select
@@ -354,7 +369,7 @@ $(document).ready(function() {
             $('#mapping_type').val('');
             $('#google_link').val('');
             $('#specific_mapping_google_step').val('');
-            $('#specific_trans_xsd').val('');
+            $('#specific_trans_xquery').val('');
             $('#specific_trans_mapping').val('');
             emptyIncomeOutcomeTables();
             removeResults();
@@ -366,94 +381,79 @@ $(document).ready(function() {
             $('#label_step_5').addClass('active');
             removeResults();
             return false;
-        }        
+        }
     });
 
     // steps navigation
     $(".step_label").click(function(event) {
         var step = event.target.id;
         if (step === 'label_step_1') {
-            $('.active').removeClass('active');
-            $('.step').slideUp(100);
+            inactiveState();
             $('#step1').slideDown(300);
             $(this).addClass('active');
         } else if (step === 'label_step_2') {
-            if ($('#organization').val() != ''){
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+            if ($('#organization').val() != '') {
+                inactiveState();
                 $(this).addClass('active');
                 $('#step2').slideDown(300);
             } else {
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+                inactiveState();
                 $('#step1').slideDown(300);
                 $('#label_step_1').addClass('active');
             }
         } else if (step === 'label_step_3') {
-            if ($('#file_type').val() != '' && $('#organization').val() != ''){
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+            if ($('#file_type').val() != '' && $('#organization').val() != '') {
+               inactiveState();
                 $(this).addClass('active');
                 $('#step3').slideDown(300);
             } else if ($('#organization').val() != '') {
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+                inactiveState();
                 $('#step2').slideDown(300);
                 $('#label_step_2').addClass('active');
             } else {
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+                inactiveState();
                 $('#step1').slideDown(300);
                 $('#label_step_1').addClass('active');
             }
         } else if (step === 'label_step_4') {
-            if ($('#file_type').val() != '' && $('#organization').val() != ''  && $('#mapping_type').val() != ''){
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+            if ($('#file_type').val() != '' && $('#organization').val() != '' && $('#mapping_type').val() != '') {
+                inactiveState();
                 $(this).addClass('active');
                 $('#step4').slideDown(300);
             } else if ($('#organization').val() != '') {
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+                inactiveState();
                 $('#step2').slideDown(300);
                 $('#label_step_2').addClass('active');
             } else {
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+                inactiveState();
                 $('#step1').slideDown(300);
                 $('#label_step_1').addClass('active');
             }
         } else if (step === 'label_step_5') {
-            if ($('#file_type').val() != '' && $('#organization').val() != ''  && $('#mapping_type').val() != ''){
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+            if ($('#file_type').val() != '' && $('#organization').val() != '' && $('#mapping_type').val() != '') {
+                inactiveState();
                 $(this).addClass('active');
                 $('#step5').slideDown(300);
             } else if ($('#organization').val() != '') {
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+                inactiveState();
                 $('#step2').slideDown(300);
                 $('#label_step_2').addClass('active');
             } else {
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+                inactiveState();
                 $('#step1').slideDown(300);
                 $('#label_step_1').addClass('active');
             }
         } else if (step === 'label_step_6') {
-            if ($('#file_type').val() != '' && $('#organization').val() != ''  && $('#mapping_type').val() != ''){
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+            if ($('#file_type').val() != '' && $('#organization').val() != '' && $('#mapping_type').val() != '') {
+                inactiveState();
                 $(this).addClass('active');
                 $('#step6').slideDown(300);
             } else if ($('#organization').val() != '') {
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+                inactiveState();
                 $('#step2').slideDown(300);
                 $('#label_step_2').addClass('active');
             } else {
-                $('.active').removeClass('active');
-                $('.step').slideUp(100);
+                inactiveState();
                 $('#step1').slideDown(300);
                 $('#label_step_1').addClass('active');
             }

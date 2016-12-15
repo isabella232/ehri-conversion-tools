@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>EHRI Conversion Tool</title>
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <!-- /CSS -->
 </head>
+
 <body>
     <div id="page">
         <header id="header" class="header" role="header">
@@ -51,17 +53,8 @@
                         </label>
                         <select name="organization" id="organization">
                             <option value="">Please select</option>
-                            <option value="1">Organization 1</option>
-                            <option value="2">Organization 2</option>
-                            <option value="3">Organization 3</option>
-                            <option value="4">Organization 4</option>
-                            <option value="5">Organization 5</option>
-                            <option value="6">Organization 6</option>
-                            <option value="7">Organization 7</option>
-                            <option value="8">Organization 8</option>
-                            <option value="9">Organization 9</option>
-                            <option value="10">Organization 10</option>
-                            <option value="no_organization">Other</option>
+
+                            
                         </select>
                     </div>
                     <button class="btn pull-right submit submit_step" id="submit_step1">Next step</button>
@@ -121,19 +114,23 @@
                 <div id="step4" class="step">
                     <div class="input-holder source">
                         <div class="input-holder google">
-                            <a class="btn pull-right" href="https://docs.google.com/spreadsheets/d/1sIOol5JbKBZgDGBnuARkewSzhAhsLzk4E-lzhaGn50U/edit?usp=sharing" id="view_google" target="_blank">VIEW Google speadsheet</a>
+                            <!-- google sheets should be loaded via REST -->
+                            <a class="btn pull-right" id="view_google" target="_blank">VIEW Google speadsheet</a>
                             <div class="clearfix"></div>
-                            <input type="text" name="google_link" value="https://docs.google.com/spreadsheets/d/1sIOol5JbKBZgDGBnuARkewSzhAhsLzk4E-lzhaGn50U/edit?usp=sharing" class="inputform" id="google_link" readonly="true" />
+                            <input type="text" name="google_link" class="inputform" id="google_link" readonly="true" />
+                            <!-- google sheets should be loaded via REST -->
                         </div>
                     </div>
                     <div id="iframe_holder">
-                        <iframe src="https://docs.google.com/spreadsheets/d/1sIOol5JbKBZgDGBnuARkewSzhAhsLzk4E-lzhaGn50U/preview#gid=0" id="google-iframe"></iframe>
+                        <!-- google sheets should be loaded via REST -->
+                        <iframe src="" id="google-iframe"></iframe>
+                        <!-- google sheets should be loaded via REST -->
                     </div>
                     <div class="input-holder specific_mapping">
                         <label class="roodtext inputlabel">
                             Select Local <span class="font700">Mapping</span>
                         </label>
-                        <select name="specific_mapping_google_step" id="specific_mapping_google_step" >
+                        <select name="specific_mapping_google_step" id="specific_mapping_google_step">
                             <option value="" selected="true">Select local mapping file</option>
                         </select>
                     </div>
@@ -145,17 +142,17 @@
                 <div id="step4_1" class="step">
                     <div class="input-holder specific">
                         <label class="roodtext inputlabel">
-                            Select <span class="font700">XSD File</span>
+                            Select <span class="font700">xquery File</span>
                         </label>
-                        <select name="specific_trans_xsd" id="specific_trans_xsd">
-                            <option value="" selected="true">Please select XSD File</option>
+                        <select name="specific_trans_xquery" id="specific_trans_xquery">
+                            <option value="" selected="true">Please select xquery File</option>
                         </select>
                     </div>
                     <div class="input-holder specific_mapping">
                         <label class="roodtext inputlabel">
                             Select <span class="font700">Mapping</span>
                         </label>
-                        <select name="specific_trans_mapping" id="specific_trans_mapping" >
+                        <select name="specific_trans_mapping" id="specific_trans_mapping">
                             <option value="" selected="true">Please select mapping file</option>
                         </select>
                     </div>
@@ -176,24 +173,20 @@
                                 <th>Files</th>
                             </thead>
                             <tbody id="income_folder">
-
                             </tbody>
                         </table>
                     </div>
                     <div class="input-holder local">
                         <table>
                             <caption>
-                                
                                 <label class="roodtext inputlabel">
                                     Output Folder <span class="font700">Content</span>
                                 </label>
-
                             </caption>
                             <thead>
                                 <th>Files</th>
                             </thead>
                             <tbody id="outcome_folder">
-
                             </tbody>
                         </table>
                     </div>
@@ -206,17 +199,33 @@
                     <div class="success_notes">
                         <p>Data was transformed Successfully!</p>
                     </div>
-                    <p>From <span class="roodtext font700" id="for_transformation_files"></span> files we created <span class="roodtext font700" id="transformed_files"></span> that are <span class="roodtext font700">VALID</span> and <span class="roodtext font700">Y</span> are with errors.</p>
+                    <p>From <span class="roodtext font700" id="for_transformation_files"></span> files we created <span class="roodtext font700" id="transformed_files"></span>.</p>
                     <p>Please take a look at the table below to find out the reason for the errors</p>
                     <table>
                         <caption>Report for errors</caption>
                         <thead>
                             <tr>
                                 <th>File Name</th>
-                                <th>Error Type</th>
+                                <th>Number of errors</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td>File</td>
+                                <td>Error</td>
+                            </tr>
+                            <tr>
+                                <td>File</td>
+                                <td>Error</td>
+                            </tr>
+                            <tr>
+                                <td>File</td>
+                                <td>Error</td>
+                            </tr>
+                            <tr>
+                                <td>File</td>
+                                <td>Error</td>
+                            </tr>
                             <tr>
                                 <td>File</td>
                                 <td>Error</td>
@@ -242,4 +251,5 @@
     <script src="js/app.js"></script>
     <!-- /JS -->
 </body>
+
 </html>

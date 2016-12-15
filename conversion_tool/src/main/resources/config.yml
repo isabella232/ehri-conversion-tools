@@ -1,15 +1,15 @@
 # external resources
-input-dir: "../input/"
-output-dir: "../output/"
-mapping-dir: "../mapping/"
-xquery-dir: "../xquery/"
+input-dir: "../input"
+output-dir: "../output"
+mapping-dir: "../mapping"
+xquery-dir: "../xquery"
 google-key-path: "../google-sheet-accessor.key"
 user-config-path: "../config.yml"
 
 # internal resources
 ead1-to-ead2002-path: "/xslt/v1to02.xsl"
 ead-rng-path: "/rng/ead.rng"
-xquery-module-dir: "/xquery/lib/"
+xquery-module-dir: "/xquery/lib"
 generic-transformer-path: "/xquery/transform.xqy"
 html-generator-path: "/xquery/ead2html.xqy"
 ead-struct-path: "/ead2002.struct"

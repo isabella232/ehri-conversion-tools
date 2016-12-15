@@ -11,28 +11,33 @@ import org.basex.query.value.type.AtomType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class XQueryRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(XQueryRunner.class);
     private static final Context CONTEXT = new Context();
-    private static final UriResolver URI_RESOLVER = (path, uri, base) -> new IOFile(TextReader.resolvePath(Config.param("xquery-module-dir") + path));
+    private static final UriResolver URI_RESOLVER = (path, uri, base) -> {
+        String fullPath = Config.param("xquery-module-dir") + File.separator + path;
+        //return new IOContent(TextReader.readText(fullPath));
+        return new IOFile(TextReader.resolvePath(fullPath));
+    };
 
     public static void customTransform(String xqueryPath, String inputDir, String outputDir) {
         Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("source-dir", inputDir);
-        variables.put("target-dir", outputDir);
+        variables.put("input-dir", inputDir);
+        variables.put("output-dir", outputDir);
         run(xqueryPath, variables);
     }
 
     public static void genericTransform(String mapping, String inputDir, String outputDir) {
         Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("source-dir", inputDir);
-        variables.put("target-dir", outputDir);
-        variables.put("structure-path", TextReader.resolvePath((String) Config.param("ead-struct-path")).getAbsolutePath()); // TODO: read and pass string
-        variables.put("configuration", mapping);
         variables.put("namespaces", Config.param("ead-namespaces"));
+        variables.put("structure", TextReader.readText((String) Config.param("ead-struct-path")));
+        variables.put("mapping", mapping);
+        variables.put("input-dir", inputDir);
+        variables.put("output-dir", outputDir);
         run((String) Config.param("generic-transformer-path"), variables);
     }
 

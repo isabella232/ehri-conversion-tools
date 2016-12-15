@@ -1,7 +1,7 @@
 xquery version "3.0";
 
 (: module for configurable XML transformations :)
-(: configuration is a TSV file with four columns: :)
+(: configuration is a TSV with four columns: :)
 (: 1. target-path: path defining the location of the target node (slash-separated list of element names; must end with slash) :)
 (: 2. target-node: name of the target node (attributes prefixed with "@"; may contain defined namespace prefixes) :)
 (: 3. source-node: XQuery expression returning the corresponding node in the source document (evaluated in the context of the parent source node) :)
@@ -10,9 +10,9 @@ module namespace transform = "transform";
 
 (: transform a source document into target documents with the given configuration and namespaces :)
 (: $source-document: the source document as a single document node (if you need to transform multiple documents at the same time, you can wrap them in a single document node) :)
-(: $configuration-path: the path to the transformation configuration :)
+(: $configuration: the transformation configuration as a TSV string :)
 (: $namespaces: map from namespace prefix to namespace URI :)
-(: returns: a list of target the document nodes :)
+(: returns: a list of target document nodes :)
 declare function transform:transform(
   $source-document as document-node(),
   $configuration as xs:string,
@@ -28,10 +28,10 @@ declare function transform:transform(
   $source-document as document-node(),
   $configuration as xs:string,
   $namespaces as map(xs:string, xs:string),
-  $structure-path as xs:string
+  $structure as xs:string
 ) as document-node()* {
   let $configuration := csv:parse($configuration, map { "separator": "tab", "header": "yes", "quotes": "no" })
-  let $errors := transform:check-configuration($configuration, $structure-path)
+  let $errors := transform:check-configuration($configuration, $structure)
     for $target-root-node in transform:make-children("/", $source-document, $configuration, $namespaces)
     return document { $target-root-node }
 };
@@ -39,12 +39,12 @@ declare function transform:transform(
 (: check the structure of the configured target elements :)
 declare function transform:check-configuration(
   $configuration as document-node(),
-  $structure-path as xs:string
+  $structure as xs:string
 ) {
   
-  (: parse the structure file :)
+  (: parse the structure string :)
   let $structure := map:merge(
-    for $line in file:read-text-lines($structure-path)
+    for $line in fn:tokenize($structure, "\n")
     let $element := fn:substring-before($line, " => ")
     let $parents := fn:tokenize(fn:substring-after($line, " => "), " | ")
     return map { $element: map:merge(
@@ -61,13 +61,11 @@ declare function transform:check-configuration(
     fn:error(
       fn:QName("http://example.org/", "no-such-element"),
       fn:concat("ERROR: element """, $element, """ does not exist in EAD2002")
-    )
-  else if (fn:not($structure($element)($parent))) then
+    ) else if (fn:not($structure($element)($parent))) then
     fn:error(
       fn:QName("http://example.org/", "no-such-parent"),
       fn:concat("ERROR: element """, $element, """ cannot have element """, $parent, """ as parent in EAD2002")
-    )
-  else ()
+    ) else ()
 };
 
 (: make children for the given target path in the configuration :)

@@ -3,10 +3,10 @@ xquery version "3.0";
 import module namespace transform = "transform" at "transform.xqm";
 
 declare variable $namespaces as map(xs:string, xs:string) external;
-declare variable $structure-path as xs:string external;
-declare variable $configuration as xs:string external;
-declare variable $source-dir as xs:string external;
-declare variable $target-dir as xs:string external;
+declare variable $structure as xs:string external;
+declare variable $mapping as xs:string external;
+declare variable $input-dir as xs:string external;
+declare variable $output-dir as xs:string external;
 
 declare function local:pad-with-zeroes(
   $number as xs:string,
@@ -16,11 +16,12 @@ declare function local:pad-with-zeroes(
   else local:pad-with-zeroes(fn:concat("0", $number), $length)
 };
 
-for $source-path-relative in file:list($source-dir, fn:false(), "*.xml,*.XML")
-  let $source-document := fn:doc(fn:concat($source-dir, $source-path-relative))
-  for $target-document at $count in transform:transform($source-document, $configuration, $namespaces, $structure-path)
+for $source-path-relative in file:list($input-dir, fn:false(), "*.xml,*.XML")
+  let $source-document := fn:doc(fn:concat($input-dir, file:dir-separator(), $source-path-relative))
+  for $target-document at $count in transform:transform($source-document, $mapping, $namespaces, $structure)
     let $target-path := fn:concat(
-      $target-dir,
+      $output-dir,
+      file:dir-separator(),
       fn:substring-before($source-path-relative, "."),
       "_", local:pad-with-zeroes(fn:string($count), 9),
       ".", fn:substring-after($source-path-relative, ".")

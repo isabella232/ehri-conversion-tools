@@ -101,49 +101,75 @@ $(document).ready(function() {
         var specificMappingGoogleStepVal    = $('#specific_mapping_google_step').val();
         var specificTransxqueryVal          = $('#specific_trans_xquery').val();
         var specificTransMapping            = $('#specific_trans_mapping').val();
+        var urlToBeSend;
 
-        var getMappingRangeUrl = 'http://localhost:8080/rest/mapping-sheet-range?organisation='+organizationVal;
-        $.get(getMappingRangeUrl, function(data) {
-            console.log(data);
-            var mappingRange = data;
-        });
 
+        
         //          1. EAD1-to-EAD2002
         if ($(fileTypeVal).val() === 'xml_ead') {
-            var urlToBeSend = 'http://localhost:8080/rest/process?organisation=' + organizationVal + '&fileType=' + fileTypeVal;
+
+            urlToBeSend = 'http://localhost:8080/rest/process';
+
+            $.get(urlToBeSend, function(data) {
+                console.log(data);
+                $('#step5').slideUp(300);
+                $('#step6').slideDown(300);
+                $('.active').removeClass('active');
+                $('#label_step_6').addClass('active');
+                hideLoader();
+            });
+        } else {
+            // IF       3. generic transform using local
+            // ELSE IF  2. generic transform using Google Sheet mapping:
+
+            if ($('#mapping_type').val() === 'generic' && specificMappingGoogleStepVal != '') {
+                urlToBeSend = 'http://localhost:8080/rest/process?mapping='+ specificMappingGoogleStepVal;
+                $.get(urlToBeSend, function(data) {
+                    console.log(data);
+                    $('#step5').slideUp(300);
+                    $('#step6').slideDown(300);
+                    $('.active').removeClass('active');
+                    $('#label_step_6').addClass('active');
+                    hideLoader();
+                });                
+            } else if ($('#mapping_type').val() === 'generic' && specificMappingGoogleStepVal === '') {
+                urlToBeSend = 'http://localhost:8080/rest/process?organisation='+ organizationVal;
+                $.get(urlToBeSend, function(data) {
+                    console.log(data);
+                    $('#step5').slideUp(300);
+                    $('#step6').slideDown(300);
+                    $('.active').removeClass('active');
+                    $('#label_step_6').addClass('active');
+                    hideLoader();
+                });                
+            } else if ($('#mapping_type').val() === 'specific') {
+                urlToBeSend = 'http://localhost:8080/rest/process?xquery='+ specificTransxqueryVal;
+                $.get(urlToBeSend, function(data) {
+                    console.log(data);
+                    $('#step5').slideUp(300);
+                    $('#step6').slideDown(300);
+                    $('.active').removeClass('active');
+                    $('#label_step_6').addClass('active');
+                    hideLoader();
+                });
+            }
+
+
         }
-        // IF       3. generic transform using local
-        // ELSE IF  2. generic transform using Google Sheet mapping:
-
-        if ($(mappingTypeVal).val() === 'generic' && specificMappingGoogleStepVal != '') {
-            var urlToBeSend = 'http://localhost:8080/rest/process?organisation=' + organizationVal + '&fileType=' + fileTypeVal + '&mapping=' + specificMappingGoogleStepVal;
-        } else if ($(mappingTypeVal).val() === 'generic' && specificMappingGoogleStepVal === '') {
-            var urlToBeSend = 'http://localhost:8080/rest/process?organisation=' + organizationVal + '&fileType=' + fileTypeVal + '&mapping=' + googleLinkVal + '&mappingRange='+mappingRange;
-        }
-
-        //          4 custom transform using Google Sheet mapping
-
-        if ($(mappingTypeVal).val() === 'specific') {
-            var urlToBeSend = 'http://localhost:8080/rest/process?organisation=' + organizationVal + '&fileType=' + fileTypeVal + '&xquery=' + specificTransxqueryVal;
-        }
-
-        $.get(urlToBeSend, function(data) {
-            $('#step5').slideUp(300);
-            $('#step6').slideDown(300);
-            $('.active').removeClass('active');
-            $('#label_step_6').addClass('active');
-            hideLoader();
-        });
     }
 
     function getAllOrganizations(){
-        $.get(get_organizations_url, function(data) {
-            var organizationsList = data;
-            $.each(organizationsList.split("|"), function(index, item) {
-                $('#organization').append('<option value="'+item+'">'+item+'</option>');
+        if (navigator.onLine) {
+            $.get(get_organizations_url, function(data) {
+                var organizationsList = data;
+                $.each(organizationsList.split("|"), function(index, item) {
+                    $(organization_select).append('<option value="'+item+'">'+item+'</option>');
+                });
+                $(organization_select).append('<option value="no_organization">Other</option>');
             });
-            $('#organization').append('<option value="no_organization">Other</option>');
-        });
+        } else {
+            $(organization_select).append('<option value="no_organization">Other</option>');
+        }
     }
 
     // VALIDATION IF VALUE IS SELECTED

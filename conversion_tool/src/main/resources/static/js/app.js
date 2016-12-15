@@ -64,7 +64,7 @@ $(document).ready(function() {
         $.get( input_dir_content_url, function( data ) {
             var input_dir_content = data;
             // if folder is not empty list all items in it
-            $.each(input_dir_content.split("|").slice(0,-1), function(index, item) {
+            $.each(input_dir_content.split("|"), function(index, item) {
                 $('#income_folder').append('<tr><td>'+item+'</td></tr>');
             });
         });
@@ -74,7 +74,7 @@ $(document).ready(function() {
         $.get( output_dir_content_url, function( data ) {
             var output_dir_content = data;
             // if folder is not empty list all items in it
-            $.each(output_dir_content.split("|").slice(0,-1), function(index, item) {
+            $.each(output_dir_content.split("|"), function(index, item) {
                 $('#outcome_folder').append('<tr><td>'+item+'</td></tr>');
             });
         });
@@ -239,7 +239,7 @@ $(document).ready(function() {
                 console.log( data );
                 var mapping_files = data;
 
-                $.each(mapping_files.split("|").slice(0,-1), function(index, item) {
+                $.each(mapping_files.split("|"), function(index, item) {
                     $('#specific_mapping_google_step').append('<option value="'+ item + '">'+item+'</option>');
                 });
             });
@@ -252,7 +252,7 @@ $(document).ready(function() {
                 console.log( data );
                 var xquery_files = data;
 
-                $.each(xquery_files.split("|").slice(0,-1), function(index, item) {
+                $.each(xquery_files.split("|"), function(index, item) {
                     $('#specific_trans_xsd').append('<option value="'+ item + '">'+item+'</option>');
                 });
             });
@@ -260,7 +260,7 @@ $(document).ready(function() {
                 console.log( data );
                 var mapping_files = data;
 
-                $.each(mapping_files.split("|").slice(0,-1), function(index, item) {
+                $.each(mapping_files.split("|"), function(index, item) {
                     $('#specific_trans_mapping').append('<option value="'+ item + '">'+item+'</option>');
                 });
             });
@@ -299,7 +299,6 @@ $(document).ready(function() {
         disableSubmit();
     });
 
-    //here
     $('#submit_step4_1').click(function() {
         $('#step4_1').slideUp(300);
         $('#step5').slideDown(300);
@@ -323,23 +322,22 @@ $(document).ready(function() {
         showLoader();
 
         startTransformation();
-
         // listing the content of input and output folder
-        var input_files_count = 1;
+        var input_files_count = 0;
         $.get( input_dir_content_url, function( data ) {
             var input_dir_content = data;
             // if folder is not empty list all items in it
-            $.each(input_dir_content.split("|").slice(0,-1), function(index, item) {
+            $.each(input_dir_content.split("|"), function(index, item) {
                 input_files_count++;
             });
             $('#for_transformation_files').append(input_files_count);
         });
 
-        var output_files_count = 1;
+        var output_files_count = 0;
         $.get( output_dir_content_url, function( data ) {
             var output_dir_content = data;
             // if folder is not empty list all items in it
-            $.each(output_dir_content.split("|").slice(0,-1), function(index, item) {
+            $.each(output_dir_content.split("|"), function(index, item) {
                 output_files_count++;
             });
             $('#transformed_files').append(output_files_count);
@@ -381,7 +379,7 @@ $(document).ready(function() {
     });
 
 
-    // rethink this shit here
+    /*
     $('#label_step_1').click(function() {
         $('.active').removeClass('active');
         $('#step1').slideDown(300);
@@ -423,4 +421,5 @@ $(document).ready(function() {
         $('#step6').slideDown(300);
         $('#step1, #step2, #step3, #step4, #step5').slideUp(100);
     });
+    */
 });

@@ -100,11 +100,9 @@ $(document).ready(function() {
         var googleLinkVal                   = $('#google_link').val();
         var specificMappingGoogleStepVal    = $('#specific_mapping_google_step').val();
         var specificTransxqueryVal          = $('#specific_trans_xquery').val();
-        var specificTransMapping            = $('#specific_trans_mapping').val();
+        //var specificTransMapping            = $('#specific_trans_mapping').val();
         var urlToBeSend;
 
-
-        
         //          1. EAD1-to-EAD2002
         if ($(fileTypeVal).val() === 'xml_ead') {
 
@@ -153,8 +151,6 @@ $(document).ready(function() {
                     hideLoader();
                 });
             }
-
-
         }
     }
 
@@ -288,6 +284,8 @@ $(document).ready(function() {
                 $('#step5').slideDown(300);
                 $('.active').removeClass('active');
                 $('#label_step_5').addClass('active');
+                inputFolderListingContent();
+                outputFolderListingContent();
             } else if ($('#transformation_type').val() === 'mapping') {
                 $('#step3').slideDown(300);
                 $('.active').removeClass('active');
@@ -300,14 +298,21 @@ $(document).ready(function() {
             if ($('#mapping_type').val() === 'generic') {
                 //add links from file that we will read if online
                 if (navigator.onLine) {
-                    var restUrlSheetUrl = 'http://localhost:8080/rest/mapping-sheet-ID?organisation='+ $('#organization').val();
-                    $.get(restUrlSheetUrl, function(data) {
-                        var urlForIframeLink = 'https://docs.google.com/spreadsheets/d/'+data+'/edit?usp=sharing';
-                        $('#view_google').attr('href', urlForIframeLink);
-                        $('#google_link').val(urlForIframeLink);
-                        $('#google_link').attr('value', urlForIframeLink);
-                        $("#google-iframe").attr("src", urlForIframeLink);
-                    });
+                    if ($('#organization').val() != 'no_organization'){
+                        var restUrlSheetUrl = 'http://localhost:8080/rest/mapping-sheet-ID?organisation='+ $('#organization').val();
+                        $.get(restUrlSheetUrl, function(data) {
+                            var urlForIframeLink = 'https://docs.google.com/spreadsheets/d/'+data+'/edit?usp=sharing';
+                            $('#view_google').attr('href', urlForIframeLink);
+                            $('#google_link').val(urlForIframeLink);
+                            $('#google_link').attr('value', urlForIframeLink);
+                            $("#google-iframe").attr("src", urlForIframeLink);
+                            $('#google-iframe').show();
+                            $('#view_google').show(); 
+                        });
+                    } else {
+                        $('#google-iframe').hide();
+                        $('#view_google').hide(); 
+                    }
                     $('#step3').slideUp(300);
                     $('#step4').slideDown(300);
                 } else {
@@ -335,12 +340,14 @@ $(document).ready(function() {
                     });
                 });
                 //getting mapping files and appending them to select
+                /*
                 $.get(mapping_files_url, function(data) {
                     var mapping_files = data;
                     $.each(mapping_files.split("|"), function(index, item) {
                         $('#specific_trans_mapping').append('<option value="' + item + '">' + item + '</option>');
                     });
                 });
+                */
             }
             $('.active').removeClass('active');
             $('#label_step_4').addClass('active');
@@ -396,7 +403,7 @@ $(document).ready(function() {
             $('#iframe_holder').show();
             $('#specific_mapping_google_step').val('');
             $('#specific_trans_xquery').val('');
-            $('#specific_trans_mapping').val('');
+            //$('#specific_trans_mapping').val('');
             emptyIncomeOutcomeTables();
             removeResults();
             return false;

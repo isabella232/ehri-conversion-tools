@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Config {
+public class Configuration {
     public static final Charset ENCODING = StandardCharsets.UTF_8;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Config.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
     private static final String CONFIGURATION_PATH = "/config.yml";
 
     private static final Map<String, Object> CONFIGURATION = configuration();
@@ -24,7 +24,7 @@ public class Config {
 
         // load base configuration
         LOGGER.info("loading base configuration from: " + CONFIGURATION_PATH);
-        try (InputStream inputStream = Config.class.getResourceAsStream(CONFIGURATION_PATH)) {
+        try (InputStream inputStream = Configuration.class.getResourceAsStream(CONFIGURATION_PATH)) {
             configuration = (Map<String, Object>) yaml.load(inputStream);
         } catch (IOException e) {
             LOGGER.error("failed to load base configuration from: " + CONFIGURATION_PATH);
@@ -58,8 +58,8 @@ public class Config {
     private static final Map<String, String[]> ORGANISATION_MAPPINGS = organisationMappings();
     private static Map<String, String[]> organisationMappings() {
         Map<String, String[]> organisationMappings = new HashMap<String, String[]>();
-        String sheetID = (String) param("organisation-mappings-sheet");
-        String sheetRange = (String) param("organisation-mappings-sheet-range");
+        String sheetID = getString("organisation-mappings-sheet");
+        String sheetRange = getString("organisation-mappings-sheet-range");
         if (sheetID == null || sheetRange == null) {
             LOGGER.warn("missing sheet with organisation mappings");
             return organisationMappings;
@@ -80,13 +80,17 @@ public class Config {
 
     /**
      * Return the value of the configuration parameter with the given name.
-     * @param name The name of the configuration parameter.
+     * @param parameterName The name of the configuration parameter.
      * @return The value of the configuration parameter, or null if no such parameter exists.
      */
-    public static Object param(String name) {
-        Object value = CONFIGURATION.get(name);
-        if (value == null) LOGGER.warn("no such parameter: " + name);
+    public static Object get(String parameterName) {
+        Object value = CONFIGURATION.get(parameterName);
+        if (value == null) LOGGER.warn("no such parameter: " + parameterName);
         return value;
+    }
+
+    public static String getString(String parameterName) {
+        return get(parameterName).toString();
     }
 
     public static String[] organisations() {

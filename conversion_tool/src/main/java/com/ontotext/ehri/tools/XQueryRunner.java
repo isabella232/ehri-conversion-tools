@@ -19,7 +19,7 @@ public class XQueryRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(XQueryRunner.class);
     private static final Context CONTEXT = new Context();
     private static final UriResolver URI_RESOLVER = (path, uri, base) -> {
-        String fullPath = Config.param("xquery-module-dir") + File.separator + path;
+        String fullPath = Configuration.getString("xquery-module-dir") + File.separator + path;
         //return new IOContent(TextReader.readText(fullPath));
         return new IOFile(TextReader.resolvePath(fullPath));
     };
@@ -33,23 +33,23 @@ public class XQueryRunner {
 
     public static void genericTransform(String mapping, String inputDir, String outputDir) {
         Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("namespaces", Config.param("ead-namespaces"));
-        variables.put("structure", TextReader.readText((String) Config.param("ead-struct-path")));
+        variables.put("namespaces", Configuration.get("ead-namespaces"));
+        variables.put("structure", TextReader.readText(Configuration.getString("ead-struct-path")));
         variables.put("mapping", mapping);
         variables.put("input-dir", inputDir);
         variables.put("output-dir", outputDir);
-        run((String) Config.param("generic-transformer-path"), variables);
+        run(Configuration.getString("generic-transformer-path"), variables);
     }
 
     public static void generateHTML(String inputDir, String outputDir, String language) {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("input-dir", inputDir);
         variables.put("output-dir", outputDir);
-        variables.put("stylesheet-location", TextReader.resolvePath((String) Config.param("stylesheet-location")).getAbsolutePath());
-        variables.put("formatting", TextReader.readText((String) Config.param("formatting-path")));
-        variables.put("translations", TextReader.readText((String) Config.param("translations-path")));
+        variables.put("stylesheet-location", TextReader.resolvePath(Configuration.getString("stylesheet-location")).getAbsolutePath());
+        variables.put("formatting", TextReader.readText(Configuration.getString("formatting-path")));
+        variables.put("translations", TextReader.readText(Configuration.getString("translations-path")));
         variables.put("language", language);
-        run((String) Config.param("html-generator-path"), variables);
+        run(Configuration.getString("html-generator-path"), variables);
     }
 
     public static void run(String xqueryPath, Map<String, Object> variables) {
@@ -101,7 +101,7 @@ public class XQueryRunner {
     }
 
     private static Item basexItem(Object javaObject) {
-        if (javaObject instanceof String) return new Str(((String) javaObject).getBytes(Config.ENCODING), AtomType.STR);
+        if (javaObject instanceof String) return new Str(((String) javaObject).getBytes(Configuration.ENCODING), AtomType.STR);
 
         LOGGER.error("unsupported item type: " + javaObject.getClass().getName());
         return null;

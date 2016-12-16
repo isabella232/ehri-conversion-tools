@@ -82,6 +82,6 @@ public class TextReader {
     }
 
     public static String readText(String path) {
-        return readText(path, Config.ENCODING);
+        return readText(path, Configuration.ENCODING);
     }
 }

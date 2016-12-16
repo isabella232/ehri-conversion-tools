@@ -77,9 +77,9 @@ public class GoogleSheetReader {
     }
 
     private static Sheets buildService() {
-        GoogleCredential credential = authorize((String) Config.param("google-key-path"));
+        GoogleCredential credential = authorize(Configuration.getString("google-key-path"));
         return new Sheets.Builder(httpTransport, JSON_FACTORY, credential)
-                .setApplicationName((String) Config.param("google-app-name"))
+                .setApplicationName(Configuration.getString("google-app-name"))
                 .build();
     }
 

@@ -1,7 +1,7 @@
 package com.ontotext.ehri.services;
 
 import com.ontotext.ehri.model.TransformationModel;
-import com.ontotext.ehri.tools.Config;
+import com.ontotext.ehri.tools.Configuration;
 import com.ontotext.ehri.tools.JingRunner;
 import com.ontotext.ehri.tools.SVRLInjector;
 import com.ontotext.ehri.tools.XQueryRunner;
@@ -24,17 +24,17 @@ public class ValidationService {
         LOGGER.info("starting validation with these parameters: " + model.toString());
         long start = System.currentTimeMillis();
 
-        JingRunner.validate((String) Config.param("ead-rng-path"), (String) Config.param("output-dir"));
-        SVRLInjector.inject((String) Config.param("output-dir"));
+        JingRunner.validate(Configuration.getString("ead-rng-path"), Configuration.getString("output-dir"));
+        SVRLInjector.inject(Configuration.getString("output-dir"));
 
-        File outputDir = new File((String) Config.param("output-dir"));
+        File outputDir = new File(Configuration.getString("output-dir"));
         File htmlDir = new File(outputDir, "html");
         if (!htmlDir.isDirectory()) htmlDir.mkdir();
 
         String language = model.getLanguage();
         if (language == null) {
             LOGGER.warn("missing language parameter");
-            language = (String) Config.param("default-language");
+            language = Configuration.getString("default-language");
         }
 
         LOGGER.info("HTML language set to: " + language);
@@ -45,7 +45,7 @@ public class ValidationService {
     }
 
     public String numErrors() {
-        File outputDir = new File((String) Config.param("output-dir"));
+        File outputDir = new File(Configuration.getString("output-dir"));
         File htmlDir = new File(outputDir, "html");
         File htmlIndex = new File(htmlDir, "index.html");
 

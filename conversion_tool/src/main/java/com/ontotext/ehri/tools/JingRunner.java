@@ -30,7 +30,7 @@ public class JingRunner {
     private static void validate(File rng, File xml, File svrl) {
         LOGGER.info("validating \"" + xml.getAbsolutePath() + "\" with \"" + rng.getAbsolutePath() + "\"");
         String[] args = {
-                //"-e", Config.ENCODING.name(),
+                //"-e", Configuration.ENCODING.name(),
                 "-S", svrl.getAbsolutePath(),
                 rng.getAbsolutePath(),
                 xml.getAbsolutePath()

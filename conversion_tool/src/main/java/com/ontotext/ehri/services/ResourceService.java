@@ -1,6 +1,6 @@
 package com.ontotext.ehri.services;
 
-import com.ontotext.ehri.tools.Config;
+import com.ontotext.ehri.tools.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,10 +18,10 @@ public class ResourceService {
 
     private static void checkResourceDirs() {
         LOGGER.info("checking resource directories");
-        checkDir((String) Config.param("input-dir"));
-        checkDir((String) Config.param("output-dir"));
-        checkDir((String) Config.param("mapping-dir"));
-        checkDir((String) Config.param("xquery-dir"));
+        checkDir(Configuration.getString("input-dir"));
+        checkDir(Configuration.getString("output-dir"));
+        checkDir(Configuration.getString("mapping-dir"));
+        checkDir(Configuration.getString("xquery-dir"));
     }
 
     private static void checkDir(String path) {
@@ -33,19 +33,19 @@ public class ResourceService {
     }
 
     public String listInputDirContents() {
-        return listDirContents((String) Config.param("input-dir"), SEPARATOR);
+        return listDirContents(Configuration.getString("input-dir"), SEPARATOR);
     }
 
     public String listOutputDirContents() {
-        return listDirContents((String) Config.param("output-dir"), SEPARATOR);
+        return listDirContents(Configuration.getString("output-dir"), SEPARATOR);
     }
 
     public String listMappingDirContents() {
-        return listDirContents((String) Config.param("mapping-dir"), SEPARATOR);
+        return listDirContents(Configuration.getString("mapping-dir"), SEPARATOR);
     }
 
     public String listXqueryDirContents() {
-        return listDirContents((String) Config.param("xquery-dir"), SEPARATOR);
+        return listDirContents(Configuration.getString("xquery-dir"), SEPARATOR);
     }
 
     private static String listDirContents(String path, String separator) {
@@ -65,14 +65,14 @@ public class ResourceService {
     }
 
     public String listOrganisations() {
-        return String.join(SEPARATOR, Config.organisations());
+        return String.join(SEPARATOR, Configuration.organisations());
     }
 
     public String mappingSheetID(String organisation) {
-        return Config.mappingSheetID(organisation);
+        return Configuration.mappingSheetID(organisation);
     }
 
     public String mappingSheetRange(String organisation) {
-        return Config.mappingSheetRange(organisation);
+        return Configuration.mappingSheetRange(organisation);
     }
 }

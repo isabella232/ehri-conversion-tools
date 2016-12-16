@@ -38,7 +38,7 @@ public class ValidationService {
         }
 
         LOGGER.info("HTML language set to: " + language);
-        XQueryRunner.generateHTML(outputDir.getAbsolutePath() + "/", htmlDir.getAbsolutePath() + "/", language);
+        XQueryRunner.generateHTML(outputDir.getAbsolutePath(), htmlDir.getAbsolutePath(), language);
 
         long time = System.currentTimeMillis() - start;
         LOGGER.info("finished validation in " + time + " ms");

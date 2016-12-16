@@ -52,6 +52,12 @@ public class XQueryRunner {
         run(Configuration.getString("html-generator-path"), variables);
     }
 
+    public static void convertToXML(File inputDir) {
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("input-dir", inputDir.getAbsolutePath());
+        run(Configuration.getString("xml-converter-path"), variables);
+    }
+
     public static void run(String xqueryPath, Map<String, Object> variables) {
         String xquery = TextReader.readText(xqueryPath);
         QueryProcessor processor = new QueryProcessor(xquery, CONTEXT).uriResolver(URI_RESOLVER);

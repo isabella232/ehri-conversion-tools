@@ -25,14 +25,17 @@ public class ValidationService {
         File outputDir = new File(Configuration.getString("output-dir"));
         outputDir = new File(outputDir, Configuration.DATE_FORMAT.format(requestDate));
 
+        // validate EAD files with the RNG schema
         File rng = TextReader.resolvePath(Configuration.getString("ead-rng-path"));
         File eadDir = new File(outputDir, Configuration.getString("ead-subdir"));
         File svrlDir = new File(outputDir, Configuration.getString("svrl-subdir"));
         JingRunner.validateDirectory(rng, eadDir, svrlDir);
 
+        // inject SVRL messages into EAD files
         File injectedDir = new File(outputDir, Configuration.getString("injected-subdir"));
         SVRLInjector.injectDirectory(eadDir, svrlDir, injectedDir);
 
+        // generate HTML preview from injected files
         File htmlDir = new File(outputDir, Configuration.getString("html-subdir"));
         if (! htmlDir.isDirectory()) htmlDir.mkdir();
         String language = model.getLanguage();
@@ -42,6 +45,7 @@ public class ValidationService {
         long time = System.currentTimeMillis() - start;
         LOGGER.info("finished validation in " + time + " ms");
 
+        // return the error report
         File htmlIndex = new File(htmlDir, "index.html");
         return numErrors(htmlIndex);
     }

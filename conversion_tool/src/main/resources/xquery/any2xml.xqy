@@ -15,4 +15,4 @@ return for $source-path-relative in file:list($input-dir, fn:false())
     if (fn:matches($source-path-relative, "\.(json|JSON)$")) then local:parse-json($source)
     else ()
   
-  return file:write($target-path, $target, map { "omit-xml-declaration": "no" })
+  return if ($target) then file:write($target-path, $target, map { "omit-xml-declaration": "no" }) else ()

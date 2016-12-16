@@ -3,7 +3,7 @@ xquery version "3.0";
 declare variable $input-dir as xs:string external;
 
 declare function local:parse-json($json as xs:string) as item() {
-  json:parse($json, map { "format": "direct" })
+  json:parse($json, map { "format": "attributes" })
 };
 
 let $encoding := "UTF-8"

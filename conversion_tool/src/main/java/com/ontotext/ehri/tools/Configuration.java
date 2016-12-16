@@ -7,12 +7,16 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class Configuration {
     public static final Charset ENCODING = StandardCharsets.UTF_8;
+    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.ENGLISH);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
     private static final String CONFIGURATION_PATH = "/config.yml";
@@ -85,7 +89,7 @@ public class Configuration {
      */
     public static Object get(String parameterName) {
         Object value = CONFIGURATION.get(parameterName);
-        if (value == null) LOGGER.warn("no such parameter: " + parameterName);
+        if (value == null) LOGGER.error("no such parameter: " + parameterName);
         return value;
     }
 

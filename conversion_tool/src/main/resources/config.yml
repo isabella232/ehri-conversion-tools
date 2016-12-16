@@ -18,6 +18,10 @@ translations-path: "/tsv/labels.tsv"
 stylesheet-location: "/css/ead.css"
 
 # other stuff
+ead-subdir: "ead"
+svrl-subdir: "svrl"
+injected-subdir: "injected"
+html-subdir: "html"
 google-app-name: "EHRI Conversion Tool"
 organisation-mappings-sheet: "1OnFlXptIfsq2erZBYQUXcBEp4NEqOGD_R9Xu8gMfYds"
 organisation-mappings-sheet-range: "A2:C"

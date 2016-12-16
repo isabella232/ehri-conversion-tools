@@ -10,25 +10,27 @@ public class JingRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(JingRunner.class);
     private static final Driver DRIVER = new Driver();
 
-    public static void validate(String rngPath, String xmlPath) {
-        File rng = TextReader.resolvePath(rngPath);
-        if (! rng.isFile()) return;
+    public static void validateDirectory(File rng, File eadDir, File svrlDir) {
+        if (! rng.isFile()) {
+            LOGGER.error("cannot find RNG file: " + rng.getAbsolutePath());
+            return;
+        }
 
-        File xml = TextReader.resolvePath(xmlPath);
-        if (xml.isFile()) {
-            File svrl = new File(xml.getAbsolutePath() + ".svrl");
-            validate(rng, xml, svrl);
-        } else if (xml.isDirectory()) {
+        if (! eadDir.isDirectory()) {
+            LOGGER.error("cannot find EAD directory: " + eadDir.getAbsolutePath());
+            return;
+        }
 
-            for (File xmlFile : xml.listFiles(XMLFileFilter.INSTANCE)) {
-                File svrl = new File(xmlFile.getAbsolutePath() + ".svrl");
-                validate(rng, xmlFile, svrl);
-            }
+        if (! svrlDir.isDirectory()) svrlDir.mkdir();
+
+        for (File ead : eadDir.listFiles(XMLFileFilter.INSTANCE)) {
+            File svrl = new File(svrlDir, ead.getName());
+            validate(rng, ead, svrl);
         }
     }
 
     private static void validate(File rng, File xml, File svrl) {
-        LOGGER.info("validating \"" + xml.getAbsolutePath() + "\" with \"" + rng.getAbsolutePath() + "\"");
+        LOGGER.debug("validating \"" + xml.getAbsolutePath() + "\" with \"" + rng.getAbsolutePath() + "\"");
         String[] args = {
                 //"-e", Configuration.ENCODING.name(),
                 "-S", svrl.getAbsolutePath(),
@@ -37,6 +39,6 @@ public class JingRunner {
         };
 
         DRIVER.doMain(args);
-        LOGGER.info("validation report for \"" + xml.getAbsolutePath() + "\" written to \"" + svrl.getAbsolutePath() + "\"");
+        LOGGER.debug("validation report for \"" + xml.getAbsolutePath() + "\" written to \"" + svrl.getAbsolutePath() + "\"");
     }
 }

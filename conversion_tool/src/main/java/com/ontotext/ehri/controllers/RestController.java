@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * Created by Boyan on 23-Nov-16.
- */
+import java.util.Date;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping(value = "/rest")
@@ -27,10 +25,10 @@ public class RestController {
     private ValidationService validationService;
 
     @RequestMapping(value = "/process", method = RequestMethod.GET)
-    public String transform(TransformationModel transformationModel){
-        transformationService.transform(transformationModel);
-        validationService.validate(transformationModel);
-        return validationService.numErrors();
+    public String transform(TransformationModel transformationModel) {
+        Date now = new Date();
+        transformationService.transform(transformationModel, now);
+        return validationService.validate(transformationModel, now);
     }
 
     @RequestMapping(value = "/list-input-dir-contents", method = RequestMethod.GET)

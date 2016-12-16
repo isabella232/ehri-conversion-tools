@@ -35,10 +35,14 @@ public class XSLTRunner {
         }
     }
 
-    public static void runStylesheet(XsltExecutable stylesheet, String inputPath, String outputPath) {
-        File inputDir = TextReader.resolvePath(inputPath);
-        File outputDir = TextReader.resolvePath(outputPath);
-        if (! (inputDir.isDirectory() || outputDir.isDirectory())) return;
+    public static void runStylesheet(XsltExecutable stylesheet, File inputDir, File outputDir) {
+        if (! (inputDir.isDirectory() && outputDir.isDirectory())) {
+            LOGGER.error("cannot find input or output directory:"
+                    + "\n\tinput directory: " + inputDir.getAbsolutePath()
+                    + "\n\toutput directory: " + outputDir.getAbsolutePath()
+            );
+            return;
+        }
 
         XsltTransformer transformer = stylesheet.load();
 

@@ -49,35 +49,38 @@ public class SVRLInjector {
         }
     }
 
-    public static void inject(String xmlPath) {
-        File xml = TextReader.resolvePath(xmlPath);
+    public static void injectDirectory(File eadDir, File svrlDir, File injectedDir) {
+        if (! eadDir.isDirectory()) {
+            LOGGER.error("cannot find EAD directory: " + eadDir.getAbsolutePath());
+            return;
+        }
 
-        if (xml.isFile()) {
-            File svrl = new File(xml.getAbsolutePath() + ".svrl");
-            if (! svrl.isFile()) return;
+        if (! svrlDir.isDirectory()) {
+            LOGGER.error("cannot find SVRL directory: " + svrlDir.getAbsolutePath());
+            return;
+        }
 
-            File output = new File(xml.getAbsolutePath() + ".inj");
-            inject(xml, svrl, output);
+        if (! injectedDir.isDirectory()) injectedDir.mkdir();
 
-        } else if (xml.isDirectory()) {
-
-            for (File xmlFile : xml.listFiles(XMLFileFilter.INSTANCE)) {
-                File svrl = new File(xmlFile.getAbsolutePath() + ".svrl");
-                if (! svrl.isFile()) return;
-
-                File output = new File(xmlFile.getAbsolutePath() + ".inj");
-                inject(xmlFile, svrl, output);
+        for (File ead : eadDir.listFiles(XMLFileFilter.INSTANCE)) {
+            File svrl = new File(svrlDir, ead.getName());
+            if (! svrl.isFile()) {
+                LOGGER.warn("cannot find SVRL file: " + svrl.getAbsolutePath());
+                continue;
             }
+
+            File injected = new File(injectedDir, ead.getName());
+            inject(ead, svrl, injected);
         }
     }
 
-    private static void inject(File xmlFile, File svrlFile, File outputFile) {
-        LOGGER.info("injecting \"" + xmlFile.getAbsolutePath() + "\" with \"" + svrlFile.getAbsolutePath() + "\"");
-        Document xml = read(xmlFile);
-        Document svrl = read(svrlFile);
-        inject(xml, svrl);
-        write(xml, outputFile);
-        LOGGER.info("injection output for \"" + xmlFile.getAbsolutePath() + "\" written to \"" + outputFile.getAbsolutePath() + "\"");
+    private static void inject(File xml, File svrl, File injected) {
+        LOGGER.debug("injecting \"" + xml.getAbsolutePath() + "\" with \"" + svrl.getAbsolutePath() + "\"");
+        Document xmlDocument = read(xml);
+        Document svrlDocument = read(svrl);
+        inject(xmlDocument, svrlDocument);
+        write(xmlDocument, injected);
+        LOGGER.debug("injection output for \"" + xml.getAbsolutePath() + "\" written to \"" + injected.getAbsolutePath() + "\"");
     }
 
     private static void inject(Document xml, Document svrl) {

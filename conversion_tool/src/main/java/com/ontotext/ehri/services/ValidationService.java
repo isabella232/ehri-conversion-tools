@@ -1,10 +1,7 @@
 package com.ontotext.ehri.services;
 
 import com.ontotext.ehri.model.TransformationModel;
-import com.ontotext.ehri.tools.Configuration;
-import com.ontotext.ehri.tools.JingRunner;
-import com.ontotext.ehri.tools.SVRLInjector;
-import com.ontotext.ehri.tools.XQueryRunner;
+import com.ontotext.ehri.tools.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,34 +18,39 @@ import java.util.regex.Pattern;
 public class ValidationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidationService.class);
 
-    public void validate(TransformationModel model) {
+    public String validate(TransformationModel model, Date requestDate) {
         LOGGER.info("starting validation with these parameters: " + model.toString());
         long start = System.currentTimeMillis();
 
-        JingRunner.validate(Configuration.getString("ead-rng-path"), Configuration.getString("output-dir"));
-        SVRLInjector.inject(Configuration.getString("output-dir"));
-
         File outputDir = new File(Configuration.getString("output-dir"));
-        File htmlDir = new File(outputDir, "html");
-        if (!htmlDir.isDirectory()) htmlDir.mkdir();
+        outputDir = new File(outputDir, Configuration.DATE_FORMAT.format(requestDate));
 
+        File rng = TextReader.resolvePath(Configuration.getString("ead-rng-path"));
+        File eadDir = new File(outputDir, Configuration.getString("ead-subdir"));
+        File svrlDir = new File(outputDir, Configuration.getString("svrl-subdir"));
+        JingRunner.validateDirectory(rng, eadDir, svrlDir);
+
+        File injectedDir = new File(outputDir, Configuration.getString("injected-subdir"));
+        SVRLInjector.injectDirectory(eadDir, svrlDir, injectedDir);
+
+        File htmlDir = new File(outputDir, Configuration.getString("html-subdir"));
+        if (! htmlDir.isDirectory()) htmlDir.mkdir();
         String language = model.getLanguage();
-        if (language == null) {
-            LOGGER.warn("missing language parameter");
-            language = Configuration.getString("default-language");
-        }
-
-        LOGGER.info("HTML language set to: " + language);
-        XQueryRunner.generateHTML(outputDir.getAbsolutePath(), htmlDir.getAbsolutePath(), language);
+        if (language == null) language = Configuration.getString("default-language");
+        XQueryRunner.generateHTML(injectedDir, htmlDir, language);
 
         long time = System.currentTimeMillis() - start;
         LOGGER.info("finished validation in " + time + " ms");
+
+        File htmlIndex = new File(htmlDir, "index.html");
+        return numErrors(htmlIndex);
     }
 
-    public String numErrors() {
-        File outputDir = new File(Configuration.getString("output-dir"));
-        File htmlDir = new File(outputDir, "html");
-        File htmlIndex = new File(htmlDir, "index.html");
+    private String numErrors(File htmlIndex) {
+        if (! htmlIndex.isFile()) {
+            LOGGER.error("cannot find HTML index: " + htmlIndex.getAbsolutePath());
+            return "";
+        }
 
         Pattern fileName = Pattern.compile("<a href=\"([^\"]+)\\.html\">");
         Pattern numErrors = Pattern.compile("<span class=\"num-errors\">(\\d+)</span>");

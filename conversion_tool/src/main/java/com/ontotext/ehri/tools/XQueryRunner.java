@@ -24,27 +24,27 @@ public class XQueryRunner {
         return new IOFile(TextReader.resolvePath(fullPath));
     };
 
-    public static void customTransform(String xqueryPath, String inputDir, String outputDir) {
+    public static void customTransform(File xqueryFile, File inputDir, File outputDir) {
         Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("input-dir", inputDir);
-        variables.put("output-dir", outputDir);
-        run(xqueryPath, variables);
+        variables.put("input-dir", inputDir.getAbsolutePath());
+        variables.put("output-dir", outputDir.getAbsolutePath());
+        run(xqueryFile.getAbsolutePath(), variables);
     }
 
-    public static void genericTransform(String mapping, String inputDir, String outputDir) {
+    public static void genericTransform(String mapping, File inputDir, File outputDir) {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("namespaces", Configuration.get("ead-namespaces"));
         variables.put("structure", TextReader.readText(Configuration.getString("ead-struct-path")));
         variables.put("mapping", mapping);
-        variables.put("input-dir", inputDir);
-        variables.put("output-dir", outputDir);
+        variables.put("input-dir", inputDir.getAbsolutePath());
+        variables.put("output-dir", outputDir.getAbsolutePath());
         run(Configuration.getString("generic-transformer-path"), variables);
     }
 
-    public static void generateHTML(String inputDir, String outputDir, String language) {
+    public static void generateHTML(File injectedDir, File htmlDir, String language) {
         Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("input-dir", inputDir);
-        variables.put("output-dir", outputDir);
+        variables.put("input-dir", injectedDir.getAbsolutePath());
+        variables.put("output-dir", htmlDir.getAbsolutePath());
         variables.put("stylesheet-location", TextReader.resolvePath(Configuration.getString("stylesheet-location")).getAbsolutePath());
         variables.put("formatting", TextReader.readText(Configuration.getString("formatting-path")));
         variables.put("translations", TextReader.readText(Configuration.getString("translations-path")));

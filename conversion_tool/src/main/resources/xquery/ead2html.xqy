@@ -18,9 +18,9 @@ let $formatting-configuration := csv:parse($formatting, $csv_options)
 let $translation-configuration := csv:parse($translations, $csv_options)
 
 (: transform each injected XML document to HTML :)
-let $index-items := for $document-name in file:list($input-dir, fn:false(), "*.inj")
+let $index-items := for $document-name in file:list($input-dir, fn:false(), "*.xml,*.XML")
   let $document := fn:doc(fn:concat($input-dir, file:dir-separator(), $document-name))
-  let $document-name := fn:replace($document-name, "\.(xml|XML)\.inj$", "")
+  let $document-name := fn:replace($document-name, "\.(xml|XML)$", "")
   let $html := ead2html:document-to-html($document-name, $document, $stylesheet-location, $formatting-configuration, $translation-configuration, $language)
   
   (: write the HTML to file :)

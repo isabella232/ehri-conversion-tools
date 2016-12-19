@@ -398,3 +398,6 @@ ul.menu {
 .region-footer {
     text-align: center;
 }
+.organization_name_holder{
+font-size: 24px;line-height: 36px;display: inline-block;vertical-align: middle;
+}

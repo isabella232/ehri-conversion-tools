@@ -1,541 +1,241 @@
-$(document).ready(function() {
-    //GLOBAL VARS
-    var submit_buttons  = $('.submit');
-    var loader          = $('.loader');
-    var loader_img      = $('.loader_img');
+<!DOCTYPE html>
+<html lang="en">
 
-    // dorpdowns
-    var organization_select         = $('#organization');
-    var file_type_select            = $('#file_type');
-    var transformation_type_select  = $('#transformation_type');
-    var mapping_type_select         = $('#mapping_type');
+<head>
+    <title>EHRI Conversion Tool</title>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <!-- /CSS -->
+</head>
 
-    //buttons
-    var mapping_location_btn_google = $('#mapping_location_btn_google');
-
-    // REST urls
-    var get_organizations_url   = 'http://localhost:8080/rest/list-organisations';
-    var mapping_files_url       = 'http://localhost:8080/rest/list-mapping-dir-contents';
-    var output_dir_content_url  = 'http://localhost:8080/rest/list-output-dir-contents';
-    var input_dir_content_url   = 'http://localhost:8080/rest/list-input-dir-contents';
-    var xquery_files_url        = 'http://localhost:8080/rest/list-xquery-dir-contents';
-
-
-    // COMMON FUNCTIONS
-    function disableSubmit() {
-        $(submit_buttons).prop('disabled', true);
-    }
-
-    function enableSubmit() {
-        $(submit_buttons).prop('disabled', false);
-    }
-
-    function showLoader() {
-        // calculating the height of the main element and setting the loader same size
-        var main_height = $('#main-inner').innerHeight();
-        var img_margin = (main_height / 2) - 50;
-        $(loader).css({
-            'height': main_height + 'px'
-        });
-        // centering the loader gif
-        $(loader_img).css({
-            'margin-top': img_margin + 'px'
-        });
-        $(loader).show();
-    }
-
-    function hideLoader() {
-        $(loader).hide();
-    }
-
-    // listing the content of input folder
-    function inputFolderListingContent() {
-        $.get(input_dir_content_url, function(data) {
-            var input_dir_content = data;
-            // if folder is not empty list all items in it
-            $.each(input_dir_content.split("|"), function(index, item) {
-                $('#income_folder').append('<tr><td>' + item + '</td></tr>');
-            });
-        });
-    };
-
-    // listing the content of output folder
-    function outputFolderListingContent() {
-        $.get(output_dir_content_url, function(data) {
-            var output_dir_content = data;
-            // if folder is not empty list all items in it
-            $.each(output_dir_content.split("|"), function(index, item) {
-                $('#outcome_folder').append('<tr><td>' + item + '</td></tr>');
-            });
-        });
-    };
-
-    // Delete rows from table
-    function emptyIncomeOutcomeTables() {
-        $('#income_folder').empty();
-        $('#outcome_folder').empty();
-    }
-
-    // Delete rows from table
-    function removeResults() {
-        $('#for_transformation_files').empty();
-        $('#transformed_files').empty();
-    }
-
-    // Steps hide steps, Remove Active class and disable submit
-    function inactiveState(){
-        $('.active').removeClass('active');
-        $('.step').slideUp(100);
-        disableSubmit();
-    }
-
-    //starting transformation
-    function startTransformation() {
-
-        //getting all the values of inputs
-        var organizationVal                 = $('#organization').val()
-        var fileTypeVal                     = $('#file_type').val();
-        var transformationTypeVal           = $('#transformation_type').val();
-        var mappingTypeVal                  = $('#mapping_type').val();
-        var googleLinkVal                   = $('#google_link').val();
-        var specificMappingGoogleStepVal    = $('#specific_mapping_google_step').val();
-        var specificTransxqueryVal          = $('#specific_trans_xquery').val();
-        //var specificTransMapping            = $('#specific_trans_mapping').val();
-        var urlToBeSend;
-
-        //          1. EAD1-to-EAD2002
-
-        if ($('#file_type').val() === 'xml_ead') {
-
-            urlToBeSend = 'http://localhost:8080/rest/process';
-            //alert('here');
-            $.get(urlToBeSend, function(data) {
-                var errorsList = data;
-                var errors = 0;
-                console.log(errorsList)
-                $.each(errorsList.split("|"), function(index, item) {
-                    var values = item.split('=');
-                    var file_name = values[0];
-                    var errors_count = values[1];
-                    $('#errors_table').append('<tr><td>'+file_name+'</td><td>'+errors_count+'</td></tr>');
-                    errors++
-                });
-                $('#transformed_files').append(errors);
-                $('#step5').slideUp(300);
-                $('#step6').slideDown(300);
-                $('.active').removeClass('active');
-                $('#label_step_6').addClass('active');
-                hideLoader();
-            });
-        } else {
-            // IF       3. generic transform using local
-            // ELSE IF  2. generic transform using Google Sheet mapping:
-
-            if ($('#mapping_type').val() === 'generic' && specificMappingGoogleStepVal != '') {
-                urlToBeSend = 'http://localhost:8080/rest/process?mapping='+ specificMappingGoogleStepVal;
-                $.get(urlToBeSend, function(data) {
-                    var errorsList = data;
-                    var errors = 0;
-                    console.log(errorsList)
-                    $.each(errorsList.split("|"), function(index, item) {
-                        var values = item.split('=');
-                        var file_name = values[0];
-                        var errors_count = values[1];
-                        $('#errors_table').append('<tr><td>'+file_name+'</td><td>'+errors_count+'</td></tr>');
-                        errors++
-                    });
-                    $('#transformed_files').append(errors);
-                    $('#step5').slideUp(300);
-                    $('#step6').slideDown(300);
-                    $('.active').removeClass('active');
-                    $('#label_step_6').addClass('active');
-                    hideLoader();
-                });
-            } else if ($('#mapping_type').val() === 'generic' && specificMappingGoogleStepVal === '') {
-                urlToBeSend = 'http://localhost:8080/rest/process?organisation='+ organizationVal;
-                $.get(urlToBeSend, function(data) {
-                    var errorsList = data;
-                    var errors = 0;
-                    console.log(errorsList)
-                    $.each(errorsList.split("|"), function(index, item) {
-                        var values = item.split('=');
-                        var file_name = values[0];
-                        var errors_count = values[1];
-                        $('#errors_table').append('<tr><td>'+file_name+'</td><td>'+errors_count+'</td></tr>');
-                        errors++
-                    });
-                    $('#transformed_files').append(errors);
-                    $('#step5').slideUp(300);
-                    $('#step6').slideDown(300);
-                    $('.active').removeClass('active');
-                    $('#label_step_6').addClass('active');
-                    hideLoader();
-                });
-            } else if ($('#mapping_type').val() === 'specific') {
-                urlToBeSend = 'http://localhost:8080/rest/process?xquery='+ specificTransxqueryVal;
-                $.get(urlToBeSend, function(data) {
-                    var errorsList = data;
-                    var errors = 0;
-                    console.log(errorsList)
-                    $.each(errorsList.split("|"), function(index, item) {
-                        var values = item.split('=');
-                        var file_name = values[0];
-                        var errors_count = values[1];
-                        $('#errors_table').append('<tr><td>'+file_name+'</td><td>'+errors_count+'</td></tr>');
-                        errors++
-                    });
-                    $('#transformed_files').append(errors);
-
-                    $('#step5').slideUp(300);
-                    $('#step6').slideDown(300);
-                    $('.active').removeClass('active');
-                    $('#label_step_6').addClass('active');
-                    hideLoader();
-                });
-            }
-        }
-    }
-
-    function getAllOrganizations(){
-        if (navigator.onLine) {
-            $.get(get_organizations_url, function(data) {
-                var organizationsList = data;
-                $.each(organizationsList.split("|"), function(index, item) {
-                    $(organization_select).append('<option value="'+item+'">'+item+'</option>');
-                });
-                $(organization_select).append('<option value="no_organization">Other</option>');
-            });
-        } else {
-            $(organization_select).append('<option value="no_organization">Other</option>');
-        }
-    }
-
-    // VALIDATION IF VALUE IS SELECTED
-
-    // Check if organization is selected on change
-    // Enable submit button
-    $(organization_select).on('change', function() {
-        var value_organization = this.value;
-        if (value_organization != '') {
-            enableSubmit();
-        }
-    });
-
-    // Check if file type is selected on change
-    // Enable submit button
-    $(file_type_select).on('change', function() {
-        var value_file_type = this.value;
-        if (value_file_type != '') {
-            enableSubmit();
-        }
-    });
-
-    // Check if file type is selected on change
-    // Enable submit button
-    $(transformation_type_select).on('change', function() {
-        var value_transformation_type_select = this.value;
-        if (value_transformation_type_select != '') {
-            enableSubmit();
-        }
-    });
+<body>
+    <div id="page">
+        <header id="header" class="header" role="header">
+            <div id="logoregion">
+                <h1 id="logo">
+                    <a href="http://www.ehri-project.eu" target="_blank">EHRI- European Holocaust Research Infrastructure</a>
+                </h1>
+            </div>
+            <div id="navigation">
+                <div class="view-header-image ">
+                    <img src="img/banner_img.jpg" alt="" title="" />
+                </div>
+            </div>
+        </header>
+        <!-- /header -->
+        <div id="main">
+            <div class="loader">
+                <div class="bkg"></div>
+                <img class="loader_img" src="img/ot-loader.svg" />
+            </div>
+            <div id="main-inner">
+                <h1 class="roodtext">
+                    <span class="font300">EHRI FILE</span> MAPPING
+                    <a href="#" class="btn pull-right">documentation</a>
+                </h1>
+                <!-- STEPS -->
+                <div class="steps-form-holder">
+                    <span id="label_step_1" class="step_label active">1</span>
+                    <span id="label_step_2" class="step_label">2</span>
+                    <span id="label_step_3" class="step_label">3</span>
+                    <span id="label_step_4" class="step_label">4</span>
+                    <span id="label_step_5" class="step_label">5</span>
+                    <span id="label_step_6" class="step_label">6</span>
+                    <hr class="line" />
+                    <div class="clearfix"></div>
+                </div>
+                <!-- /STEPS -->
+                <!-- STEP 1 -->
+                <div id="step1" class="step active">
+                    <div class="input-holder source">
+                        <label class="roodtext inputlabel">
+                            Please select your <span class="font700">Organization</span>
+                        </label>
+                        <select name="organization" id="organization">
+                            <option value="">Please select</option>
 
 
-    // Checking if mapping type is selected
-    // if selected enable submit button
-    $(mapping_type_select).on('change', function() {
-        var value_mapping_type_select = this.value;
-        if (value_mapping_type_select != '') {
-            enableSubmit();
-        }
-    });
+                        </select>
+                    </div>
+                    <button class="btn pull-right submit submit_step" id="submit_step1">Next step</button>
+                </div>
+                <!-- /STEP 1 -->
+                <!-- STEP 2 -->
+                <div id="step2" class="step">
+                    <div class="input-holder source">
+                        <label class="roodtext inputlabel">
+                            Please select your files <span class="font700">INPUT FORMAT</span>
+                        </label>
+                        <select name="file_type" id="file_type">
+                            <option value="">Please select</option>
+                            <option value="xml">XML</option>
+                            <!--
+                            <option value="json">JSON</option>
+                            <option value="sheet">DATA Sheet</option>
+                            -->
+                            <option value="xml_ead">XML-EAD 1</option>
+                        </select>
+                    </div>
+                    <button class="btn pull-left previous_step" id="previous_step2">Previous step</button>
+                    <button class="btn pull-right submit submit_step " id="submit_step2">Next step</button>
+                </div>
+                <!-- /STEP 2 -->
+                <!-- STEP 2.1 CASE XML-EAD-2001 -->
+                <div id="step2_1" class="step">
+                    <div class="input-holder source">
+                        <label class="roodtext inputlabel">
+                            Select transform to <span class="font700">Mapping</span> or <span class="font700">EAD 2001</span>
+                        </label>
+                        <select name="transformation_type" id="transformation_type">
+                            <option value="">Please select</option>
+                            <option value="mapping">Mapping</option>
+                            <option value="ead_2">EAD 2001</option>
+                        </select>
+                    </div>
+                    <button class="btn pull-left previous_step" id="previous_step2_1">Previous step</button>
+                    <button class="btn pull-right submit submit_step" id="submit_step2_1">Next step</button>
+                </div>
+                <!-- /STEP 2.1 -->
+                <!-- STEP 3 -->
+                <div id="step3" class="step">
+                    <div class="input-holder source">
+                        <label class="roodtext inputlabel">
+                            Select type of <span class="font700">Transformation</span>
+                        </label>
+                        <select name="mapping_type" id="mapping_type">
+                            <option value="" selected="true">Please select</option>
+                            <option value="generic">Generic Transformation</option>
+                            <option value="specific">Specific Transformation</option>
+                        </select>
+                    </div>
+                    <button class="btn pull-left previous_step" id="previous_step3">Previous step</button>
+                    <button class="btn pull-right submit submit_step" id="submit_step3">Next step</button>
+                </div>
+                <!-- /STEP 3 -->
+                <!-- STEP 4 CASE GENERIC-->
+                <div id="step4" class="step">
+                    <div class="input-holder source">
+                        <div class="input-holder google">
+                            <!-- google sheets should be loaded via REST -->
+                            <a class="btn pull-right" id="view_google" target="_blank">VIEW Google speadsheet</a>
+                            <div class="clearfix"></div>
+                            <input type="text" name="google_link" class="inputform" id="google_link" readonly="true" />
+                            <!-- google sheets should be loaded via REST -->
+                        </div>
+                    </div>
+                    <div id="iframe_holder">
+                        <!-- google sheets should be loaded via REST -->
+                        <iframe src="" id="google-iframe"></iframe>
+                        <!-- google sheets should be loaded via REST -->
+                    </div>
+                    <div class="input-holder specific_mapping">
+                        <label class="roodtext inputlabel">
+                            Select Local <span class="font700">Mapping</span>
+                        </label>
+                        <select name="specific_mapping_google_step" id="specific_mapping_google_step">
+                            <option value="" selected="true">Select local mapping file</option>
+                        </select>
+                    </div>
+                    <button class="btn pull-left previous_step" id="previous_step4">Previous step</button>
+                    <button class="btn pull-right submit submit_step" id="submit_step4">Next step</button>
+                </div>
+                <!-- /STEP 4 -->
+                <!-- STEP 4.1 CASE SPECIFIC-->
+                <div id="step4_1" class="step">
+                    <div class="input-holder specific">
+                        <label class="roodtext inputlabel">
+                            Select <span class="font700">xquery File</span>
+                        </label>
+                        <select name="specific_trans_xquery" id="specific_trans_xquery">
+                            <option value="" selected="true">Please select xquery File</option>
+                        </select>
+                    </div>
+                    <!--
+                    <div class="input-holder specific_mapping">
+                        <label class="roodtext inputlabel">
+                            Select <span class="font700">Mapping</span>
+                        </label>
+                        <select name="specific_trans_mapping" id="specific_trans_mapping">
+                            <option value="" selected="true">Please select mapping file</option>
+                        </select>
+                    </div>
+                    -->
+                    <button class="btn pull-left previous_step" id="previous_step4_1">Previous step</button>
+                    <button class="btn pull-right submit submit_step" id="submit_step4_1">Next step</button>
+                </div>
+                <!-- /STEP 4.1 -->
+                <!-- STEP 5 -->
+                <div id="step5" class="step">
+                    <div class="organization_name_holder" id="organization_name"></div>
+                    <div class="input-holder local">
+                        <table>
+                            <caption>
+                                <label class="roodtext inputlabel">
+                                    Input Folder <span class="font700">Content</span>
+                                </label>
+                            </caption>
+                            <thead>
+                                <th>Files</th>
+                            </thead>
+                            <tbody id="income_folder">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="input-holder local" style="display:none;">
+                        <table>
+                            <caption>
+                                <label class="roodtext inputlabel">
+                                    Output Folder <span class="font700">Content</span>
+                                </label>
+                            </caption>
+                            <thead>
+                                <th>Files</th>
+                            </thead>
+                            <tbody id="outcome_folder">
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn pull-left previous_step" id="previous_step5">Previous step</button>
+                    <a class="btn pull-right submit submit_step" id="submit_step5" href="#">Start Transformation</a>
+                </div>
+                <!-- /STEP 5 -->
+                <!-- STEP 6 -->
+                <div id="step6" class="step">
+                    <div class="success_notes">
+                        <p>Data was transformed Successfully!</p>
+                    </div>
+                    <p>From <span class="roodtext font700" id="for_transformation_files"></span> files we created <span class="roodtext font700" id="transformed_files"></span>.</p>
+                    <p>Please take a look at the table below to find out twhat are the generated fiels and their errors</p>
+                    <table>
+                        <caption>Conversion report</caption>
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Number of errors</th>
+                            </tr>
+                        </thead>
+                        <tbody id="errors_table">
+                        </tbody>
+                    </table>
 
-    // on local mapping select hide iframe and google button
-    $('#specific_mapping_google_step').on('change', function() {
-        var specificMappingVal = $('#specific_mapping_google_step').val();
-        if (specificMappingVal != '') {
-            $('#view_google').slideUp(300);
-            $('#iframe_holder').slideUp(300);
-        } else {
-            $('#view_google').slideDown(300);
-            $('#iframe_holder').slideDown(300);
-        }
-    });
+                    <button class="btn pull-right submit_step" id="start_new">Start new transformation</button>
+                    <button class="btn pull-right submit_step" id="repeat">Repeat transformation</button>
+                </div>
+                <!-- /STEP 6 -->
+            </div>
+        </div>
+        <footer id="footer" class="region region-footer">
+            <div class="funding">
+                <a href="http://europa.eu/" target="_blank" class="external-processed eu">EHRI is funded by the European Union</a>
+                <a href="http://ontotext.com/" target="_blank" class="external-processed ot"></a>
+                <div class="clearfix"></div>
+            </div>
+        </footer>
+    </div>
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="js/app.js"></script>
+    <!-- /JS -->
+</body>
 
-    //MAIN LOGIC
-
-    //on laod load all organizations
-    getAllOrganizations();
-
-    // disable submit on page load
-    disableSubmit();
-
-    // previous step
-    $(".previous_step").click(function(event) {
-        var previous_button = event.target.id;
-        if (previous_button === 'previous_step2') {
-            inactiveState();
-            $('#label_step_1').addClass('active');
-            $('#step1').slideDown(300);
-        } else if (previous_button === 'previous_step2_1') {
-            inactiveState();
-            $('#label_step_1').addClass('active');
-            $('#step1').slideDown(300);
-        } else if (previous_button === 'previous_step3') {
-            inactiveState();
-            $('#label_step_2').addClass('active');
-            $('#step2').slideDown(300);
-        } else if (previous_button === 'previous_step4') {
-            inactiveState();
-            $('#label_step_3').addClass('active');
-            $('#step3').slideDown(300);
-        } else if (previous_button === 'previous_step4_1') {
-            inactiveState();
-            $('#label_step_3').addClass('active');
-            $('#step3').slideDown(300);
-        } else if (previous_button === 'previous_step5') {
-            inactiveState();
-            $('#label_step_4').addClass('active');
-            $('#step4').slideDown(300);
-        }
-    });
-
-    // Submitting steps of form
-    $(".submit_step").click(function(event) {
-        var submit_button = event.target.id;
-        if (submit_button === 'submit_step1') {
-            $('#step1').slideUp(300);
-            $('#step2').slideDown(300);
-            $('.active').removeClass('active');
-            $('#label_step_2').addClass('active');
-            $('#organization_name').empty()
-            var selectedOrganization = $('#organization').val();
-            var organizationDisplay = 'Organization: ' + selectedOrganization;
-            $('#organization_name').append(organizationDisplay);
-            disableSubmit();
-        } else if (submit_button === 'submit_step2') {
-            $('#step2').slideUp(300)
-            if ($('#file_type').val() === 'xml_ead') {
-                $('#step2_1').slideDown(300);
-                disableSubmit();
-            } else {;
-                $('#step3').slideDown(300);
-                $('.active').removeClass('active');
-                $('#label_step_3').addClass('active');
-                disableSubmit();
-            }
-            disableSubmit();
-        } else if (submit_button === 'submit_step2_1') {
-            $('#step2_1').slideUp(300)
-            if ($('#transformation_type').val() === 'ead_2') {
-                $('#step5').slideDown(300);
-                $('.active').removeClass('active');
-                $('#label_step_5').addClass('active');
-                inputFolderListingContent();
-                outputFolderListingContent();
-            } else if ($('#transformation_type').val() === 'mapping') {
-                $('#step3').slideDown(300);
-                $('.active').removeClass('active');
-                $('#label_step_3').addClass('active');
-            }
-            disableSubmit();
-        } else if (submit_button === 'submit_step3') {
-            // IF      -> Generic transformation
-            // ELSE IF -> Specific transforamtion
-            if ($('#mapping_type').val() === 'generic') {
-                //add links from file that we will read if online
-                if (navigator.onLine) {
-                    if ($('#organization').val() != 'no_organization'){
-                        var restUrlSheetUrl = 'http://localhost:8080/rest/mapping-sheet-ID?organisation='+ $('#organization').val();
-                        $.get(restUrlSheetUrl, function(data) {
-                            var urlForIframeLink = 'https://docs.google.com/spreadsheets/d/'+data+'/edit?usp=sharing';
-                            $('#view_google').attr('href', urlForIframeLink);
-                            $('#google_link').val(urlForIframeLink);
-                            $('#google_link').attr('value', urlForIframeLink);
-                            $("#google-iframe").attr("src", urlForIframeLink);
-                            $('#google-iframe').show();
-                            $('#view_google').show();
-                        });
-                    } else {
-                        $('#google-iframe').hide();
-                        $('#view_google').hide();
-                    }
-                    $('#step3').slideUp(300);
-                    $('#step4').slideDown(300);
-                } else {
-                    $('#step3').slideUp(300);
-                    $('#step4').slideDown(300);
-                    $('#view_google').hide();
-                    $('#iframe_holder').hide();
-                }
-                //getting mapping files and appending them to select
-                $.get(mapping_files_url, function(data) {
-                    var mapping_files = data;
-                    $.each(mapping_files.split("|"), function(index, item) {
-                        $('#specific_mapping_google_step').append('<option value="' + item + '">' + item + '</option>');
-                    });
-                });
-            } else if ($('#mapping_type').val() === 'specific') {
-                $('#step3').slideUp(300);
-                $('#step4_1').slideDown(300);
-                //getting xquery files and appending them to select
-                $.get(xquery_files_url, function(data) {
-                    var xquery_files = data;
-
-                    $.each(xquery_files.split("|"), function(index, item) {
-                        $('#specific_trans_xquery').append('<option value="' + item + '">' + item + '</option>');
-                    });
-                });
-                //getting mapping files and appending them to select
-                /*
-                $.get(mapping_files_url, function(data) {
-                    var mapping_files = data;
-                    $.each(mapping_files.split("|"), function(index, item) {
-                        $('#specific_trans_mapping').append('<option value="' + item + '">' + item + '</option>');
-                    });
-                });
-                */
-            }
-            $('.active').removeClass('active');
-            $('#label_step_4').addClass('active');
-            event.preventDefault();
-
-        } else if (submit_button === 'submit_step4') {
-            // on submit append content of input and output folders so that user can see them
-            $('#step4').slideUp(300);
-            $('#step5').slideDown(300);
-            $('.active').removeClass('active');
-            $('#label_step_5').addClass('active');
-            inputFolderListingContent();
-            outputFolderListingContent();
-            disableSubmit();
-        } else if (submit_button === 'submit_step4_1') {
-            // on submit append content of input and output folders so that user can see them
-            $('#step4_1').slideUp(300);
-            $('#step5').slideDown(300);
-            $('.active').removeClass('active');
-            $('#label_step_5').addClass('active');
-            disableSubmit();
-            inputFolderListingContent();
-            outputFolderListingContent();
-        } else if (submit_button === 'submit_step5') {
-            // start transformation, show loader, count files to be transformed and files transformed append to next step so that user can see them
-            showLoader();
-            startTransformation();
-            // listing the content of input and output folder
-            var input_files_count = 0;
-            $.get(input_dir_content_url, function(data) {
-                var input_dir_content = data;
-                $.each(input_dir_content.split("|"), function(index, item) {
-                    input_files_count++;
-                });
-                $('#for_transformation_files').append(input_files_count);
-            });
-            var output_files_count = 0;
-            $.get(output_dir_content_url, function(data) {
-                var output_dir_content = data;
-                $.each(output_dir_content.split("|"), function(index, item) {
-                    output_files_count++;
-                });
-                //$('#transformed_files').append(output_files_count);
-            });
-        } else if (submit_button === 'start_new') {
-            $('#step6').slideUp(300);
-            $('#step2').slideDown(300);
-            $('.active').removeClass('active');
-            $('#label_step_2').addClass('active');
-            $('#file_type').val('');
-            $('#transformation_type').val('');
-            $('#mapping_type').val('');
-            $('#iframe_holder').show();
-            $('#specific_mapping_google_step').val('');
-            $('#specific_trans_xquery').val('');
-            //$('#specific_trans_mapping').val('');
-            emptyIncomeOutcomeTables();
-            removeResults();
-            return false;
-        } else if (submit_button === 'repeat') {
-            $('#step6').slideUp(300);
-            $('#step5').slideDown(300);
-            $('.active').removeClass('active');
-            $('#label_step_5').addClass('active');
-            removeResults();
-            return false;
-        }
-    });
-
-    // steps navigation
-    $(".step_label").click(function(event) {
-        var step = event.target.id;
-        if (step === 'label_step_1') {
-            inactiveState();
-            $('#step1').slideDown(300);
-            $(this).addClass('active');
-        } else if (step === 'label_step_2') {
-            if ($('#organization').val() != '') {
-                inactiveState();
-                $(this).addClass('active');
-                $('#step2').slideDown(300);
-            } else {
-                inactiveState();
-                $('#step1').slideDown(300);
-                $('#label_step_1').addClass('active');
-            }
-        } else if (step === 'label_step_3') {
-            if ($('#file_type').val() != '' && $('#organization').val() != '') {
-               inactiveState();
-                $(this).addClass('active');
-                $('#step3').slideDown(300);
-            } else if ($('#organization').val() != '') {
-                inactiveState();
-                $('#step2').slideDown(300);
-                $('#label_step_2').addClass('active');
-            } else {
-                inactiveState();
-                $('#step1').slideDown(300);
-                $('#label_step_1').addClass('active');
-            }
-        } else if (step === 'label_step_4') {
-            if ($('#file_type').val() != '' && $('#organization').val() != '' && $('#mapping_type').val() != '') {
-                inactiveState();
-                $(this).addClass('active');
-                $('#step4').slideDown(300);
-            } else if ($('#organization').val() != '') {
-                inactiveState();
-                $('#step2').slideDown(300);
-                $('#label_step_2').addClass('active');
-            } else {
-                inactiveState();
-                $('#step1').slideDown(300);
-                $('#label_step_1').addClass('active');
-            }
-        } else if (step === 'label_step_5') {
-            if ($('#file_type').val() != '' && $('#organization').val() != '' && $('#mapping_type').val() != '') {
-                inactiveState();
-                $(this).addClass('active');
-                $('#step5').slideDown(300);
-            } else if ($('#organization').val() != '') {
-                inactiveState();
-                $('#step2').slideDown(300);
-                $('#label_step_2').addClass('active');
-            } else {
-                inactiveState();
-                $('#step1').slideDown(300);
-                $('#label_step_1').addClass('active');
-            }
-        } else if (step === 'label_step_6') {
-            if ($('#file_type').val() != '' && $('#organization').val() != '' && $('#mapping_type').val() != '') {
-                inactiveState();
-                $(this).addClass('active');
-                $('#step6').slideDown(300);
-            } else if ($('#organization').val() != '') {
-                inactiveState();
-                $('#step2').slideDown(300);
-                $('#label_step_2').addClass('active');
-            } else {
-                inactiveState();
-                $('#step1').slideDown(300);
-                $('#label_step_1').addClass('active');
-            }
-        }
-    });
-});
+</html>

@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
     //GLOBAL VARS
     var submit_buttons  = $('.submit');

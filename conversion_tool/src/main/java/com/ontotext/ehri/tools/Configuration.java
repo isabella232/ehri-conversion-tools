@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class Configuration {
     public static final Charset ENCODING = StandardCharsets.UTF_8;
-    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.ENGLISH);
+    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-SSS", Locale.ENGLISH);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
     private static final String CONFIGURATION_PATH = "/config.yml";

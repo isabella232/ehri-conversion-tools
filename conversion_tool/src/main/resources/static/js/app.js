@@ -73,7 +73,7 @@ $(document).ready(function() {
     // Delete rows from table
     function emptyIncomeOutcomeTables() {
         $('#income_folder').empty();
-        $('#outcome_folder').empty();
+        //$('#outcome_folder').empty();
     }
 
     // Delete rows from table
@@ -100,7 +100,6 @@ $(document).ready(function() {
         var googleLinkVal                   = $('#google_link').val();
         var specificMappingGoogleStepVal    = $('#specific_mapping_google_step').val();
         var specificTransxqueryVal          = $('#specific_trans_xquery').val();
-        //var specificTransMapping            = $('#specific_trans_mapping').val();
         var urlToBeSend;
 
         //          1. EAD1-to-EAD2002
@@ -112,7 +111,6 @@ $(document).ready(function() {
             $.get(urlToBeSend, function(data) {
                 var errorsList = data;
                 var errors = 0;
-                console.log(errorsList)
                 $.each(errorsList.split("|"), function(index, item) {
                     var values = item.split('=');
                     var file_name = values[0];
@@ -136,7 +134,6 @@ $(document).ready(function() {
                 $.get(urlToBeSend, function(data) {
                     var errorsList = data;
                     var errors = 0;
-                    console.log(errorsList)
                     $.each(errorsList.split("|"), function(index, item) {
                         var values = item.split('=');
                         var file_name = values[0];
@@ -156,7 +153,6 @@ $(document).ready(function() {
                 $.get(urlToBeSend, function(data) {
                     var errorsList = data;
                     var errors = 0;
-                    console.log(errorsList)
                     $.each(errorsList.split("|"), function(index, item) {
                         var values = item.split('=');
                         var file_name = values[0];
@@ -176,7 +172,6 @@ $(document).ready(function() {
                 $.get(urlToBeSend, function(data) {
                     var errorsList = data;
                     var errors = 0;
-                    console.log(errorsList)
                     $.each(errorsList.split("|"), function(index, item) {
                         var values = item.split('=');
                         var file_name = values[0];
@@ -185,7 +180,6 @@ $(document).ready(function() {
                         errors++
                     });
                     $('#transformed_files').append(errors);
-
                     $('#step5').slideUp(300);
                     $('#step6').slideDown(300);
                     $('.active').removeClass('active');
@@ -331,7 +325,6 @@ $(document).ready(function() {
                 $('.active').removeClass('active');
                 $('#label_step_5').addClass('active');
                 inputFolderListingContent();
-                outputFolderListingContent();
             } else if ($('#transformation_type').val() === 'mapping') {
                 $('#step3').slideDown(300);
                 $('.active').removeClass('active');
@@ -385,15 +378,6 @@ $(document).ready(function() {
                         $('#specific_trans_xquery').append('<option value="' + item + '">' + item + '</option>');
                     });
                 });
-                //getting mapping files and appending them to select
-                /*
-                $.get(mapping_files_url, function(data) {
-                    var mapping_files = data;
-                    $.each(mapping_files.split("|"), function(index, item) {
-                        $('#specific_trans_mapping').append('<option value="' + item + '">' + item + '</option>');
-                    });
-                });
-                */
             }
             $('.active').removeClass('active');
             $('#label_step_4').addClass('active');
@@ -406,7 +390,6 @@ $(document).ready(function() {
             $('.active').removeClass('active');
             $('#label_step_5').addClass('active');
             inputFolderListingContent();
-            outputFolderListingContent();
             disableSubmit();
         } else if (submit_button === 'submit_step4_1') {
             // on submit append content of input and output folders so that user can see them
@@ -416,7 +399,6 @@ $(document).ready(function() {
             $('#label_step_5').addClass('active');
             disableSubmit();
             inputFolderListingContent();
-            outputFolderListingContent();
         } else if (submit_button === 'submit_step5') {
             // start transformation, show loader, count files to be transformed and files transformed append to next step so that user can see them
             showLoader();
@@ -430,14 +412,6 @@ $(document).ready(function() {
                 });
                 $('#for_transformation_files').append(input_files_count);
             });
-            var output_files_count = 0;
-            $.get(output_dir_content_url, function(data) {
-                var output_dir_content = data;
-                $.each(output_dir_content.split("|"), function(index, item) {
-                    output_files_count++;
-                });
-                //$('#transformed_files').append(output_files_count);
-            });
         } else if (submit_button === 'start_new') {
             $('#step6').slideUp(300);
             $('#step2').slideDown(300);
@@ -449,7 +423,6 @@ $(document).ready(function() {
             $('#iframe_holder').show();
             $('#specific_mapping_google_step').val('');
             $('#specific_trans_xquery').val('');
-            //$('#specific_trans_mapping').val('');
             emptyIncomeOutcomeTables();
             removeResults();
             return false;

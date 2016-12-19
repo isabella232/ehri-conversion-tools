@@ -4,7 +4,7 @@
 <head>
     <title>EHRI Conversion Tool</title>
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.min.css" />
     <!-- /CSS -->
 </head>
 
@@ -53,8 +53,6 @@
                         </label>
                         <select name="organization" id="organization">
                             <option value="">Please select</option>
-
-
                         </select>
                     </div>
                     <button class="btn pull-right submit submit_step" id="submit_step1">Next step</button>
@@ -69,7 +67,7 @@
                         <select name="file_type" id="file_type">
                             <option value="">Please select</option>
                             <option value="xml">XML</option>
-                            <!--
+                            <!-- commented out since questions will aquare
                             <option value="json">JSON</option>
                             <option value="sheet">DATA Sheet</option>
                             -->
@@ -150,16 +148,6 @@
                             <option value="" selected="true">Please select xquery File</option>
                         </select>
                     </div>
-                    <!--
-                    <div class="input-holder specific_mapping">
-                        <label class="roodtext inputlabel">
-                            Select <span class="font700">Mapping</span>
-                        </label>
-                        <select name="specific_trans_mapping" id="specific_trans_mapping">
-                            <option value="" selected="true">Please select mapping file</option>
-                        </select>
-                    </div>
-                    -->
                     <button class="btn pull-left previous_step" id="previous_step4_1">Previous step</button>
                     <button class="btn pull-right submit submit_step" id="submit_step4_1">Next step</button>
                 </div>
@@ -181,20 +169,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="input-holder local" style="display:none;">
-                        <table>
-                            <caption>
-                                <label class="roodtext inputlabel">
-                                    Output Folder <span class="font700">Content</span>
-                                </label>
-                            </caption>
-                            <thead>
-                                <th>Files</th>
-                            </thead>
-                            <tbody id="outcome_folder">
-                            </tbody>
-                        </table>
-                    </div>
                     <button class="btn pull-left previous_step" id="previous_step5">Previous step</button>
                     <a class="btn pull-right submit submit_step" id="submit_step5" href="#">Start Transformation</a>
                 </div>
@@ -205,7 +179,7 @@
                         <p>Data was transformed Successfully!</p>
                     </div>
                     <p>From <span class="roodtext font700" id="for_transformation_files"></span> files we created <span class="roodtext font700" id="transformed_files"></span>.</p>
-                    <p>Please take a look at the table below to find out twhat are the generated fiels and their errors</p>
+                    <p>Please take a look at the table below to find out the generated fiels and their errors</p>
                     <table>
                         <caption>Conversion report</caption>
                         <thead>
@@ -234,7 +208,7 @@
     </div>
     <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script src="js/app.js"></script>
+    <script src="js/app.min.js"></script>
     <!-- /JS -->
 </body>
 

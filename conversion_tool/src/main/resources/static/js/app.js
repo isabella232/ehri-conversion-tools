@@ -4,7 +4,7 @@ $(document).ready(function() {
     var loader          = $('.loader');
     var loader_img      = $('.loader_img');
 
-    // dorpdowns   
+    // dorpdowns
     var organization_select         = $('#organization');
     var file_type_select            = $('#file_type');
     var transformation_type_select  = $('#transformation_type');
@@ -104,12 +104,23 @@ $(document).ready(function() {
         var urlToBeSend;
 
         //          1. EAD1-to-EAD2002
-        if ($(fileTypeVal).val() === 'xml_ead') {
+
+        if ($('#file_type').val() === 'xml_ead') {
 
             urlToBeSend = 'http://localhost:8080/rest/process';
-
+            //alert('here');
             $.get(urlToBeSend, function(data) {
-                console.log(data);
+                var errorsList = data;
+                var errors = 0;
+                console.log(errorsList)
+                $.each(errorsList.split("|"), function(index, item) {
+                    var values = item.split('=');
+                    var file_name = values[0];
+                    var errors_count = values[1];
+                    $('#errors_table').append('<tr><td>'+file_name+'</td><td>'+errors_count+'</td></tr>');
+                    errors++
+                });
+                $('#transformed_files').append(errors);
                 $('#step5').slideUp(300);
                 $('#step6').slideDown(300);
                 $('.active').removeClass('active');
@@ -123,27 +134,58 @@ $(document).ready(function() {
             if ($('#mapping_type').val() === 'generic' && specificMappingGoogleStepVal != '') {
                 urlToBeSend = 'http://localhost:8080/rest/process?mapping='+ specificMappingGoogleStepVal;
                 $.get(urlToBeSend, function(data) {
-                    console.log(data);
+                    var errorsList = data;
+                    var errors = 0;
+                    console.log(errorsList)
+                    $.each(errorsList.split("|"), function(index, item) {
+                        var values = item.split('=');
+                        var file_name = values[0];
+                        var errors_count = values[1];
+                        $('#errors_table').append('<tr><td>'+file_name+'</td><td>'+errors_count+'</td></tr>');
+                        errors++
+                    });
+                    $('#transformed_files').append(errors);
                     $('#step5').slideUp(300);
                     $('#step6').slideDown(300);
                     $('.active').removeClass('active');
                     $('#label_step_6').addClass('active');
                     hideLoader();
-                });                
+                });
             } else if ($('#mapping_type').val() === 'generic' && specificMappingGoogleStepVal === '') {
                 urlToBeSend = 'http://localhost:8080/rest/process?organisation='+ organizationVal;
                 $.get(urlToBeSend, function(data) {
-                    console.log(data);
+                    var errorsList = data;
+                    var errors = 0;
+                    console.log(errorsList)
+                    $.each(errorsList.split("|"), function(index, item) {
+                        var values = item.split('=');
+                        var file_name = values[0];
+                        var errors_count = values[1];
+                        $('#errors_table').append('<tr><td>'+file_name+'</td><td>'+errors_count+'</td></tr>');
+                        errors++
+                    });
+                    $('#transformed_files').append(errors);
                     $('#step5').slideUp(300);
                     $('#step6').slideDown(300);
                     $('.active').removeClass('active');
                     $('#label_step_6').addClass('active');
                     hideLoader();
-                });                
+                });
             } else if ($('#mapping_type').val() === 'specific') {
                 urlToBeSend = 'http://localhost:8080/rest/process?xquery='+ specificTransxqueryVal;
                 $.get(urlToBeSend, function(data) {
-                    console.log(data);
+                    var errorsList = data;
+                    var errors = 0;
+                    console.log(errorsList)
+                    $.each(errorsList.split("|"), function(index, item) {
+                        var values = item.split('=');
+                        var file_name = values[0];
+                        var errors_count = values[1];
+                        $('#errors_table').append('<tr><td>'+file_name+'</td><td>'+errors_count+'</td></tr>');
+                        errors++
+                    });
+                    $('#transformed_files').append(errors);
+
                     $('#step5').slideUp(300);
                     $('#step6').slideDown(300);
                     $('.active').removeClass('active');
@@ -265,6 +307,10 @@ $(document).ready(function() {
             $('#step2').slideDown(300);
             $('.active').removeClass('active');
             $('#label_step_2').addClass('active');
+            $('#organization_name').empty()
+            var selectedOrganization = $('#organization').val();
+            var organizationDisplay = 'Organization: ' + selectedOrganization;
+            $('#organization_name').append(organizationDisplay);
             disableSubmit();
         } else if (submit_button === 'submit_step2') {
             $('#step2').slideUp(300)
@@ -307,11 +353,11 @@ $(document).ready(function() {
                             $('#google_link').attr('value', urlForIframeLink);
                             $("#google-iframe").attr("src", urlForIframeLink);
                             $('#google-iframe').show();
-                            $('#view_google').show(); 
+                            $('#view_google').show();
                         });
                     } else {
                         $('#google-iframe').hide();
-                        $('#view_google').hide(); 
+                        $('#view_google').hide();
                     }
                     $('#step3').slideUp(300);
                     $('#step4').slideDown(300);
@@ -390,7 +436,7 @@ $(document).ready(function() {
                 $.each(output_dir_content.split("|"), function(index, item) {
                     output_files_count++;
                 });
-                $('#transformed_files').append(output_files_count);
+                //$('#transformed_files').append(output_files_count);
             });
         } else if (submit_button === 'start_new') {
             $('#step6').slideUp(300);

@@ -1,6 +1,7 @@
 package com.ontotext.ehri.tools;
 
 import org.basex.core.Context;
+import org.basex.core.StaticOptions;
 import org.basex.io.IOFile;
 import org.basex.query.QueryException;
 import org.basex.query.QueryProcessor;
@@ -19,7 +20,8 @@ public class XQueryRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(XQueryRunner.class);
     private static final Context CONTEXT = new Context();
     private static final UriResolver URI_RESOLVER = (path, uri, base) -> {
-        String fullPath = Configuration.getString("xquery-module-dir") + File.separator + path;
+//        String fullPath = Configuration.getString("xquery-module-dir") + File.separator + path;
+        String fullPath = Configuration.getString("xquery-module-dir") + "/" + path;
         //return new IOContent(TextReader.readText(fullPath));
         return new IOFile(TextReader.resolvePath(fullPath));
     };

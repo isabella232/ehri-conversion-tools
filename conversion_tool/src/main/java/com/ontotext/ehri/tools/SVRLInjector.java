@@ -96,7 +96,7 @@ public class SVRLInjector {
                 Element target = (Element) XPATH.evaluate(path, xml, XPathConstants.NODE);
                 
                 Node text = fail.getElementsByTagName("svrl:text").item(0);
-                if (text == null) continue;
+                if (text == null || text.getFirstChild().toString().contains("\"xsi:schemaLocation\" not allowed here")) continue;
                 target.setAttribute("svrl_text", text.getTextContent());
 
                 Node docu = fail.getElementsByTagName("svrl:diagnostic-reference").item(0);

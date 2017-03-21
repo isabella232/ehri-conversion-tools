@@ -15,7 +15,7 @@ public class TransformationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformationService.class);
     private static final XsltExecutable EAD1_TO_EAD2002 = XSLTRunner.compileStylesheet(Configuration.getString("ead1-to-ead2002-path"));
 
-    public void transform(TransformationModel model, Date requestDate) {
+    public String transform(TransformationModel model, Date requestDate) {
         LOGGER.info("starting transformation with these parameters: " + model.toString());
         long start = System.currentTimeMillis();
 
@@ -64,5 +64,6 @@ public class TransformationService {
 
         long time = System.currentTimeMillis() - start;
         LOGGER.info("finished transformation in " + time + " ms");
+        return outputDir.getPath();
     }
 }

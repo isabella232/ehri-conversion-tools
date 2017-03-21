@@ -27,8 +27,9 @@ public class RestController {
     @RequestMapping(value = "/process", method = RequestMethod.GET)
     public String transform(TransformationModel transformationModel) {
         Date now = new Date();
-        transformationService.transform(transformationModel, now);
-        return validationService.validate(transformationModel, now);
+        String transformationDir = transformationService.transform(transformationModel, now);
+        String validation = validationService.validate(transformationModel, now);
+        return validation + "|fileLocation=" + transformationDir;
     }
 
     @RequestMapping(value = "/list-input-dir-contents", method = RequestMethod.GET)

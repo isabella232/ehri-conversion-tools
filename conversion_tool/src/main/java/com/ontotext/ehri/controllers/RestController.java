@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
 import java.util.Date;
 
 @org.springframework.web.bind.annotation.RestController
@@ -29,7 +30,14 @@ public class RestController {
         Date now = new Date();
         String transformationDir = transformationService.transform(transformationModel, now);
         String validation = validationService.validate(transformationModel, now);
-        return validation + "|fileLocation=" + transformationDir;
+        String[] validatonSplit = validation.split("\\|");
+        if (validationService != null && validation.length() > 0) {
+            validation = "";
+            for (String val : validatonSplit) {
+                validation += transformationDir + File.separator + "html" + File.separator + val + "|";
+            }
+        }
+        return validation;
     }
 
     @RequestMapping(value = "/list-input-dir-contents", method = RequestMethod.GET)

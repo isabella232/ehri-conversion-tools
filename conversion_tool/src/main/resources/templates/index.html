@@ -4,7 +4,9 @@
 <head>
     <title>EHRI Conversion Tool</title>
     <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/style.min.css" />
+    
     <!-- /CSS -->
 </head>
 
@@ -180,7 +182,7 @@
                     </div>
                     <p>From <span class="roodtext font700" id="for_transformation_files"></span> files we created <span class="roodtext font700" id="transformed_files"></span>.</p>
                     <p>Please take a look at the table below to find out the generated fiels and their errors</p>
-                    <table>
+                    <table id="tableErrors">
                         <caption>Conversion report</caption>
                         <thead>
                             <tr>
@@ -208,6 +210,7 @@
     </div>
     <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
     <script src="js/app.min.js"></script>
     <!-- /JS -->
 </body>

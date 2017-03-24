@@ -102,11 +102,16 @@
                         <label class="roodtext inputlabel">
                             Select type of <span class="font700">Transformation</span>
                         </label>
-                        <select name="mapping_type" id="mapping_type">
+                        <select name="mapping_type" id="mapping_type" style="width: 625px;">
                             <option value="" selected="true">Please select</option>
                             <option value="generic">Generic Transformation</option>
                             <option value="specific">Specific Transformation</option>
                         </select>
+                        <span class="tooltipHolder">(?)<span class="tooltip text">There are two types of transformation Generic (default) and Specific. Using the
+Generic one, you can transform your data files in the EAD 2002 format.
+If you want to use the tool for transforming data in other formats, you should create
+your own xquery transformation schemes and add them to the /xquery folder. Then,
+they can be used when the Specific transformation type is selected.</span></span>
                     </div>
                     <button class="btn pull-left previous_step" id="previous_step3">Previous step</button>
                     <button class="btn pull-right submit submit_step" id="submit_step3">Next step</button>

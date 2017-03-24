@@ -836,3 +836,16 @@ ul.menu {
         background-color: #fa8072;
     }
 }
+span.tooltip.text {
+    display: none;
+}
+.tooltipHolder:hover span.tooltip.text {
+    display: block;
+    position: absolute;
+    width: 400px;
+    right: 0;
+    background: #fff;
+    padding: 20px;
+    top: 474px;
+    z-index: 10000000;
+}

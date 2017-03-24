@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.File;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping(value = "/rest")
@@ -78,6 +80,24 @@ public class RestController {
     @RequestMapping(value = "/error", method = RequestMethod.GET)
     public String errorPage(){
         return "errorPage";
+    }
+
+    @RequestMapping(value = "/htmlReport", method = RequestMethod.GET)
+    public String getHtmlReport(@RequestParam("path") String path) {
+        File file = new File(path);
+        String fileContent = "";
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                fileContent = fileContent + line + "\n";
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return fileContent;
     }
 
 }

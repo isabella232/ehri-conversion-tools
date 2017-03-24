@@ -64,6 +64,6 @@ public class TransformationService {
 
         long time = System.currentTimeMillis() - start;
         LOGGER.info("finished transformation in " + time + " ms");
-        return outputDir.getPath();
+        return outputDir.getAbsolutePath();
     }
 }

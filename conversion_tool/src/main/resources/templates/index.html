@@ -53,9 +53,10 @@
                         <label class="roodtext inputlabel">
                             Please select your <span class="font700">Organization</span>
                         </label>
-                        <select name="organization" id="organization">
+                        <select name="organization" id="organization" style="width: 625px;">
                             <option value="">Please select</option>
                         </select>
+                        <span class="tooltipHolder">(?)<span class="tooltip text">Select your organization from the drop-down list. If your organization is not present select Other.</span></span>
                     </div>
                     <button class="btn pull-right submit submit_step" id="submit_step1">Next step</button>
                 </div>
@@ -66,7 +67,7 @@
                         <label class="roodtext inputlabel">
                             Please select your files <span class="font700">INPUT FORMAT</span>
                         </label>
-                        <select name="file_type" id="file_type">
+                        <select name="file_type" id="file_type" style="width: 625px;">
                             <option value="">Please select</option>
                             <option value="xml">XML</option>
                             <!-- commented out since questions will aquare
@@ -75,6 +76,7 @@
                             -->
                             <option value="xml_ead">XML-EAD 1</option>
                         </select>
+                        <span class="tooltipHolder">(?)<span class="tooltip text">XML Documents are all type VALID encoded documents. XML-EAD 1 which are using coded representations of elements for efficient machine-processing.</span></span>
                     </div>
                     <button class="btn pull-left previous_step" id="previous_step2">Previous step</button>
                     <button class="btn pull-right submit submit_step " id="submit_step2">Next step</button>
@@ -86,11 +88,16 @@
                         <label class="roodtext inputlabel">
                             Select  <span class="font700">transformation</span> or <span class="font700">mapping</span>
                         </label>
-                        <select name="transformation_type" id="transformation_type">
+                        <select name="transformation_type" id="transformation_type" style="width: 625px;">
                             <option value="">Please select</option>
                             <option value="mapping">Mapping</option>
                             <option value="ead_2">Transformation</option>
                         </select>
+                        <span class="tooltipHolder">(?)<span class="tooltip text">There are two types of transformation Generic (default) and Specific. Using the
+Generic one, you can transform your data files in the EAD 2002 format.
+If you want to use the tool for transforming data in other formats, you should create
+your own xquery transformation schemes and add them to the /xquery folder. Then,
+they can be used when the Specific transformation type is selected.</span></span>
                     </div>
                     <button class="btn pull-left previous_step" id="previous_step2_1">Previous step</button>
                     <button class="btn pull-right submit submit_step" id="submit_step2_1">Next step</button>

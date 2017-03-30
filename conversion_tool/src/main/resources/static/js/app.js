@@ -55,7 +55,6 @@ $(document).ready(function() {
     }
 
     function w() {
-
         var F = $("#organization").val();
         var A = $("#file_type").val();
         var z = $("#transformation_type").val();
@@ -74,8 +73,8 @@ $(document).ready(function() {
                     var N = J[0];
                     var M = J[1];
                     var result = N.substring(N.lastIndexOf("html") + 5);
-                    var address = N+'.html';
-                    $("#errors_table").append('<tr><td><span class="getContent" address="'+address+'">'+result+'</span></td><td>' + M + '</td></tr>');
+                    var address = N + '.html';
+                    $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
                     H++
                 });
                 $('#tableErrors').DataTable();
@@ -86,27 +85,21 @@ $(document).ready(function() {
                 $("#label_step_6").addClass("active");
                 t()
                 $('.getContent').on('click', function() {
+
                     var addressForCall = $(this).attr('address');
-
-                    var settings = {
-                        "async": true,
-                        "crossDomain": true,
-                        "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall,
-                        "method": "GET",
-                        "headers": {
-                            "cache-control": "no-cache"
-                        }
-                    }
-
+                    var settings = { "async": true, "crossDomain": true, "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall, "method": "GET", "headers": { "cache-control": "no-cache" } }
                     $.ajax(settings).done(function(response) {
+                        var result = fileName.substring(fileName.lastIndexOf("\\") + 1);
+                        result = result.replace(".html", "");
+                        $('#step6').append('<div class="responseHolder"><h2 style="margin-top: -33px;">' + result + '</h2><span class="closeResponse">X</span>' + response + '</div>');
 
-                        $('#step6').append('<div class="responseHolder"><span class="closeResponse">Close</span>' + response + '</div>');
-                        console.log($('.responseHolder').height());
+
                         var responseHeight = $('.responseHolder').height();
                         var pageHeight = responseHeight + 200;
                         pageHeight = pageHeight + 'px';
                         $('#page').css('min-height', pageHeight);
-                        $('.closeResponse').on('click',function(){
+                        $(window).scrollTop('0');
+                        $('.closeResponse').on('click', function() {
                             $('.responseHolder').remove();
                             $('#page').css('min-height', '500px');
                         })
@@ -124,8 +117,8 @@ $(document).ready(function() {
                         var N = J[0];
                         var M = J[1];
                         var result = N.substring(N.lastIndexOf("html") + 5);
-                        var address = N+'.html';
-                        $("#errors_table").append('<tr><td><span class="getContent" address="'+address+'">'+result+'</span></td><td>' + M + '</td></tr>');
+                        var address = N + '.html';
+                        $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
                         H++
                     });
                     $('#tableErrors').DataTable();
@@ -137,26 +130,19 @@ $(document).ready(function() {
                     t()
                     $('.getContent').on('click', function() {
                         var addressForCall = $(this).attr('address');
-
-                        var settings = {
-                            "async": true,
-                            "crossDomain": true,
-                            "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall,
-                            "method": "GET",
-                            "headers": {
-                                "cache-control": "no-cache"
-                            }
-                        }
-
+                        var settings = { "async": true, "crossDomain": true, "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall, "method": "GET", "headers": { "cache-control": "no-cache" } }
                         $.ajax(settings).done(function(response) {
+                            var result = fileName.substring(fileName.lastIndexOf("\\") + 1);
+                            result = result.replace(".html", "");
+                            $('#step6').append('<div class="responseHolder"><h2 style="margin-top: -33px;">' + result + '</h2><span class="closeResponse">X</span>' + response + '</div>');
 
-                            $('#step6').append('<div class="responseHolder"><span class="closeResponse">Close</span>' + response + '</div>');
-                            console.log($('.responseHolder').height());
+
                             var responseHeight = $('.responseHolder').height();
                             var pageHeight = responseHeight + 200;
                             pageHeight = pageHeight + 'px';
                             $('#page').css('min-height', pageHeight);
-                            $('.closeResponse').on('click',function(){
+                            $(window).scrollTop('0');
+                            $('.closeResponse').on('click', function() {
                                 $('.responseHolder').remove();
                                 $('#page').css('min-height', '500px');
                             })
@@ -174,10 +160,8 @@ $(document).ready(function() {
                             var N = J[0];
                             var M = J[1];
                             var result = N.substring(N.lastIndexOf("html") + 5);
-                                var address = N+'.html';
-
-
-                                $("#errors_table").append('<tr><td><span class="getContent" address="'+address+'">'+result+'</span></td><td>' + M + '</td></tr>');
+                            var address = N + '.html';
+                            $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
                             H++
                         });
                         $('#tableErrors').DataTable();
@@ -189,26 +173,20 @@ $(document).ready(function() {
                         t()
                         $('.getContent').on('click', function() {
                             var addressForCall = $(this).attr('address');
-
-                            var settings = {
-                                "async": true,
-                                "crossDomain": true,
-                                "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall,
-                                "method": "GET",
-                                "headers": {
-                                    "cache-control": "no-cache"
-                                }
-                            }
-
+                            var fileName = $(this).attr('address');
+                            var settings = { "async": true, "crossDomain": true, "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall, "method": "GET", "headers": { "cache-control": "no-cache" } }
                             $.ajax(settings).done(function(response) {
+                                var result = fileName.substring(fileName.lastIndexOf("\\") + 1);
+                                result = result.replace(".html", "");
+                                $('#step6').append('<div class="responseHolder"><h2 style="margin-top: -33px;">' + result + '</h2><span class="closeResponse">X</span>' + response + '</div>');
 
-                                $('#step6').append('<div class="responseHolder"><span class="closeResponse">Close</span>' + response + '</div>');
-                                console.log($('.responseHolder').height());
+
                                 var responseHeight = $('.responseHolder').height();
                                 var pageHeight = responseHeight + 200;
                                 pageHeight = pageHeight + 'px';
                                 $('#page').css('min-height', pageHeight);
-                                $('.closeResponse').on('click',function(){
+                                $(window).scrollTop('0');
+                                $('.closeResponse').on('click', function() {
                                     $('.responseHolder').remove();
                                     $('#page').css('min-height', '500px');
                                 })
@@ -226,8 +204,8 @@ $(document).ready(function() {
                                 var N = J[0];
                                 var M = J[1];
                                 var result = N.substring(N.lastIndexOf("html") + 5);
-                                var address = N+'.html';
-                                $("#errors_table").append('<tr><td><span class="getContent" address="'+address+'">'+result+'</span></td><td>' + M + '</td></tr>');
+                                var address = N + '.html';
+                                $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
                                 H++
                             });
                             $('#tableErrors').DataTable();
@@ -239,26 +217,19 @@ $(document).ready(function() {
                             t()
                             $('.getContent').on('click', function() {
                                 var addressForCall = $(this).attr('address');
-
-                                var settings = {
-                                    "async": true,
-                                    "crossDomain": true,
-                                    "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall,
-                                    "method": "GET",
-                                    "headers": {
-                                        "cache-control": "no-cache"
-                                    }
-                                }
-
+                                var settings = { "async": true, "crossDomain": true, "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall, "method": "GET", "headers": { "cache-control": "no-cache" } }
                                 $.ajax(settings).done(function(response) {
+                                    var result = fileName.substring(fileName.lastIndexOf("\\") + 1);
+                                    result = result.replace(".html", "");
+                                    $('#step6').append('<div class="responseHolder"><h2 style="margin-top: -33px;">' + result + '</h2><span class="closeResponse">X</span>' + response + '</div>');
 
-                                    $('#step6').append('<div class="responseHolder"><span class="closeResponse">Close</span>' + response + '</div>');
-                                    console.log($('.responseHolder').height());
+
                                     var responseHeight = $('.responseHolder').height();
                                     var pageHeight = responseHeight + 200;
                                     pageHeight = pageHeight + 'px';
                                     $('#page').css('min-height', pageHeight);
-                                    $('.closeResponse').on('click',function(){
+                                    $(window).scrollTop('0');
+                                    $('.closeResponse').on('click', function() {
                                         $('.responseHolder').remove();
                                         $('#page').css('min-height', '500px');
                                     })
@@ -269,7 +240,6 @@ $(document).ready(function() {
                 }
             }
         }
-
     }
 
     function a() {
@@ -583,6 +553,4 @@ $(document).ready(function() {
             }
         }
     })
-
-
 });

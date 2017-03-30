@@ -662,13 +662,13 @@ ul.menu {
 .responseHolder .table-of-contents {
     position: fixed;
     display: inline-block;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 210px;
     height: 100%;
     padding: 8px;
     border: 2px solid #191970;
     background-color: #f0ffff;
-    left: 10px
+    left: 127px
 }
 
 .responseHolder .table-of-contents a {

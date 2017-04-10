@@ -16,6 +16,28 @@ declare function local:pad-with-zeroes(
   else local:pad-with-zeroes(fn:concat("0", $number), $length)
 };
 
+declare function local:convert_csv() {
+    for $source-path-relative in file:list($input-dir, fn:false(), "*.csv,*.CSV")
+        let $source-document := fn:concat($input-dir, file:dir-separator(), $source-path-relative)
+        let $target-path     := fn:concat($input-dir, file:dir-separator(), 
+                                          fn:replace(fn:replace($source-path-relative, "\.csv", ".xml"), "\.CSV", ".xml"))
+        let $text            := file:read-text($source-document)
+        let $target-document := csv:parse($text, map { 'header': true() }) 
+        return file:write($target-path, $target-document, map { "omit-xml-declaration": "no" })
+};
+
+declare function local:convert_tsv() {
+    for $source-path-relative in file:list($input-dir, fn:false(), "*.tsv,*.TSV")
+        let $source-document := fn:concat($input-dir, file:dir-separator(), $source-path-relative)
+        let $target-path     := fn:concat($input-dir, file:dir-separator(), 
+                                          fn:replace(fn:replace($source-path-relative, "\.tsv", ".xml"), "\.TSV", ".xml"))
+        let $text            := file:read-text($source-document)
+        let $target-document := csv:parse($text, map { 'separator' : 'tab', 'header': true(), 'format':'direct' }) 
+        return file:write($target-path, $target-document, map { "omit-xml-declaration": "no" })
+};
+
+local:convert_csv(),
+local:convert_tsv(),
 for $source-path-relative in file:list($input-dir, fn:false(), "*.xml,*.XML")
   let $source-document := fn:doc(fn:concat($input-dir, file:dir-separator(), $source-path-relative))
   for $target-document at $count in transform:transform($source-document, $mapping, $namespaces, $structure)

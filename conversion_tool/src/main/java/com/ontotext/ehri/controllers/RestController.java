@@ -36,7 +36,12 @@ public class RestController {
         if (validationService != null && validation.length() > 0) {
             validation = "";
             for (String val : validatonSplit) {
-                validation += transformationDir + File.separator + "html" + File.separator + val + "|";
+                if (validation.isEmpty()) {
+                    validation += transformationDir + File.separator + "html" + File.separator + val;
+                } else {
+                    validation += "|" +  transformationDir + File.separator + "html" + File.separator + val;
+                }
+
             }
         }
         return validation;

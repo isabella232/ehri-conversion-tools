@@ -85,7 +85,7 @@ $(document).ready(function() {
                 $("#label_step_6").addClass("active");
                 t()
                 $('.getContent').on('click', function() {
-
+                    console.log('clicked');
                     var addressForCall = $(this).attr('address');
                     var settings = { "async": true, "crossDomain": true, "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall, "method": "GET", "headers": { "cache-control": "no-cache" } }
                     $.ajax(settings).done(function(response) {
@@ -129,6 +129,7 @@ $(document).ready(function() {
                     $("#label_step_6").addClass("active");
                     t()
                     $('.getContent').on('click', function() {
+                        console.log('clicked');
                         var addressForCall = $(this).attr('address');
                         var settings = { "async": true, "crossDomain": true, "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall, "method": "GET", "headers": { "cache-control": "no-cache" } }
                         $.ajax(settings).done(function(response) {
@@ -172,6 +173,7 @@ $(document).ready(function() {
                         $("#label_step_6").addClass("active");
                         t()
                         $('.getContent').on('click', function() {
+                            console.log('clicked');
                             var addressForCall = $(this).attr('address');
                             var fileName = $(this).attr('address');
                             var settings = { "async": true, "crossDomain": true, "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall, "method": "GET", "headers": { "cache-control": "no-cache" } }
@@ -216,6 +218,7 @@ $(document).ready(function() {
                             $("#label_step_6").addClass("active");
                             t()
                             $('.getContent').on('click', function() {
+                                console.log('clicked');
                                 var addressForCall = $(this).attr('address');
                                 var settings = { "async": true, "crossDomain": true, "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall, "method": "GET", "headers": { "cache-control": "no-cache" } }
                                 $.ajax(settings).done(function(response) {

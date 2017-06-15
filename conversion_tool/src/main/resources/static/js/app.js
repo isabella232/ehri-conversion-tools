@@ -177,7 +177,7 @@ $(document).ready(function() {
                             var address = N + '.html';
                             if (result.indexOf("_DUPLICATE") >= 0){
                                 $("#errors_table").append('<tr style="background-color: #f7bdbd;"><td style="background-color: #f7bdbd;"><span class="getContent" address="' + address + '">' + result + '</span></td><td style="background-color: #f7bdbd;">' + M + '</td></tr>');
-                                result = result.replace('_DUPLICATE', '');
+                                //result = result.replace('_DUPLICATE', '');
                                 $(".success_notes").after('<p class="duplicate_msg" style="background-color: #f7bdbd;padding: 6px;">'+result+' containts dublication in EAD wich is not permitted</p>');
                             } else {
                                 $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');

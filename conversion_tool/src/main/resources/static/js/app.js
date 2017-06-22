@@ -74,7 +74,12 @@ $(document).ready(function() {
                     var M = J[1];
                     var result = N.substring(N.lastIndexOf("html") + 5);
                     var address = N + '.html';
-                    $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
+                    if (result.indexOf("_DUPLICATE") >= 0){
+                        $("#errors_table").append('<tr style="background-color: #f7bdbd;"><td style="background-color: #f7bdbd;"><span class="getContent" address="' + address + '">' + result + '</span></td><td style="background-color: #f7bdbd;">' + M + '</td></tr>');
+                        $(".success_notes").after('<p style="background-color: #f7bdbd;padding: 6px;">'+result+' containts dublication in EAD wich is not permitted</p>');
+                    } else {
+                        $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
+                    }
                     H++
                 });
                 $('#tableErrors').DataTable();
@@ -85,7 +90,7 @@ $(document).ready(function() {
                 $("#label_step_6").addClass("active");
                 t()
                 $('.getContent').on('click', function() {
-                    console.log('clicked');
+                    //console.log('clicked');
                     var addressForCall = $(this).attr('address');
                     var settings = { "async": true, "crossDomain": true, "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall, "method": "GET", "headers": { "cache-control": "no-cache" } }
                     $.ajax(settings).done(function(response) {
@@ -118,7 +123,12 @@ $(document).ready(function() {
                         var M = J[1];
                         var result = N.substring(N.lastIndexOf("html") + 5);
                         var address = N + '.html';
-                        $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
+                        if (result.indexOf("_DUPLICATE") >= 0){
+                            $("#errors_table").append('<tr style="background-color: #f7bdbd;"><td style="background-color: #f7bdbd;"><span class="getContent" address="' + address + '">' + result + '</span></td><td style="background-color: #f7bdbd;">' + M + '</td></tr>');
+                            $(".success_notes").after('<p style="background-color: #f7bdbd;padding: 6px;">'+result+' containts dublication in EAD wich is not permitted</p>');
+                        } else {
+                            $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
+                        }
                         H++
                     });
                     $('#tableErrors').DataTable();
@@ -129,7 +139,7 @@ $(document).ready(function() {
                     $("#label_step_6").addClass("active");
                     t()
                     $('.getContent').on('click', function() {
-                        console.log('clicked');
+                        //console.log('clicked');
                         var addressForCall = $(this).attr('address');
                         var settings = { "async": true, "crossDomain": true, "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall, "method": "GET", "headers": { "cache-control": "no-cache" } }
                         $.ajax(settings).done(function(response) {
@@ -153,19 +163,27 @@ $(document).ready(function() {
             } else {
                 if ($("#mapping_type").val() === "generic" && C === "") {
                     B = "http://localhost:8080/rest/process?organisation=" + F;
+                    $("#errors_table").empty();
                     $.get(B, function(G) {
                         var I = G;
                         var H = 0;
+                        //console.log(I)
+                        $('.duplicate_msg').remove()
                         $.each(I.split("|"), function(K, L) {
                             var J = L.split("=");
                             var N = J[0];
                             var M = J[1];
                             var result = N.substring(N.lastIndexOf("html") + 5);
                             var address = N + '.html';
-                            $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
+                            if (result.indexOf("_DUPLICATE") >= 0){
+                                $("#errors_table").append('<tr style="background-color: #f7bdbd;"><td style="background-color: #f7bdbd;"><span class="getContent" address="' + address + '">' + result + '</span></td><td style="background-color: #f7bdbd;">' + M + '</td></tr>');
+                                //result = result.replace('_DUPLICATE', '');
+                                $(".success_notes").after('<p class="duplicate_msg" style="background-color: #f7bdbd;padding: 6px;">'+result+' containts dublication in EAD ID wich is not permitted</p>');
+                            } else {
+                                $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
+                            }
                             H++
                         });
-                        $('#tableErrors').DataTable();
                         $("#transformed_files").append(H);
                         $("#step5").slideUp(300);
                         $("#step6").slideDown(300);
@@ -173,7 +191,7 @@ $(document).ready(function() {
                         $("#label_step_6").addClass("active");
                         t()
                         $('.getContent').on('click', function() {
-                            console.log('clicked');
+                            //alert('clicked')
                             var addressForCall = $(this).attr('address');
                             var fileName = $(this).attr('address');
                             var settings = { "async": true, "crossDomain": true, "url": 'http://localhost:8080/rest//htmlReport?path=' + addressForCall, "method": "GET", "headers": { "cache-control": "no-cache" } }
@@ -194,6 +212,10 @@ $(document).ready(function() {
                                 })
                             });
                         });
+                        setTimeout(function(){
+                            $('#tableErrors').dataTable().fnDestroy();
+                            $('#tableErrors').DataTable();
+                        }, 1500);
                     })
                 } else {
                     if ($("#mapping_type").val() === "specific") {
@@ -207,7 +229,12 @@ $(document).ready(function() {
                                 var M = J[1];
                                 var result = N.substring(N.lastIndexOf("html") + 5);
                                 var address = N + '.html';
-                                $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
+                                if (result.indexOf("_DUPLICATE") >= 0){
+                                    $("#errors_table").append('<tr style="background-color: #f7bdbd;"><td style="background-color: #f7bdbd;"><span class="getContent" address="' + address + '">' + result + '</span></td><td style="background-color: #f7bdbd;">' + M + '</td></tr>');
+                                    $(".success_notes").after('<p style="background-color: #f7bdbd;padding: 6px;">'+result+' containts dublication in EAD wich is not permitted</p>');
+                                } else {
+                                    $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
+                                }
                                 H++
                             });
                             $('#tableErrors').DataTable();
@@ -225,8 +252,6 @@ $(document).ready(function() {
                                     var result = fileName.substring(fileName.lastIndexOf("\\") + 1);
                                     result = result.replace(".html", "");
                                     $('#step6').append('<div class="responseHolder"><h2 style="margin-top: -33px;">' + result + '</h2><span class="closeResponse">X</span>' + response + '</div>');
-
-
                                     var responseHeight = $('.responseHolder').height();
                                     var pageHeight = responseHeight + 200;
                                     pageHeight = pageHeight + 'px';

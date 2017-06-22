@@ -20,15 +20,14 @@ declare function local:pad-with-zeroes(
   };
 
 for $source-path-relative in file:list($input-dir, fn:false(), "*.xml,*.XML")
-  let $source-document := fn:doc(fn:concat($input-dir, file:dir-separator(), $source-path-relative))
-  for $target-document at $count in transform:transform($source-document, $mapping, $namespaces, $structure)
-    let $target-path := fn:concat(
-            $output-dir,
-            file:dir-separator(),
-            fn:substring-before($source-path-relative, "."),
-            "_", $target-document/*:ead/*:eadheader/*:eadid/text(),
-            ".", fn:substring-after($source-path-relative, ".")
-    )
+let $source-document := fn:doc(fn:concat($input-dir, file:dir-separator(), $source-path-relative))
+for $target-document at $count in transform:transform($source-document, $mapping, $namespaces, $structure)
+let $target-path := fn:concat(
+        $output-dir,
+        file:dir-separator(),
+        $target-document/*:ead/*:eadheader/*:eadid/text(),
+        ".", fn:substring-after($source-path-relative, ".")
+)
 
   let $p := if(file:exists($target-path)) then fn:concat(fn:substring-before($target-path, ".xml"), "_", local:pad-with-zeroes(fn:string($count), 9), "_DUPLICATE.xml") else $target-path
 

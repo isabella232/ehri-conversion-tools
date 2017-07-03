@@ -849,3 +849,11 @@ span.tooltip.text {
     top: 474px;
     z-index: 10000000
 }
+
+.version {
+    clear: both;
+    color: #fff;
+    display: block;
+    font-style: italic;
+    font-size: 11px;
+}

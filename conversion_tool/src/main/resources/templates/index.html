@@ -22,6 +22,10 @@
                     <img src="img/banner_img.jpg" alt="" title="" />
                 </div>
             </div>
+            <div class="tool_navigation" style="display: none">
+                <a href="#" class="transformation">Transformation</a>
+                <a href="#" class="validation">Validation</a>
+            </div>
         </header>
         <!-- /header -->
         <div id="main">
@@ -47,21 +51,7 @@
                 </div>
                 <!-- /STEPS -->
                 <!-- STEP 1 -->
-                <div id="step0" class="step">
-                    <div class="input-holder source">
-                        <label class="roodtext inputlabel">
-                            Please select <span class="font700">Validation</span> or <span class="font700">Transformation</span>
-                        </label>
-                        <select name="validation_transformation" id="validationTransforamtion" style="width: 625px;">
-                            <option value="">Please select</option>
-                            <option value="validation">Validation</option>
-                            <option value="transformation">Transformation</option>
-                        </select>
-                        <span class="tooltipHolder">(?)<span class="tooltip text">Select your organization from the drop-down list.<p>If your organization is not present select Other.</p></span></span>
-                    </div>
-                    <button class="btn pull-right submit submit_step" id="submit_step0">Next step</button>
-                </div>
-                <div id="step1" class="step">
+                <div id="step1" class="step active">
                     <div class="input-holder source">
                         <label class="roodtext inputlabel">
                             Please select your <span class="font700">Organization</span>
@@ -75,7 +65,7 @@
                 </div>
                 <!-- /STEP 1 -->
                 <!-- STEP 2 -->
-                <div id="step2" class="step active">
+                <div id="step2" class="step ">
                     <div class="input-holder source">
                         <label class="roodtext inputlabel">
                             Please select your files <span class="font700">INPUT FORMAT</span>

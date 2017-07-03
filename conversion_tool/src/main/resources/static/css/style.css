@@ -858,3 +858,17 @@ span.tooltip.text {
     font-style: italic;
     font-size: 11px;
 }
+.tool_navigation{
+    display: inline-block;margin: 0;margin-top: -32px;position: absolute;z-index: 1000;
+}
+.tool_navigation a {
+    color: #36104f;
+    background: #ecedee;
+    padding: 11px;
+    text-decoration: none;
+}
+.tool_navigation a.active,
+.tool_navigation a :hover{
+    color: #ecedee;
+    background: #36104f;
+}

@@ -12,27 +12,17 @@ $(document).ready(function() {
     var c = "http://localhost:8080/rest/list-output-dir-contents";
     var p = "http://localhost:8080/rest/list-input-dir-contents";
     var e = "http://localhost:8080/rest/list-xquery-dir-contents";
-
-    var transValHolder = $('#step0');
-    var submitZeroStep = $('#submit_step0');
-    var selectedType = ('#validationTransoframtion');
-
-    $(selectedType).on('change', function(event){
+    $('.tool_navigation a').on('click', function(event) {
         event.preventDefault();
-        if($(selectedType).val() != ''){
-            $(submitZeroStep).prop("disabled", false)
+        var activeTool = $(this).attr("class");
+
+        $(this).addClass('active')
+        console.log(activeTool)
+        if (activeTool === 'validation') {
+            $('#step1 .source').append('<p style="background-color: #f7bdbd;padding: 6px;text-align: center;">Validation service is currenlty being developed.</p>')
         }
     })
-    $(submitZeroStep).on('click', function(event) {
-        event.preventDefault();
-        var selectedOperation = $(selectedType).val();
-        if (selectedOperation === 'validation'){
-            $('#step0 .source').append('<p style="background-color: #f7bdbd;padding: 6px;text-align: center;">Validation service is currenlty being developed.</p>')
-        } else {
-            $('#step0').slideUp(300);
-            $("#step1").slideDown(300);
-        }
-    });
+
     function j() { $(f).prop("disabled", true) }
 
     function m() { $(f).prop("disabled", false) }
@@ -94,9 +84,9 @@ $(document).ready(function() {
                     var M = J[1];
                     var result = N.substring(N.lastIndexOf("html") + 5);
                     var address = N + '.html';
-                    if (result.indexOf("_DUPLICATE") >= 0){
+                    if (result.indexOf("_DUPLICATE") >= 0) {
                         $("#errors_table").append('<tr style="background-color: #f7bdbd;"><td style="background-color: #f7bdbd;"><span class="getContent" address="' + address + '">' + result + '</span></td><td style="background-color: #f7bdbd;">' + M + '</td></tr>');
-                        $(".success_notes").after('<p style="background-color: #f7bdbd;padding: 6px;">'+result+' containts dublication in EAD wich is not permitted</p>');
+                        $(".success_notes").after('<p style="background-color: #f7bdbd;padding: 6px;">' + result + ' containts dublication in EAD wich is not permitted</p>');
                     } else {
                         $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
                     }
@@ -143,9 +133,9 @@ $(document).ready(function() {
                         var M = J[1];
                         var result = N.substring(N.lastIndexOf("html") + 5);
                         var address = N + '.html';
-                        if (result.indexOf("_DUPLICATE") >= 0){
+                        if (result.indexOf("_DUPLICATE") >= 0) {
                             $("#errors_table").append('<tr style="background-color: #f7bdbd;"><td style="background-color: #f7bdbd;"><span class="getContent" address="' + address + '">' + result + '</span></td><td style="background-color: #f7bdbd;">' + M + '</td></tr>');
-                            $(".success_notes").after('<p style="background-color: #f7bdbd;padding: 6px;">'+result+' containts dublication in EAD wich is not permitted</p>');
+                            $(".success_notes").after('<p style="background-color: #f7bdbd;padding: 6px;">' + result + ' containts dublication in EAD wich is not permitted</p>');
                         } else {
                             $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
                         }
@@ -195,10 +185,10 @@ $(document).ready(function() {
                             var M = J[1];
                             var result = N.substring(N.lastIndexOf("html") + 5);
                             var address = N + '.html';
-                            if (result.indexOf("_DUPLICATE") >= 0){
+                            if (result.indexOf("_DUPLICATE") >= 0) {
                                 $("#errors_table").append('<tr style="background-color: #f7bdbd;"><td style="background-color: #f7bdbd;"><span class="getContent" address="' + address + '">' + result + '</span></td><td style="background-color: #f7bdbd;">' + M + '</td></tr>');
                                 //result = result.replace('_DUPLICATE', '');
-                                $(".success_notes").after('<p class="duplicate_msg" style="background-color: #f7bdbd;padding: 6px;">'+result+' containts dublication in EAD ID wich is not permitted</p>');
+                                $(".success_notes").after('<p class="duplicate_msg" style="background-color: #f7bdbd;padding: 6px;">' + result + ' containts dublication in EAD ID wich is not permitted</p>');
                             } else {
                                 $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
                             }
@@ -232,7 +222,7 @@ $(document).ready(function() {
                                 })
                             });
                         });
-                        setTimeout(function(){
+                        setTimeout(function() {
                             $('#tableErrors').dataTable().fnDestroy();
                             $('#tableErrors').DataTable();
                         }, 1500);
@@ -249,9 +239,9 @@ $(document).ready(function() {
                                 var M = J[1];
                                 var result = N.substring(N.lastIndexOf("html") + 5);
                                 var address = N + '.html';
-                                if (result.indexOf("_DUPLICATE") >= 0){
+                                if (result.indexOf("_DUPLICATE") >= 0) {
                                     $("#errors_table").append('<tr style="background-color: #f7bdbd;"><td style="background-color: #f7bdbd;"><span class="getContent" address="' + address + '">' + result + '</span></td><td style="background-color: #f7bdbd;">' + M + '</td></tr>');
-                                    $(".success_notes").after('<p style="background-color: #f7bdbd;padding: 6px;">'+result+' containts dublication in EAD wich is not permitted</p>');
+                                    $(".success_notes").after('<p style="background-color: #f7bdbd;padding: 6px;">' + result + ' containts dublication in EAD wich is not permitted</p>');
                                 } else {
                                     $("#errors_table").append('<tr><td><span class="getContent" address="' + address + '">' + result + '</span></td><td>' + M + '</td></tr>');
                                 }

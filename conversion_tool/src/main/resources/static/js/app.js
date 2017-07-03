@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    var toolType = 'transformation';
     var f = $(".submit");
     var i = $(".loader");
     var v = $(".loader_img");
@@ -12,16 +13,27 @@ $(document).ready(function() {
     var c = "http://localhost:8080/rest/list-output-dir-contents";
     var p = "http://localhost:8080/rest/list-input-dir-contents";
     var e = "http://localhost:8080/rest/list-xquery-dir-contents";
-    $('.tool_navigation a').on('click', function(event) {
-        event.preventDefault();
-        var activeTool = $(this).attr("class");
+    if (toolType === 'both') {
+        console.log('both tool');
+        $('.tool_navigation').show();
+        $('.tool_navigation a').on('click', function(event) {
+            event.preventDefault();
+            $('.tool_navigation a').removeClass('active')
+            var activeTool = $(this).attr("class");
 
-        $(this).addClass('active')
-        console.log(activeTool)
-        if (activeTool === 'validation') {
-            $('#step1 .source').append('<p style="background-color: #f7bdbd;padding: 6px;text-align: center;">Validation service is currenlty being developed.</p>')
-        }
-    })
+            $(this).addClass('active')
+            console.log(activeTool)
+            if (activeTool === 'validation') {
+                $('#step1 .source').append('<p style="background-color: #f7bdbd;padding: 6px;text-align: center;">Validation service is currenlty being developed.</p>')
+            }
+        });
+    } else if (toolType === 'transformation'){
+        $('.tool_navigation').hide();
+        console.log('transformation tool')
+    } else if (toolType === 'validation'){
+        $('.tool_navigation').hide();
+        console.log('validation tool')
+    }
 
     function j() { $(f).prop("disabled", true) }
 

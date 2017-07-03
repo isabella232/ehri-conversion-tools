@@ -13,6 +13,26 @@ $(document).ready(function() {
     var p = "http://localhost:8080/rest/list-input-dir-contents";
     var e = "http://localhost:8080/rest/list-xquery-dir-contents";
 
+    var transValHolder = $('#step0');
+    var submitZeroStep = $('#submit_step0');
+    var selectedType = ('#validationTransoframtion');
+
+    $(selectedType).on('change', function(event){
+        event.preventDefault();
+        if($(selectedType).val() != ''){
+            $(submitZeroStep).prop("disabled", false)
+        }
+    })
+    $(submitZeroStep).on('click', function(event) {
+        event.preventDefault();
+        var selectedOperation = $(selectedType).val();
+        if (selectedOperation === 'validation'){
+            $('#step0 .source').append('<p style="background-color: #f7bdbd;padding: 6px;text-align: center;">Validation service is currenlty being developed.</p>')
+        } else {
+            $('#step0').slideUp(300);
+            $("#step1").slideDown(300);
+        }
+    });
     function j() { $(f).prop("disabled", true) }
 
     function m() { $(f).prop("disabled", false) }

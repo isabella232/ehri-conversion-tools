@@ -4,9 +4,8 @@
 <head>
     <title>EHRI Conversion Tool</title>
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="css/style.min.css" />
-    
     <!-- /CSS -->
 </head>
 
@@ -48,7 +47,21 @@
                 </div>
                 <!-- /STEPS -->
                 <!-- STEP 1 -->
-                <div id="step1" class="step active">
+                <div id="step0" class="step">
+                    <div class="input-holder source">
+                        <label class="roodtext inputlabel">
+                            Please select <span class="font700">Validation</span> or <span class="font700">Transformation</span>
+                        </label>
+                        <select name="validation_transformation" id="validationTransforamtion" style="width: 625px;">
+                            <option value="">Please select</option>
+                            <option value="validation">Validation</option>
+                            <option value="transformation">Transformation</option>
+                        </select>
+                        <span class="tooltipHolder">(?)<span class="tooltip text">Select your organization from the drop-down list.<p>If your organization is not present select Other.</p></span></span>
+                    </div>
+                    <button class="btn pull-right submit submit_step" id="submit_step0">Next step</button>
+                </div>
+                <div id="step1" class="step">
                     <div class="input-holder source">
                         <label class="roodtext inputlabel">
                             Please select your <span class="font700">Organization</span>
@@ -62,7 +75,7 @@
                 </div>
                 <!-- /STEP 1 -->
                 <!-- STEP 2 -->
-                <div id="step2" class="step">
+                <div id="step2" class="step active">
                     <div class="input-holder source">
                         <label class="roodtext inputlabel">
                             Please select your files <span class="font700">INPUT FORMAT</span>
@@ -86,7 +99,7 @@
                 <div id="step2_1" class="step">
                     <div class="input-holder source">
                         <label class="roodtext inputlabel">
-                            Select  <span class="font700">transformation</span> or <span class="font700">mapping</span>
+                            Select <span class="font700">transformation</span> or <span class="font700">mapping</span>
                         </label>
                         <select name="transformation_type" id="transformation_type" style="width: 625px;">
                             <option value="">Please select</option>
@@ -205,7 +218,6 @@ they can be used when the Specific transformation type is selected.</span></span
                         <tbody id="errors_table">
                         </tbody>
                     </table>
-
                     <button class="btn pull-right submit_step" id="start_new">Start new transformation</button>
                     <button class="btn pull-right submit_step" id="repeat">Repeat transformation</button>
                 </div>
@@ -216,7 +228,7 @@ they can be used when the Specific transformation type is selected.</span></span
             <div class="funding">
                 <a href="http://europa.eu/" target="_blank" class="external-processed eu">EHRI is funded by the European Union</a>
                 <a href="http://ontotext.com/" target="_blank" class="external-processed ot"></a>
-<span class="version">Current version of Conversion Tool: 0.4</span>
+                <span class="version">Current version of Conversion Tool: 0.4</span>
                 <div class="clearfix"></div>
             </div>
         </footer>

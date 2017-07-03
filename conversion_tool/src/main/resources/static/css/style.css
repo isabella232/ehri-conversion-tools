@@ -350,6 +350,7 @@ ul.menu {
     background-image: url(../img/logo.png);
     background-size: contain;
     background-repeat: no-repeat;
+    margin-left: 20px;
 }
 
 #main-inner h1 {

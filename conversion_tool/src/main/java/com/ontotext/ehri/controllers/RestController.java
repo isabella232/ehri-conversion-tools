@@ -31,7 +31,7 @@ public class RestController {
     public String transform(TransformationModel transformationModel) {
         Date now = new Date();
         String transformationDir = transformationService.transform(transformationModel, now);
-        String validation = validationService.validate(transformationModel, now);
+        String validation = validationService.validate(transformationModel, now, null);
         String[] validatonSplit = validation.split("\\|");
         if (validationService != null && validation.length() > 0) {
             validation = "";
@@ -40,6 +40,24 @@ public class RestController {
                     validation += transformationDir + File.separator + "html" + File.separator + val;
                 } else {
                     validation += "|" +  transformationDir + File.separator + "html" + File.separator + val;
+                }
+
+            }
+        }
+        return validation;
+    }
+
+    @RequestMapping(value = "/validate", method = RequestMethod.GET)
+    public String validateFiles(TransformationModel transformationModel) {
+        String validation = validationService.validate(new TransformationModel(), null, "validation");
+        String[] validatonSplit = validation.split("\\|");
+        if (validationService != null && validation.length() > 0) {
+            validation = "";
+            for (String val : validatonSplit) {
+                if (validation.isEmpty()) {
+                    validation += "validation" + File.separator + "html" + File.separator + val;
+                } else {
+                    validation += "|" +  "validation" + File.separator + "html" + File.separator + val;
                 }
 
             }

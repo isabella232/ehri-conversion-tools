@@ -18,12 +18,20 @@ import java.util.regex.Pattern;
 public class ValidationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidationService.class);
 
-    public String validate(TransformationModel model, Date requestDate) {
-        LOGGER.info("starting validation with these parameters: " + model.toString());
+    public String validate(TransformationModel model, Date requestDate, String path) {
+        if (model != null) {
+            LOGGER.info("starting validation with these parameters: " + model.toString());
+        }
+
         long start = System.currentTimeMillis();
 
         File outputDir = new File(Configuration.getString("output-dir"));
-        outputDir = new File(outputDir, Configuration.DATE_FORMAT.format(requestDate));
+        if (requestDate == null) {
+            outputDir = new File(outputDir, path);
+        } else {
+            outputDir = new File(outputDir, Configuration.DATE_FORMAT.format(requestDate));
+        }
+
 
         // validate EAD files with the RNG schema
         File rng = TextReader.resolvePath(Configuration.getString("ead-rng-path"));

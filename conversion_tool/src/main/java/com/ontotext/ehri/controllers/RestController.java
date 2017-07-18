@@ -4,6 +4,7 @@ import com.ontotext.ehri.model.TransformationModel;
 import com.ontotext.ehri.services.ResourceService;
 import com.ontotext.ehri.services.TransformationService;
 import com.ontotext.ehri.services.ValidationService;
+import com.ontotext.ehri.tools.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,10 +29,10 @@ public class RestController {
     private ValidationService validationService;
 
     @RequestMapping(value = "/process", method = RequestMethod.GET)
-    public String transform(TransformationModel transformationModel) {
+    public String transform(TransformationModel transformationModel) throws IOException {
         Date now = new Date();
         String transformationDir = transformationService.transform(transformationModel, now);
-        String validation = validationService.validate(transformationModel, now, null);
+        String validation = validationService.validate(transformationModel, now, null, false);
         String[] validatonSplit = validation.split("\\|");
         if (validationService != null && validation.length() > 0) {
             validation = "";
@@ -48,16 +49,19 @@ public class RestController {
     }
 
     @RequestMapping(value = "/validate", method = RequestMethod.GET)
-    public String validateFiles(TransformationModel transformationModel) {
-        String validation = validationService.validate(new TransformationModel(), null, "validation");
+    public String validateFiles() throws IOException {
+        Date now = new Date();
+        String validation = validationService.validate(new TransformationModel(), now, null, true);
         String[] validatonSplit = validation.split("\\|");
+        String outputDir = new File(Configuration.getString("output-dir")).getAbsolutePath() + File.separator + Configuration.DATE_FORMAT.format(now);
+
         if (validationService != null && validation.length() > 0) {
             validation = "";
             for (String val : validatonSplit) {
                 if (validation.isEmpty()) {
-                    validation += "validation" + File.separator + "html" + File.separator + val;
+                    validation += outputDir + File.separator + "html" + File.separator + val;
                 } else {
-                    validation += "|" +  "validation" + File.separator + "html" + File.separator + val;
+                    validation += "|" +  outputDir + File.separator + "html" + File.separator + val;
                 }
 
             }

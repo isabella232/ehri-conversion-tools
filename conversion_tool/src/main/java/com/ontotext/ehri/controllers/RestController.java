@@ -54,7 +54,6 @@ public class RestController {
         String validation = validationService.validate(new TransformationModel(), now, null, true);
         String[] validatonSplit = validation.split("\\|");
         String outputDir = new File(Configuration.getString("output-dir")).getAbsolutePath() + File.separator + Configuration.DATE_FORMAT.format(now);
-
         if (validationService != null && validation.length() > 0) {
             validation = "";
             for (String val : validatonSplit) {

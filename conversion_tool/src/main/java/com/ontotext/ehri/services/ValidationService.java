@@ -2,6 +2,7 @@ package com.ontotext.ehri.services;
 
 import com.ontotext.ehri.model.TransformationModel;
 import com.ontotext.ehri.tools.*;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
 public class ValidationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidationService.class);
 
-    public String validate(TransformationModel model, Date requestDate, String path) {
+    public String validate(TransformationModel model, Date requestDate, String path, boolean validation) throws IOException {
         if (model != null) {
             LOGGER.info("starting validation with these parameters: " + model.toString());
         }
@@ -32,6 +33,10 @@ public class ValidationService {
             outputDir = new File(outputDir, Configuration.DATE_FORMAT.format(requestDate));
         }
 
+        if (! outputDir.isDirectory()) outputDir.mkdir();
+        if (validation) {
+            copyValidationFiles(new File(Configuration.getString("input-dir")), new File(outputDir.getPath() + File.separator + "ead"));
+        }
 
         // validate EAD files with the RNG schema
         File rng = TextReader.resolvePath(Configuration.getString("ead-rng-path"));
@@ -85,5 +90,9 @@ public class ValidationService {
 
         if (errors.length() > 0) return errors.substring(1);
         return "";
+    }
+
+    private void copyValidationFiles(File source, File destination) throws IOException {
+        FileUtils.copyDirectory(source, destination);
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 
@@ -34,17 +33,7 @@ public class RestController {
         String transformationDir = transformationService.transform(transformationModel, now);
         String validation = validationService.validate(transformationModel, now, null, false);
         String[] validatonSplit = validation.split("\\|");
-        if (validationService != null && validation.length() > 0) {
-            validation = "";
-            for (String val : validatonSplit) {
-                if (validation.isEmpty()) {
-                    validation += transformationDir + File.separator + "html" + File.separator + val;
-                } else {
-                    validation += "|" +  transformationDir + File.separator + "html" + File.separator + val;
-                }
-
-            }
-        }
+        validation = validationIterator(validatonSplit, validation, transformationDir);
         return validation;
     }
 
@@ -54,13 +43,18 @@ public class RestController {
         String validation = validationService.validate(new TransformationModel(), now, null, true);
         String[] validatonSplit = validation.split("\\|");
         String outputDir = new File(Configuration.getString("output-dir")).getAbsolutePath() + File.separator + Configuration.DATE_FORMAT.format(now);
+        validation = validationIterator(validatonSplit, validation, outputDir);
+        return validation;
+    }
+
+    private String validationIterator(String[] validatonSplit, String validation, String dir) {
         if (validationService != null && validation.length() > 0) {
             validation = "";
             for (String val : validatonSplit) {
                 if (validation.isEmpty()) {
-                    validation += outputDir + File.separator + "html" + File.separator + val;
+                    validation += dir + File.separator + "html" + File.separator + val;
                 } else {
-                    validation += "|" +  outputDir + File.separator + "html" + File.separator + val;
+                    validation += "|" +  dir + File.separator + "html" + File.separator + val;
                 }
 
             }

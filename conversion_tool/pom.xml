@@ -23,7 +23,21 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<spring.version>4.3.4.RELEASE</spring.version>
+		<basex.version>8.5</basex.version>
+		<saxon.version>9.7.0-14</saxon.version>
+		<apache-poi.version>3.15</apache-poi.version>
+		<google-api.version>1.22.0</google-api.version>
+		<snakeyaml.version>1.16</snakeyaml.version>
+		<jing.version>0.0.1</jing.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>basex</id>
+			<name>BaseX Maven Repository</name>
+			<url>http://files.basex.org/maven</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -64,6 +78,60 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.basex</groupId>
+			<artifactId>basex</artifactId>
+			<version>${basex.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>Saxon-HE</artifactId>
+			<version>${saxon.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${apache-poi.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>${google-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.oauth-client</groupId>
+			<artifactId>google-oauth-client-jetty</artifactId>
+			<version>${google-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-sheets</artifactId>
+			<version>v4-rev32-${google-api.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>${snakeyaml.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ontotext.ehri</groupId>
+			<artifactId>jing</artifactId>
+			<version>${jing.version}</version>
+			<type>jar</type>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-io -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
 		</dependency>
 
 

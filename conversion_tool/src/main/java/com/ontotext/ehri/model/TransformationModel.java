@@ -1,24 +1,18 @@
 package com.ontotext.ehri.model;
 
-/**
- * Created by Boyan on 01-Dec-16.
- */
 public class TransformationModel {
-    private String selectedOrganization;
+    private String organisation;
     private String fileType;
-    private String transformationType;
-    private String mappingTypeGeneric;
-    private String specificMapping;
-    private String xsdSource;
-    private String localMapping;
-    private String incomeSource;
+    private String xquery;
+    private String mapping;
+    private String language;
 
-    public String getSelectedOrganization() {
-        return selectedOrganization;
+    public String getOrganisation() {
+        return organisation;
     }
 
-    public void setSelectedOrganization(String selectedOrganization) {
-        this.selectedOrganization = selectedOrganization;
+    public void setOrganisation(String organisation) {
+        this.organisation = organisation;
     }
 
     public String getFileType() {
@@ -29,51 +23,36 @@ public class TransformationModel {
         this.fileType = fileType;
     }
 
-    public String getTransformationType() {
-        return transformationType;
+    public String getXquery() {
+        return xquery;
     }
 
-    public void setTransformationType(String transformationType) {
-        this.transformationType = transformationType;
+    public void setXquery(String xquery) {
+        this.xquery = xquery;
     }
 
-    public String getMappingTypeGeneric() {
-        return mappingTypeGeneric;
+    public String getMapping() {
+        return mapping;
     }
 
-    public void setMappingTypeGeneric(String mappingTypeGeneric) {
-        this.mappingTypeGeneric = mappingTypeGeneric;
+    public void setMapping(String mapping) {
+        this.mapping = mapping;
     }
 
-    public String getSpecificMapping() {
-        return specificMapping;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setSpecificMapping(String specificMapping) {
-        this.specificMapping = specificMapping;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
-    public String getXsdSource() {
-        return xsdSource;
-    }
-
-    public void setXsdSource(String xsdSource) {
-        this.xsdSource = xsdSource;
-    }
-
-    public String getLocalMapping() {
-        return localMapping;
-    }
-
-    public void setLocalMapping(String localMapping) {
-        this.localMapping = localMapping;
-    }
-
-    public String getIncomeSource() {
-        return incomeSource;
-    }
-
-    public void setIncomeSource(String incomeSource) {
-        this.incomeSource = incomeSource;
+    @Override
+    public String toString() {
+        return "organisation='" + organisation + '\'' +
+                ", fileType='" + fileType + '\'' +
+                ", xquery='" + xquery + '\'' +
+                ", mapping='" + mapping + '\'' +
+                ", language='" + language + '\'';
     }
 }

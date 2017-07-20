@@ -1,0 +1,24 @@
+# Google API key
+google-sheet-accessor.key
+
+input/test input file - Copy (2).txt
+input/test input file - Copy (3).txt
+input/test input file - Copy.txt
+input/test input file.txt
+mapping/test mapping file - Copy (2).txt
+mapping/test mapping file - Copy (3).txt
+mapping/test mapping file - Copy.txt
+mapping/test mapping file.txt
+output/test output file - Copy (2).txt
+output/test output file - Copy (3).txt
+output/test output file - Copy (4).txt
+output/test output file - Copy.txt
+output/test output file.txt
+xquery/test xquery file - Copy (2).txt
+xquery/test xquery file - Copy (3).txt
+xquery/test xquery file - Copy.txt
+xquery/test xquery file.txt
+mapping/
+input/
+output/
+xquery/

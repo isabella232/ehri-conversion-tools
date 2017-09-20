@@ -26,6 +26,17 @@ public class XQueryRunner {
         return new IOFile(TextReader.resolvePath(fullPath));
     };
 
+    public static void buildHierarchy(File file1, File file2) {
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("file1", file1.getAbsolutePath());
+        variables.put("file2", file2.getAbsolutePath());
+        variables.put("file1_column", Configuration.getString("multiple-fields-table-id"));
+        variables.put("file2_column", Configuration.getString("unique-fields-table-id"));
+        variables.put("output_folder", Configuration.get("yv-output-folder"));
+
+        run(Configuration.getString("yv-hierarchy-builder"), variables);
+    }
+
     public static void customTransform(File xqueryFile, File inputDir, File outputDir) {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("input-dir", inputDir.getAbsolutePath());

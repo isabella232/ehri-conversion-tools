@@ -18,6 +18,13 @@ formatting-path: "../conf/tsv/formatting.tsv"
 translations-path: "../conf/tsv/labels.tsv"
 stylesheet-location: "../conf/css/ead.css"
 
+
+#YV hierarchy building
+yv-hierarchy-builder: "../conf/xquery/merge.xqy"
+yv-output-folder: "../input/hierarchy-merge.xml"
+multiple-fields-table-id: "Item ID"
+unique-fields-table-id: "Item ID"
+
 # other stuff
 ead-subdir: "ead"
 svrl-subdir: "svrl"

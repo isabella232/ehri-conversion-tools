@@ -7,6 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
  * Created by Boyan on 20-Sep-17.
@@ -31,6 +36,14 @@ public class PreprocessingService {
                 }
             }
             XQueryRunner.buildHierarchy(uniqueFields, multipleFields);
+
+            for (File input : files) {
+                try {
+                    Files.move(new File("D:\\projects\\EHRI\\Conversion_tool\\conversion_tool-0.1\\conversion_tool-0.4\\input\\" + input.getName()).toPath() , new File("D:\\projects\\EHRI\\Conversion_tool\\conversion_tool-0.1\\conversion_tool-0.4\\" + input.getName()).toPath(), REPLACE_EXISTING);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

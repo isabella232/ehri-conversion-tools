@@ -13,7 +13,7 @@ return $node update (updating $insert(., $chld))
 };
 
 declare function local:remove_child($node as item(), $entry as xs:string){
-let $delete-node := %updating function($node, $entry) {delete node $node/entry[@name=$entry] }
+let $delete-node := %updating function($node, $entry) {delete node $node/record/entry[@name=$entry] }
 return $node update (updating $delete-node(., $entry))
 };
 
@@ -44,8 +44,7 @@ let $f1 := local:parse-csv(file:read-text($file1))
 let $f2 := local:parse-csv(file:read-text($file2))
 
 let $output := ( <csv>{
-local:get-nested($f1, $f2, $file1_column, $file2_column),
-$f1/csv/record[entry/@name=$file1_column and not(entry/text() = $f2/csv/record/entry[@name=$file2_column]/text())]}
+local:get-nested($f1, $f2, $file1_column, $file2_column)}
 </csv>
 )
 

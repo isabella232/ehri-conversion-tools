@@ -22,7 +22,7 @@ declare function local:convert_csv() {
         let $target-path     := fn:concat($input-dir, file:dir-separator(), 
                                           fn:replace(fn:replace($source-path-relative, "\.csv", ".xml"), "\.CSV", ".xml"))
         let $text            := file:read-text($source-document)
-        let $target-document := csv:parse($text, map { 'header': true() }) 
+        let $target-document := csv:parse($text, map { 'header': true(), "format": "attributes" }) 
         return file:write($target-path, $target-document, map { "omit-xml-declaration": "no" })
 };
 
@@ -32,7 +32,7 @@ declare function local:convert_tsv() {
         let $target-path     := fn:concat($input-dir, file:dir-separator(), 
                                           fn:replace(fn:replace($source-path-relative, "\.tsv", ".xml"), "\.TSV", ".xml"))
         let $text            := file:read-text($source-document)
-        let $target-document := csv:parse($text, map { 'separator' : 'tab', 'header': true(), 'format':'direct' }) 
+        let $target-document := csv:parse($text, map { 'separator' : 'tab', 'header': true(), 'format':'attributes' }) 
         return file:write($target-path, $target-document, map { "omit-xml-declaration": "no" })
 };
 

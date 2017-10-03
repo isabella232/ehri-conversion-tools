@@ -3,13 +3,12 @@ package com.ontotext.ehri.services;
 import com.ontotext.ehri.model.TransformationModel;
 import com.ontotext.ehri.tools.Configuration;
 import com.ontotext.ehri.tools.XQueryRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
@@ -39,7 +38,11 @@ public class PreprocessingService {
 
             for (File input : files) {
                 try {
-                    Files.move(new File("D:\\projects\\EHRI\\Conversion_tool\\conversion_tool-0.1\\conversion_tool-0.4\\input\\" + input.getName()).toPath() , new File("D:\\projects\\EHRI\\Conversion_tool\\conversion_tool-0.1\\conversion_tool-0.4\\" + input.getName()).toPath(), REPLACE_EXISTING);
+                    System.out.println(Paths.get("").toAbsolutePath());
+                    File destination = new File(Paths.get("").toAbsolutePath().getParent() + File.separator + "input" + File.separator + "YV");
+                    File source = new File(Paths.get("").toAbsolutePath().getParent() + File.separator + "input" + File.separator + input.getName());
+                    if (!destination.isDirectory()) destination.mkdir();
+                    Files.move(source.toPath() , new File(destination.getAbsolutePath() + File.separator + input.getName()).toPath(), REPLACE_EXISTING);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

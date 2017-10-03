@@ -6,6 +6,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -21,6 +23,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -34,6 +37,11 @@ public class SVRLInjector {
     private static DocumentBuilder documentBuilder;
     static {
         try {
+            DOCUMENT_BUILDER_FACTORY.setValidating(false);
+            DOCUMENT_BUILDER_FACTORY.setFeature("http://xml.org/sax/features/validation", false);
+            DOCUMENT_BUILDER_FACTORY.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+            DOCUMENT_BUILDER_FACTORY.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+
             documentBuilder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
             LOGGER.error("failed to create document builder", e);

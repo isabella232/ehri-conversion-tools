@@ -20,6 +20,7 @@ shutil.copytree("../xquery/", directory + "/conf/xquery/")
 shutil.copy2(dir_path + "/../xslt/iso639-2.xml", dir_path + "/" + directory +  "/conf/iso639-2.xml")
 shutil.copy2(dir_path + "/../xslt/report.xsl", dir_path + "/" + directory +  "/conf/report.xsl")
 shutil.copy2(dir_path + "/../xslt/v1to02.xsl", dir_path + "/" + directory +  "/conf/v1to02.xsl")
+shutil.copy2(dir_path + "/../ead2002.struct", dir_path + "/" + directory +  "/conf/ead2002.struct")
 
 shutil.copy2(dir_path + "/../start_scripts/run.bash", dir_path + "/" + directory +  "/run.bash")
 shutil.copy2(dir_path + "/../start_scripts/run.bat", dir_path + "/" + directory +  "/run.bat")

@@ -32,7 +32,13 @@ public class TextReader {
     public static InputStream openInputStream(String path) {
 
         // try to open resource
-        InputStream inputStream = TextReader.class.getResourceAsStream(path);
+//        InputStream inputStream = TextReader.class.getResourceAsStream(path);
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(new File(path));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         if (inputStream != null) return inputStream;
 
         // try to open file

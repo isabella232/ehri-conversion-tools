@@ -45,7 +45,8 @@ declare function xtra:normalize-date(
   let $day-regex := "[0-3][0-9]"
   let $day := xtra:xtract-matches($date, $day-regex)
   let $day := if ($month and fn:count($day) = 1) then $day else ()
-  
+  let $day := if ($month and fn:empty($day)) then "01" else $day
+
   return fn:concat($year, $month, $day)
 };
 

@@ -1,6 +1,9 @@
 #!/bin/bash
 URL="http://localhost:8080"
 
+# To change the default port add the following parameter in the starting line: --server.port=9090, so the command will take the following form:
+# java -jar demo-0.0.1-SNAPSHOT.jar --server.port=9090
+
 run_server(){
 	cd lib
 	java -jar demo-0.0.1-SNAPSHOT.jar

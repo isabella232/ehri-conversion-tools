@@ -9,7 +9,7 @@ declare variable $output_folder as xs:string external;
 
 declare function local:append_child($node as item(), $child as item()*){
     let $insert := %updating function($node, $child) { insert node $child into $node }
-return $node update (updating $insert(., $chld))
+return $node update (updating $insert(., $child))
 };
 
 declare function local:remove_child($node as item(), $entry as xs:string){

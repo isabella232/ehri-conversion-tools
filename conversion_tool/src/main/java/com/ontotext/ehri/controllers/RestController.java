@@ -1,7 +1,6 @@
 package com.ontotext.ehri.controllers;
 
 import com.ontotext.ehri.model.TransformationModel;
-import com.ontotext.ehri.services.PreprocessingService;
 import com.ontotext.ehri.services.ResourceService;
 import com.ontotext.ehri.services.TransformationService;
 import com.ontotext.ehri.services.ValidationService;
@@ -28,13 +27,8 @@ public class RestController {
     @Autowired
     private ValidationService validationService;
 
-    @Autowired
-    private PreprocessingService preprocessingService;
-
     @RequestMapping(value = "/process", method = RequestMethod.GET)
     public String transform(TransformationModel transformationModel) throws IOException {
-
-        preprocessingService.preprocessData(transformationModel);
 
         Date now = new Date();
         String transformationDir = transformationService.transform(transformationModel, now);
